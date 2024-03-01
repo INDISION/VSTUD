@@ -1,0 +1,59 @@
+.academic-calendar, .weekly-timetable{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 24px;
+    padding: 24px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px 3px #0000000d; 
+}
+.academic-calendar th, .academic-calendar td {
+    padding: 30px;
+}
+.academic-calendar h1, .weekly-timetable h1 {
+    margin-bottom: 16px;
+}
+.weekly-timetable table{
+    width: 100%;
+}
+.weekly-timetable th, .weekly-timetable td {
+    padding: 14px;
+}
+.holiday {
+    background-color: rgba(255, 143, 143, 0.2);
+}
+.working {
+    background-color: rgba(143, 143, 255, 0.2);
+}
+.exam {
+    background-color: rgba(0, 215, 140, 0.2);
+}
+
+@media screen and (max-width:800px) {
+    .academic-calendar{
+        margin: 16px;
+        padding: 16px;
+    }
+    .academic-calendar td, .academic-calendar th {
+        padding: 10px;
+    }
+}
+@media screen and (max-width:500px) {
+    .academic-calendar{
+        margin: 14px;
+        padding: 14px;
+    }
+    .academic-calendar td, .academic-calendar th {
+        padding: 4px;
+    }
+}
+@media screen and (max-width:350px) {
+    .academic-calendar{
+        margin: 10px;
+        padding: 10px;
+    }
+    .academic-calendar td, .academic-calendar th {
+        padding: 2px;
+    }
+}

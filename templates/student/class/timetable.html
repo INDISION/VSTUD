@@ -1,0 +1,347 @@
+{% extends "student/class/base.html" %}
+{% load static %}
+{% block title %}TimeTable{% endblock title %}
+
+{% block style %}
+    <link rel="stylesheet" href= "{% static 'css/student/timetable.css' %}" >
+{% endblock style %}
+
+{% block main-content %}
+<div class="main-content">
+    <div class="academic-calendar">
+    <h1 class="semi-bold">Academic calendar</h1>
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Month</th>
+                <th>Sun</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+            </tr>
+            <tr>
+                <td rowspan="5" class="month">Jan</td>
+                <td></td>
+                <td class="working">1</td>
+                <td class="working">2</td>
+                <td class="working">3</td>
+                <td class="working">4</td>
+                <td class="working">5</td>
+                <td class="working">6</td>
+            </tr>
+            <tr>
+                <td class="holiday">7</td>
+                <td class="working">8</td>
+                <td class="working">9</td>
+                <td class="working">10</td>
+                <td class="working">11</td>
+                <td class="working">12</td>
+                <td class="holiday">13</td>
+            </tr>
+            <tr>
+                <td class="holiday">14</td>
+                <td class="exam">15</td>
+                <td class="exam">16</td>
+                <td class="exam">17</td>
+                <td class="exam">18</td>
+                <td class="exam">19</td>
+                <td class="exam">20</td>
+            </tr>
+            <tr>
+                <td class="holiday">21</td>
+                <td class="working">22</td>
+                <td class="working">23</td>
+                <td class="working">24</td>
+                <td class="working">25</td>
+                <td class="working">26</td>
+                <td class="holiday">27</td>
+            </tr>
+            <tr>
+                <td class="holiday">28</td>
+                <td class="working">29</td>
+                <td class="working">30</td>
+                <td class="working">31</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td rowspan="5">Feb</td>
+                <td></td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+                <td>10</td>
+                <td>11</td>
+                <td>12</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td>15</td>
+                <td>16</td>
+                <td>17</td>
+                <td>18</td>
+                <td>19</td>
+                <td>20</td>
+            </tr>
+            <tr>
+                <td>21</td>
+                <td>22</td>
+                <td>23</td>
+                <td>24</td>
+                <td>25</td>
+                <td>26</td>
+                <td>27</td>
+            </tr>
+            <tr>
+                <td>28</td>
+                <td>29</td>
+                <td>30</td>
+                <td>31</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    </div>
+    <div class="weekly-timetable">
+        <h1 class="semi-bold">Weekly Schedule</h1>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Periods</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th rowspan="8"></th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th rowspan="8"></th>
+                        <th>6</th>
+                        <th>7</th>
+                    </tr>
+                    <tr>
+                        <th>Days</th>
+                        <th>8:30 to 9:20</th>
+                        <th>9:20 to 10:10</th>
+                        <th>10:10 to 11:00</th>
+                        <th>11:15 to 12:00</th>
+                        <th>12:00 to 12:50</th>
+                        <th>1:30 to 2:20</th>
+                        <th>2:20 to 3:15</th>
+                    </tr>
+                    <tr>
+                        <td>MON</td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Tue</td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Wed</td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Thu</td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Fri</td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sat</td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="subject-code">CCS356</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>                    
+    </div>
+    <div class="exam-timetable"></div>
+</div>
+{% endblock main-content %}
+
+{% block js %}
+<script>
+    var footer_node = document.getElementById("footer")
+    var active_node = footer_node.getElementsByClassName("active")[0]
+    active_node.classList.remove("active")
+    var timetable = document.getElementById("timetable")
+    timetable.classList.add("active")
+</script>
+{% endblock js %}

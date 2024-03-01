@@ -1,0 +1,49 @@
+.main-content .cgpa{
+    margin: 20px 20px 20px 40px; 
+}
+.semester{ 
+    margin: 20px;
+    box-shadow: 0px 0px 10px 3px #0000000d; 
+    background-color: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+}
+.semester table{
+    margin: 10px;
+    box-shadow: 0px 0px 10px 3px #0000000d; 
+}
+.semester table, .semester th, .semester td{
+    border: 0.3px solid black;
+    border-collapse: collapse;
+}
+.semester th, .semester td{
+    padding: 20px;
+    text-align: center;
+}
+tr:hover{
+    background-color: rgb(151, 204, 222);
+}
+th{
+    background-color: rgb(146, 138, 138);
+}
+@media screen and (max-width:800px){
+    .semester th, .semester td{
+        padding: 10px;
+        text-align: center;
+    }
+}
+@media screen and (max-width:500px){
+    .semester th, .semester td{
+        padding: 4px;
+        text-align: center;
+    }
+    .semester{
+        width: 100%;
+        overflow: scroll;
+        margin: auto;
+        padding: auto;
+    }
+}
