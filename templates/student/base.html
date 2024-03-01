@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main</title>
+    <title>{% block title %}BASE{% endblock title %}</title>
     <!-- google icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-    <link rel="stylesheet" href="{% static "css/style.css"%}">
+    <link rel="stylesheet" href=" {% static "css/common/style.css" %} ">
+    {% block style %}{% endblock style %}
 </head>
 <body>
     <!-- Complete Page -->
@@ -54,7 +55,9 @@
                     <h4>Hello, Ajay</h4>
                 </div>
             </div>
+            {% block main-content %}
             <div class="main-content"></div>
+            {% endblock main-content %}
             <div class="footer-menu">
                 <div class="footer-menu-items">
                     <div class="footer-menu-item active">
@@ -74,6 +77,7 @@
         </div>
     </div>
 
-    <script src="../../Static/JS/script.js"></script>
+    <script src=" {% static "js/script.js" %} "></script>
+    {% block js %}{% endblock js %}
 </body>
 </html>

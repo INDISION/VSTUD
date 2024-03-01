@@ -59,10 +59,10 @@ class Student(models.Model):
 
 class Subject(models.Model):
     name = models.CharField(max_length=100)
-    code = models.CharField(max_length=100)
-    credit = models.PositiveIntegerField()
+    code = models.CharField(max_length=100, blank=True)
+    credit = models.PositiveIntegerField(blank=True)
     class_related = models.ForeignKey(Class, on_delete=models.CASCADE)
-    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE, blank=True)
     def __str__(self):
         return f"{self.name}-{self.staff}"
 
@@ -94,6 +94,7 @@ class Attendance(models.Model):
     
 class TimeTable(models.Model):
     class_related = models.ForeignKey(Class, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     day = models.CharField(max_length=20)
     start_time = models.TimeField()
     end_time = models.TimeField()
