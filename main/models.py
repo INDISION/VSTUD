@@ -52,17 +52,18 @@ class Student(models.Model):
     phone = models.CharField(max_length=20)
     mentor = models.ForeignKey(Staff, on_delete=models.CASCADE)
     def __str__(self):
-        return self.user
+        return self.user.username
     def save(self, *args, **kwargs):
         self.user.username = f"{self.course}{self.register_number[-3:]}"
         super(User, self.user).save(*args, **kwargs)
+        super(Student, self).save(*args, **kwargs)
 
 class Subject(models.Model):
     name = models.CharField(max_length=100)
-    code = models.CharField(max_length=100, blank=True)
-    credit = models.PositiveIntegerField(blank=True)
+    code = models.CharField(max_length=100, blank=True, null=True)
+    credit = models.PositiveIntegerField(blank=True, null=True)
     class_related = models.ForeignKey(Class, on_delete=models.CASCADE)
-    staff = models.ForeignKey(Staff, on_delete=models.CASCADE, blank=True)
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE, blank=True, null=True)
     def __str__(self):
         return f"{self.name}-{self.staff}"
 
