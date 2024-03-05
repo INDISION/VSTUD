@@ -62,19 +62,22 @@ a {
     font-weight: 100;
 }
 td, th{
-    border: 1px solid #000;
+    border-left: 1px solid #594bda93;
+    border-bottom: 1px solid #594bda93;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 3px #0000000d;
     text-align: center;
 }
 table {
-    border-collapse: collapse;
-    width: 100%;
-    box-shadow: 0px 0px 7px 5px #0000000d;
+    /* border-collapse: collapse; */
+    border-spacing: 6px;
 }
 .table-container{
     width: 100%;
-    overflow-x: scroll;
-    margin: auto;
-    padding: auto;
+    overflow: scroll;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     scrollbar-width: none;
     scroll-behavior: smooth;
 }
