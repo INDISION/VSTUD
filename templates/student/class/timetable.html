@@ -1,5 +1,6 @@
 {% extends "student/class/base.html" %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}TimeTable{% endblock title %}
 
 {% block style %}
@@ -9,115 +10,43 @@
 {% block user-name %}{{student.name}}{% endblock user-name %}{{student.name}}
 
 {% block main-content %}
+{{ user|set_user }}
 <div class="main-content">
     <div class="academic-calendar">
-    <h1 class="semi-bold">Academic calendar</h1>
-    <div class="table-container">
-        <table>
-            <tr>
-                <th>Month</th>
-                <th>Sun</th>
-                <th>Mon</th>
-                <th>Tue</th>
-                <th>Wed</th>
-                <th>Thu</th>
-                <th>Fri</th>
-                <th>Sat</th>
-            </tr>
-            <tr>
-                <td rowspan="5" class="month">Jan</td>
-                <td></td>
-                <td class="working">1</td>
-                <td class="working">2</td>
-                <td class="working">3</td>
-                <td class="working">4</td>
-                <td class="working">5</td>
-                <td class="working">6</td>
-            </tr>
-            <tr>
-                <td class="holiday">7</td>
-                <td class="working">8</td>
-                <td class="working">9</td>
-                <td class="working">10</td>
-                <td class="working">11</td>
-                <td class="working">12</td>
-                <td class="holiday">13</td>
-            </tr>
-            <tr>
-                <td class="holiday">14</td>
-                <td class="exam">15</td>
-                <td class="exam">16</td>
-                <td class="exam">17</td>
-                <td class="exam">18</td>
-                <td class="exam">19</td>
-                <td class="exam">20</td>
-            </tr>
-            <tr>
-                <td class="holiday">21</td>
-                <td class="working">22</td>
-                <td class="working">23</td>
-                <td class="working">24</td>
-                <td class="working">25</td>
-                <td class="working">26</td>
-                <td class="holiday">27</td>
-            </tr>
-            <tr>
-                <td class="holiday">28</td>
-                <td class="working">29</td>
-                <td class="working">30</td>
-                <td class="working">31</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td rowspan="5">Feb</td>
-                <td></td>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>10</td>
-                <td>11</td>
-                <td>12</td>
-                <td>13</td>
-            </tr>
-            <tr>
-                <td>14</td>
-                <td>15</td>
-                <td>16</td>
-                <td>17</td>
-                <td>18</td>
-                <td>19</td>
-                <td>20</td>
-            </tr>
-            <tr>
-                <td>21</td>
-                <td>22</td>
-                <td>23</td>
-                <td>24</td>
-                <td>25</td>
-                <td>26</td>
-                <td>27</td>
-            </tr>
-            <tr>
-                <td>28</td>
-                <td>29</td>
-                <td>30</td>
-                <td>31</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
-    </div>
+        <h1 class="semi-bold">Academic calendar</h1>
+        {% for month, month_cal in cal.items %}
+        <div class="table-container">
+            <table>
+                <tr><th colspan="7">{{month}}</th></tr>    
+                <tr>
+                    <th>Mon</th>    
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                    <th>Sun</th>
+                </tr>
+                {% for week in month_cal %}
+                    <tr>
+                        {% for day in week %}
+                            {% if day == 0 %}
+                                <td></td>
+                            {% else %}
+                                {% if month|check_holiday:day %}
+                                    <td class="holiday">{{day}}</td>
+                                {% else %}
+                                <td class="working">{{day}}</td>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endfor %}
+        
+        
     </div>
     <div class="weekly-timetable">
         <h1 class="semi-bold">Weekly Schedule</h1>

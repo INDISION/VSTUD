@@ -8,6 +8,12 @@
     background-color: #fff;
     box-shadow: 0px 0px 10px 3px #0000000d; 
 }
+.academic-calendar .table-container {
+    margin-bottom: 100px;
+}
+.academic-calendar th {
+    background-color: rgba(255, 0, 0, 0.2);
+}
 .academic-calendar th, .academic-calendar td {
     padding: 30px;
 }
