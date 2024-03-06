@@ -1,5 +1,6 @@
 {% extends "student/class/base.html" %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}TimeTable{% endblock title %}
 
 {% block style %}
@@ -9,6 +10,7 @@
 {% block user-name %}{{student.name}}{% endblock user-name %}{{student.name}}
 
 {% block main-content %}
+{{ user|set_user }}
 <div class="main-content">
     <div class="academic-calendar">
         <h1 class="semi-bold">Academic calendar</h1>
@@ -31,7 +33,7 @@
                             {% if day == 0 %}
                                 <td></td>
                             {% else %}
-                                {% if day in holiday %}
+                                {% if month|check_holiday:day %}
                                     <td class="holiday">{{day}}</td>
                                 {% else %}
                                 <td class="working">{{day}}</td>

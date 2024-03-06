@@ -6,7 +6,7 @@ import calendar
 
 # Login & SignUp
 def user_login(request):
-    return render(request, "common/login.html")
+    return render(request, "staff/class/base.html")
 def student_signup(request):
     pass
 
@@ -60,8 +60,15 @@ def timetable(request):
         if month_name not in cal:
             cal[month_name] = calendar.monthcalendar(year, month)
         date_pointer += timedelta(days=1)
-
-    context = {"cal":cal, "holidays":holidays}
+    _holidays = {}
+    for holiday in holidays:
+        month = holiday.date.month
+        if month not in _holidays:
+            _holidays[month] = []
+        else:
+            _holidays[month].append(holiday.date.day)
+        
+    context = {"user":user, "cal":cal, "holidays":_holidays}
     return render(request, "student/class/timetable.html", context)
 
 # Result
