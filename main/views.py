@@ -1,12 +1,25 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from . import models
 from datetime import datetime, timedelta
 import calendar
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 
 # Login & SignUp
 def user_login(request):
-    return render(request, "staff/class/base.html")
+    form = AuthenticationForm(request, data = request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+                return redirect("attendance")
+        else:
+            messages.error(request, "Invalid username or password.")
+            return redirect("login")
+    return render(request, "student/common/login.html")
+
 def student_signup(request):
     pass
 
