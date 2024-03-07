@@ -26,7 +26,6 @@ def student_signup(request):
 def cal_attendance(start_date, attendance, holidays):
     completed_holidays = []
     for holiday in holidays:
-        print(holiday.date, holiday.date <= datetime.now().date() and holiday.date >= start_date)
         if holiday.date <= datetime.now().date() and holiday.date >= start_date:
             completed_holidays.append(holiday)
     days = (datetime.now().date() - start_date).days + 1
@@ -60,10 +59,13 @@ def attendance(request):
 
 def timetable(request):
     user = request.user
-    student = models.Student.objects.get(user = user)
+    student = models.Student.objects.get(user=user)
     holidays = models.Holiday.objects.filter(class_related=student.class_attending)
+    timetable = models.TimeTable.objects.filter(subject__class_related=student.class_attending)
     sem_start_date = student.class_attending.start_date
     sem_end_date = student.class_attending.end_date
+
+    # Academic Calendar
     cal = {}
     date_pointer = sem_start_date
     while date_pointer <= sem_end_date:
@@ -80,8 +82,21 @@ def timetable(request):
             _holidays[month] = []
         else:
             _holidays[month].append(holiday.date.day)
-        
-    context = {"user":user, "cal":cal, "holidays":_holidays}
+    
+    # Timetable
+    _timetable = {}
+    for each in timetable:
+        day = each.day
+        if day not in _timetable:
+            _timetable[day] = []
+        _timetable[day].append(each)
+    context = {
+        "user":user,
+        "student":student, 
+        "cal":cal, 
+        "holidays":_holidays, 
+        "timetable":_timetable
+        }
     return render(request, "student/class/timetable.html", context)
 
 # Result

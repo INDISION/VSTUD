@@ -107,4 +107,6 @@ class TimeTable(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     def __str__(self):
-        return f"{self.subject.class_related}-{self.day}"
+        return f"{self.subject.name}-{self.day}"
+    class Meta:
+        ordering = ['start_time', 'day']
