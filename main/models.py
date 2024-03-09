@@ -70,21 +70,24 @@ class Exam(models.Model):
     name = models.CharField(max_length=100)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     date = models.DateField()
-    exam_id = models.CharField(max_length=100, blank=True)
+    exam_id = models.CharField(max_length=100, unique=True, blank=True)
     def __str__(self):
-        return self.exam_id
+        return self.exam_id +"-"+ str(self.subject.name)
     def save(self, *args, **kwargs):
-        self.exam_id = f"{self.name}-{self.subject.code}-{self.subject.name}"
+        self.exam_id = f"{self.name}-{self.subject.code}"
         super(Exam, self).save(*args, **kwargs)
     
 class Result(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE, null=True)
+    class_related = models.ForeignKey(Class, on_delete=models.CASCADE, null=True)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     marks = models.PositiveIntegerField(null=True, blank=True)
     grade = models.CharField(max_length=10, null=True, blank=True)
     grade_points = models.PositiveIntegerField(null=True, blank=True)
     def __str__(self):
-        return f"{self.student}-{self.exam.subject}-{self.grade}"
+        return f"{self.exam.name}-{self.exam.subject.code}-{self.student}"
+    class Meta:
+        unique_together = ['exam', 'class_related', 'student']
     
 class Holiday(models.Model):
     class_related = models.ForeignKey(Class, on_delete=models.CASCADE)
@@ -110,3 +113,12 @@ class TimeTable(models.Model):
         return f"{self.subject.name}-{self.day}"
     class Meta:
         ordering = ['start_time', 'day']
+
+class Note(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    file = models.FileField(upload_to="uploads/%Y/%m/%d/")
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title

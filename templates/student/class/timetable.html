@@ -13,7 +13,7 @@
 {{ user|set_user }}
 <div class="main-content">
     <div class="weekly-timetable">
-        <h1 class="semi-bold">Weekly Schedule</h1>
+            <h1 class="semi-bold">Weekly Schedule</h1>
             <div class="table-container">
                 <table>
                     <tbody id="weekly-timetable">
@@ -77,12 +77,12 @@
 
     {% for day, day_timetable in timetable.items %}
         var counter = 0;
-        var day = "{{day}}";
+        var day = "{{day|safe}}";
         var timetable = document.getElementById("weekly-timetable");
         var timetable_row = document.createElement("tr");
         var timetable_row_data = document.createElement("td");
         timetable_row.id=day;
-        timetable_row_data.innerText = day.toUpperCase();
+        timetable_row_data.innerText = day.charAt(0).toUpperCase()+day.slice(1);
         timetable_row.appendChild(timetable_row_data);
         timetable.append(timetable_row);
         {% for period in day_timetable %}
@@ -104,16 +104,16 @@
                 else {
                     period_counter_th.textContent = "{{period.subject.name}}"
                     period_counter_th.rowSpan = "8";
-                    period_counter_th.style.writingMode="vertical-lr"
-                    period_counter_th.style.textOrientation = "upright"
-                    period_counter_th.style.letterSpacing="10px"
+                    period_counter_th.style.writingMode="vertical-lr";
+                    period_counter_th.style.textOrientation = "upright";
+                    period_counter_th.style.letterSpacing="10px";
                 }
                 period_counter.appendChild(period_counter_th)
             }
             if(staff!="None"){
                 var timetable_row = document.getElementById(day);
                 var timetable_row_data = document.createElement("td");
-                timetable_row_data.textContent = "{{period.subject.name}}";
+                timetable_row_data.textContent = "{{period.subject.name|safe}}";
                 timetable_row.appendChild(timetable_row_data);
             }
         {% endfor %}

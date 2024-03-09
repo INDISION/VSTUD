@@ -8,14 +8,16 @@
     <!-- google icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-    <link rel="stylesheet" href=" {% static "css/common/style.css" %} ">
-    {% block style %}
-
-    {% endblock style %}
+    <link rel="stylesheet" href=" {% static "css/common/style.css" %}">
+    <link rel="stylesheet" href=" {% static "css/staff/style.css" %}">
+    <link rel="stylesheet" href="{% static "css/staff/notes.css" %}">
+    <link rel="stylesheet" href="{% static "css/student/notes.css" %}">
+    {% block style %}{% endblock style %}
 </head>
 <body>
     <!-- Complete Page -->
     <div class="container">
+
         <!-- Complete Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="logo">
@@ -58,12 +60,63 @@
                         menu
                     </span>
                 </div>
+                <div class="class-dropdown">
+                    <select id="class" name="class" class="class-dropdown-menu">
+                        <option value="">21CSA</option>
+                        <option value="">21CSB</option>
+                        <option value="">22CSA</option>
+                        <option value="">20CSA</option>
+                      </select>
+                </div>
                 <div class="greeting">
                     <h4>Hello, {% block user-name %}Stud{% endblock user-name %}</h4>
                 </div>
             </div>
             {% block main-content %}
-            <div class="main-content"></div>
+            <div class="main-content">
+                <div class="add-notes">
+                    <button class="add-notes-button">Add Notes</button>
+                </div>
+                <div class="notes-main-container">
+                    <div class="notes-icon">
+                        <span class="material-symbols-outlined">collections_bookmark</span>
+                    </div>
+                    
+                    <div class="notes-container">
+                        <div class="subject-name-container">
+                            <h6 class="subject-name semi-bold">Data Warehousing</h6> 
+                        </div>
+                        <div class="staff_name-date">
+                            <h3 class="staff-name light">Ponsangeetha Arumugam</h3> 
+                            <span>&nbsp; &#x2022; &nbsp;</span>
+                            <h3 class="date light">29 Aug , 2023</h3>
+                        </div>
+                        <div class="horizontal-line">
+                            <hr>
+                        </div>
+                        <div class="note-header">
+                            <h2 class="type-of-note regular">Type</h2>
+                            <h2 class="name-of-note regular">Name</h2>
+                            <h2 class="date-of-note regular">Date</h2>
+                        </div>
+                        <div class="notes">
+                            <ul>
+                                <div class="note">
+                                    <span class="material-symbols-outlined pdf-icon">picture_as_pdf</span><p class="note-name">DW_Unit - 1 </p>
+                                    <p class="unit-date">26 Jan 2024</p>
+                                    <span class="material-symbols-outlined share-icon">share</span>
+                                    <span class="material-symbols-outlined download-icon">download</span>                               
+                                </div>                     
+                            
+                                
+                            </ul>
+                        </div>
+                            
+                        </div>
+                </div>            
+                </div> 
+                  
+            </div>
             {% endblock main-content %}
             <div class="footer-menu" id="footer">
                 <div class="footer-menu-items">
@@ -89,6 +142,7 @@
             </div>
         </div>
     </div>
+
     <script src=" {% static "js/script.js" %} "></script>
     {% block js %}{% endblock js %}
 </body>

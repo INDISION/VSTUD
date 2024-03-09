@@ -7,4 +7,5 @@ urlpatterns = [
     path("model-result", views.model_result , name="model-result"),
     path("sem-result", views.sem_result , name="sem-result"),
     path("login", views.user_login , name="login"),
+    path("notes", views.notes , name="notes"),
 ]
