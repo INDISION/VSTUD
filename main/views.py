@@ -6,15 +6,40 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .models import TimeTable, Subject, Class, Staff
+from django.shortcuts import get_object_or_404
 
 
+def staff_status(user):
+    try:
+        staff = Staff.objects.get(user=user)
+    except:
+        staff=False
+    return staff
+def class_dropdown(staff):
+    subjects = Subject.objects.filter(staff = staff)
+    class_attending = []
+    for subject in subjects:
+        class_attending.append(subject.class_related)
+    return class_attending
 
 # Login & SignUp
 def user_login(request):
-    form = AuthenticationForm(request, data = request.POST)
+    
     if request.method == 'POST':
-        if form.is_valid():
-                return redirect("attendance")
+        username = request.POST.get("username")
+        password = request.POST["password"]
+        user = authenticate(username=username, password=password)
+        if user is not None:
+                login(request, user)
+                # return redirect("attendance")
+
+                
+                if staff_status(user):
+
+                    return redirect("staff-timetable")
+                else:
+                    return redirect("attendance")
         else:
             messages.error(request, "Invalid username or password.")
             return redirect("login")
@@ -82,7 +107,7 @@ def timetable(request):
             _holidays[month] = []
         else:
             _holidays[month].append(holiday.date.day)
-    
+
     # Timetable
     _timetable = {}
     for each in timetable:
@@ -97,8 +122,13 @@ def timetable(request):
         "holidays":_holidays, 
         "timetable":_timetable
         }
-    return render(request, "student/class/timetable.html", context)
-
+    # if staff_status(user):
+    #     return redirect("staff-timetable")
+    # else:
+    #     return redirect("timetable")
+    
+    
+    
 # Result
 def ia_result(request):
     return render(request, "student/result/ia.html")
@@ -106,3 +136,45 @@ def model_result(request):
     return render(request, "student/result/model.html")
 def sem_result(request):
     return render(request, "student/result/sem.html")
+
+#For Staffs
+
+
+
+
+
+
+def staff_timetable(request):
+    return render(request, "staff/staff-timetable.html")
+    #To check user is staff or student and render appropriate page
+    # user = request.user
+    # if staff_status(user):
+    #     return redirect("staff-timetable")
+    # else:
+    #     return redirect("timetable")
+
+def add_timetable_form(request):
+    if request.method == 'POST':
+        day = request.POST.get('day')
+        start_time = request.POST.get('start_time')
+        end_time = request.POST.get('end_time')
+        subject_name = request.POST.get('period')
+
+        subject = get_object_or_404(Subject, name=subject_name)
+        
+        TimeTable.objects.create(
+            day=day,
+            start_time=start_time,
+            end_time=end_time,
+            subject=subject
+        )
+
+    if 'save_and_next' in request.POST:
+        return render(request, "staff/add-timetable-form.html")
+    elif 'save_and_exit' in request.POST:
+        return render(request, "staff/staff-timetable.html")
+
+    return render(request, "staff/add-timetable-form.html")
+
+
+
