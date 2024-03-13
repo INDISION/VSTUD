@@ -10,4 +10,7 @@ urlpatterns = [
     path("login", views.user_login , name="login"),
     path("staff/timetable", views.staff_timetable, name="staff-timetable"),
     path("staff/add-timetable-form", views.add_timetable_form, name="add-timetable-form"),
+    path("staff/attendance", views.staff_attendance, name="staff-attendance"),
+    path("staff/notes", views.staff_notes, name="staff-notes"),
+
 ]

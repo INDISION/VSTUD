@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <link rel="stylesheet" href=" {% static "css/common/style.css" %}">
-    <link rel="stylesheet" href="{% static "css/staff/style.css" %}">
+    <link rel="stylesheet" href=" {% static "css/staff/style.css" %}">
     {% block style %}{% endblock style %}
 </head>
 <body>
@@ -24,7 +24,7 @@
             <div class="sidebar-menu">
                 <div class="menu-items">
                     <div class="menu-item">
-                        <a href=" {% url "attendance" %} ">
+                        <a href=" {% url "staff-attendance" %} ">
                             <div class="menu-item-content active">
                                 <span class="material-symbols-outlined">School</span>
                                 <span class="menu-text">Class</span>
@@ -32,7 +32,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a href=" {% url "attendance" %} ">
+                        <a href=" {% url "staff-notes" %} ">
                             <div class="menu-item-content">
                                 <span class="material-symbols-outlined">library_books</span>
                                 <span class="menu-text">Library</span>
@@ -72,56 +72,18 @@
             </div>
             {% block main-content %}
             <div class="main-content">
-                <div class="add-notes">
-                    <button class="add-notes-button">Add Notes</button>
-                </div>
-                <div class="notes-main-container">
-                    <div class="notes-icon">
-                        <span class="material-symbols-outlined">collections_bookmark</span>
-                    </div>
-                    
-                    <div class="notes-container">
-                        <div class="subject-name-container">
-                            <h6 class="subject-name semi-bold">Data Warehousing</h6> 
-                        </div>
-                        <div class="staff_name-date">
-                            <h3 class="staff-name light">Ponsangeetha Arumugam</h3> 
-                            <span>&nbsp; &#x2022; &nbsp;</span>
-                            <h3 class="date light">29 Aug , 2023</h3>
-                        </div>
-                        <div class="horizontal-line">
-                            <hr>
-                        </div>
-                        <div class="table-container">
-                            <table>
-                                <tr>
-                                    <th class="bold">Name</th>
-                                    <th class="bold">Date</th>
-                                    <th class="bold">Share</th>
-                                    <th class="bold">Download</th>
-                                </tr>
-                                <tr>
-                                    <td>DW_Unit - 1</td>
-                                    <td>26 Jan 2024</td>
-                                    <td class="cursor-pointer"><span class="material-symbols-outlined share-icon">share</span></td>
-                                    <td class="cursor-pointer"><span class="material-symbols-outlined download-icon">download</span></td>
-                                </tr>
-                            </table>
-                        </div>
-                            
-                    </div>
-                </div>            
+                       
             </div>
             {% endblock main-content %}
             <div class="footer-menu" id="footer">
                 <div class="footer-menu-items">
-                    <a href=" {% url "attendance" %} ">
+                    <a href=" {% url "staff-attendance" %} ">
                         <div class="footer-menu-item active" id="attendance">
                             <span class="material-symbols-outlined">group</span>
                             <span class="menu-text">Attendance</span>
                         </div>
                     </a>
-                    <a href=" {% url "notes" %} ">
+                    <a href=" {% url "staff-notes" %} ">
                         <div class="footer-menu-item" id="notes">
                             <span class="material-symbols-outlined">notes</span>
                             <span class="menu-text">Notes</span>

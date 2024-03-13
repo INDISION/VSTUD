@@ -196,5 +196,11 @@ def add_timetable_form(request):
         return render(request, "staff/staff-timetable.html")
     return render(request, "staff/add-timetable-form.html")
 
+def staff_attendance(request):
+    return render(request, "staff/class/staff-attendance.html")
+
+def staff_notes(request):
+    return render(request, "staff/class/staff-notes.html")
+
 
 
