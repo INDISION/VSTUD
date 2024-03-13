@@ -69,17 +69,17 @@ td, th{
     text-align: center;
 }
 table {
-    /* border-collapse: collapse; */
     border-spacing: 6px;
+    width: 100%;
 }
 .table-container{
     width: 100%;
     overflow: scroll;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin: auto;
+    padding: auto;
     scrollbar-width: none;
     scroll-behavior: smooth;
+    margin-bottom: 24px;
 }
 /* container */ 
 .container {
@@ -210,11 +210,9 @@ table {
 }
 @media screen and (max-width:500px) {
     td, th {
-        padding: 4px;
+        padding: 100px;
     }
 }
 @media screen and (max-width:350px) {
-    td, th {
-        padding: 2px;
-    }
+    
 }

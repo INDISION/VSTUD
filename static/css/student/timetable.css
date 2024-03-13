@@ -20,7 +20,7 @@
 .academic-calendar h1, .weekly-timetable h1 {
     margin-bottom: 16px;
 }
-.weekly-timetable table{
+.weekly-timetable table, .academic-calendar table{
     width: 100%;
 }
 .weekly-timetable th, .weekly-timetable td {
@@ -37,29 +37,17 @@
 }
 
 @media screen and (max-width:800px) {
-    .academic-calendar{
+    .academic-calendar, .weekly-timetable{
         margin: 16px;
         padding: 16px;
     }
-    .academic-calendar td, .academic-calendar th {
-        padding: 10px;
+    .academic-calendar td, .academic-calendar th, .weekly-timetable td, .weekly-timetable th{
+        padding: 20px;
     }
 }
 @media screen and (max-width:500px) {
-    .academic-calendar{
-        margin: 14px;
-        padding: 14px;
-    }
-    .academic-calendar td, .academic-calendar th {
-        padding: 4px;
-    }
+    
 }
 @media screen and (max-width:350px) {
-    .academic-calendar{
-        margin: 10px;
-        padding: 10px;
-    }
-    .academic-calendar td, .academic-calendar th {
-        padding: 2px;
-    }
+
 }

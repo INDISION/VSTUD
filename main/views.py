@@ -1,9 +1,18 @@
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from . import models
 from datetime import datetime, timedelta
 import calendar
 
-
+def user_role(user):
+    try:
+        student = models.Student.objects.get(user=user)
+        staff = False
+    except:
+        staff = models.Staff.objects.get(user=user)
+        student = False
+    role = {"student":student, "staff":staff}
+    return role
 # Login & SignUp
 def user_login(request):
     return render(request, "staff/class/base.html")
@@ -86,10 +95,61 @@ def timetable(request):
         }
     return render(request, "student/class/timetable.html", context)
 
+def notes(request):
+    user = request.user
+    student = models.Student.objects.get(user=user)
+    subjects = models.Subject.objects.filter(class_related=student.class_attending)
+    _notes = []
+    for subject in subjects:
+        _notes.append(models.Note.objects.filter(subject=subject))
+    for subject_note in _notes:
+        for note in subject_note:
+            print(note.title)
+    context = {
+        "subjects":subjects,
+        "all_notes":_notes,
+    }
+    return render(request, "student/class/notes.html", context)
+
+
 # Result
 def ia_result(request):
-    return render(request, "student/result/ia.html")
+    user = request.user
+    student = models.Student.objects.get(user=user)
+    ia1 = models.Result.objects.filter(exam__name="ia1", student=student, class_related=student.class_attending)
+    ia2 = models.Result.objects.filter(exam__name="ia2", student=student, class_related=student.class_attending)
+    ia3 = models.Result.objects.filter(exam__name="ia3", student=student, class_related=student.class_attending)
+    context = {
+        "user":user,
+        "student":student,
+        "ia1":ia1,
+        "ia2":ia2,
+        "ia3":ia3
+    }
+    return render(request, "student/result/ia.html", context)
+
 def model_result(request):
-    return render(request, "student/result/model.html")
+    user = request.user
+    student = models.Student.objects.get(user=user)
+    model_exam = models.Result.objects.filter(exam__name="model", student=student, class_related=student.class_attending)
+    context = {
+        "user":user,
+        "student":student,
+        "model":model_exam,
+    }
+    return render(request, "student/result/model.html", context)
+
 def sem_result(request):
-    return render(request, "student/result/sem.html")
+    user = request.user
+    student = models.Student.objects.get(user=user)
+    semesters_data = []
+    for i in range(1,9):
+        sem = "semester-"+str(i)
+        semesters_data.append(models.Result.objects.filter(exam__name=sem, student=student))
+    print(semesters_data)
+    context = {
+        "user":user,
+        "student":student,
+        "semesters_data":semesters_data
+    }
+    return render(request, "student/result/sem.html", context)

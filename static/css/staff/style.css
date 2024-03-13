@@ -1,0 +1,14 @@
+.class-dropdown {
+    width: 40%;
+}
+.greeting {
+    width: 60%;
+    text-align: end;
+}
+.class-dropdown-menu {
+    border: 1px solid #5a4bda;
+    padding: 8px 16px;
+    border-radius: 6px;
+    background-color: white;
+    transition: all .3s;
+}
