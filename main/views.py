@@ -1,9 +1,18 @@
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from . import models
 from datetime import datetime, timedelta
 import calendar
 
-
+def user_role(user):
+    try:
+        student = models.Student.objects.get(user=user)
+        staff = False
+    except:
+        staff = models.Staff.objects.get(user=user)
+        student = False
+    role = {"student":student, "staff":staff}
+    return role
 # Login & SignUp
 def user_login(request):
     return render(request, "staff/class/base.html")
@@ -89,7 +98,18 @@ def timetable(request):
 def notes(request):
     user = request.user
     student = models.Student.objects.get(user=user)
-    return render(request, "staff/class/base.html")
+    subjects = models.Subject.objects.filter(class_related=student.class_attending)
+    _notes = []
+    for subject in subjects:
+        _notes.append(models.Note.objects.filter(subject=subject))
+    for subject_note in _notes:
+        for note in subject_note:
+            print(note.title)
+    context = {
+        "subjects":subjects,
+        "all_notes":_notes,
+    }
+    return render(request, "student/class/notes.html", context)
 
 
 # Result

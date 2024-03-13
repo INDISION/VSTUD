@@ -87,7 +87,19 @@
 .note-header .date-of-note {
    width: 20%;
 }
-
+td span{
+    transition: all 0.3s ease;
+}
+th, td{
+    padding: 14px;
+    margin: auto;
+}
+tr:hover td{
+    background-color: #594BDA20;
+}
+td:hover span{
+    color: red;
+}
 /* CSS for mobile */
 @media(max-width: 800px) {
    .notes-container {

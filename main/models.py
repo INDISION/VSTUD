@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
+from django.db.models.signals import pre_delete
+from django.dispatch.dispatcher import receiver
+import os
 
 class Department(models.Model):
     name = models.CharField(max_length=100)
@@ -116,9 +119,15 @@ class TimeTable(models.Model):
 
 class Note(models.Model):
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True)
     file = models.FileField(upload_to="uploads/%Y/%m/%d/")
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
+
+@receiver(pre_delete, sender=Note)
+def delete_note_file(sender, instance, **kwargs):
+    if instance.file and os.path.isfile(instance.file.path):
+        os.remove(instance.file.path)
+

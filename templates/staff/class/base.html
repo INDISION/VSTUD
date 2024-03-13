@@ -9,9 +9,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <link rel="stylesheet" href=" {% static "css/common/style.css" %}">
-    <link rel="stylesheet" href=" {% static "css/staff/style.css" %}">
-    <link rel="stylesheet" href="{% static "css/staff/notes.css" %}">
-    <link rel="stylesheet" href="{% static "css/student/notes.css" %}">
     {% block style %}{% endblock style %}
 </head>
 <body>
@@ -94,28 +91,25 @@
                         <div class="horizontal-line">
                             <hr>
                         </div>
-                        <div class="note-header">
-                            <h2 class="type-of-note regular">Type</h2>
-                            <h2 class="name-of-note regular">Name</h2>
-                            <h2 class="date-of-note regular">Date</h2>
+                        <div class="table-container">
+                            <table>
+                                <tr>
+                                    <th class="bold">Name</th>
+                                    <th class="bold">Date</th>
+                                    <th class="bold">Share</th>
+                                    <th class="bold">Download</th>
+                                </tr>
+                                <tr>
+                                    <td>DW_Unit - 1</td>
+                                    <td>26 Jan 2024</td>
+                                    <td class="cursor-pointer"><span class="material-symbols-outlined share-icon">share</span></td>
+                                    <td class="cursor-pointer"><span class="material-symbols-outlined download-icon">download</span></td>
+                                </tr>
+                            </table>
                         </div>
-                        <div class="notes">
-                            <ul>
-                                <div class="note">
-                                    <span class="material-symbols-outlined pdf-icon">picture_as_pdf</span><p class="note-name">DW_Unit - 1 </p>
-                                    <p class="unit-date">26 Jan 2024</p>
-                                    <span class="material-symbols-outlined share-icon">share</span>
-                                    <span class="material-symbols-outlined download-icon">download</span>                               
-                                </div>                     
                             
-                                
-                            </ul>
-                        </div>
-                            
-                        </div>
+                    </div>
                 </div>            
-                </div> 
-                  
             </div>
             {% endblock main-content %}
             <div class="footer-menu" id="footer">
