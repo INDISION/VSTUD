@@ -1,20 +1,14 @@
-/* CSS for dropdown menu */
-
 .class-dropdown {
     width: 40%;
 }
-
 .greeting {
     width: 60%;
     text-align: end;
 }
 .class-dropdown-menu {
-    
-    border-bottom: 1px solid #5a4bda;
+    border: 1px solid #5a4bda;
     padding: 8px 16px;
     border-radius: 6px;
-     /* Adjusted padding */
-    /* box-shadow: 0 0 0 1px #5A4BDA; */
     background-color: white;
     transition: all .3s;
 }
