@@ -175,7 +175,7 @@ def staff_timetable(request):
         "staff":staff,
         "user":user,
     }
-    return render(request, "staff/staff-timetable.html", context)
+    return render(request, "staff/class/staff-timetable.html", context)
 
 def add_timetable_form(request):
     if request.method == 'POST':
@@ -194,13 +194,16 @@ def add_timetable_form(request):
         return render(request, "staff/add-timetable-form.html")
     elif 'save_and_exit' in request.POST:
         return render(request, "staff/staff-timetable.html")
-    return render(request, "staff/add-timetable-form.html")
+    return render(request, "staff/class/add-timetable-form.html")
 
 def staff_attendance(request):
     return render(request, "staff/class/staff-attendance.html")
 
 def staff_notes(request):
     return render(request, "staff/class/staff-notes.html")
+
+def staff_ia(request):
+    return render(request, "staff/result/staff-ia.html")
 
 
 

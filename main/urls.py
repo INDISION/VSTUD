@@ -12,5 +12,6 @@ urlpatterns = [
     path("staff/add-timetable-form", views.add_timetable_form, name="add-timetable-form"),
     path("staff/attendance", views.staff_attendance, name="staff-attendance"),
     path("staff/notes", views.staff_notes, name="staff-notes"),
+    path("staff/ia", views.staff_ia, name="staff-ia"),
 
 ]
