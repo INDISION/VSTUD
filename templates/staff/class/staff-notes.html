@@ -1,11 +1,11 @@
-{% extends "student/class/base.html" %}
+{% extends "staff/class/base.html" %}
 {% load static %}
 {% load custom_filters %}
 {% block title %}Staff Notes{% endblock title %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static "css/staff/staff-notes.css" %}">
 <link rel="stylesheet" href="{% static "css/student/notes.css" %}">
+<link rel="stylesheet" href="{% static "css/staff/notes.css" %}">
 {% endblock style %}
 
 {% block user-name %}{{student.name}}{% endblock user-name %}
@@ -17,7 +17,7 @@
         <button class="add-notes-button">Add Notes</button>
     </div>
     {% for subject in subjects %}
-        {% if subject.staff%}
+        {% if subject.staff %}
         <div class="notes-main-container">
             <div class="notes-icon">
                 <span class="material-symbols-outlined">collections_bookmark</span>
