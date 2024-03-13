@@ -6,4 +6,7 @@ urlpatterns = [
     path("ia-result", views.ia_result , name="ia-result"),
     path("model-result", views.model_result , name="model-result"),
     path("sem-result", views.sem_result , name="sem-result"),
+    path("add-student", views.add_student , name="add-student"),
+
+
 ]

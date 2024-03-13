@@ -1,0 +1,109 @@
+.add-student-container{
+    background-color: #fff;
+    margin: 24px;
+    box-shadow: 0px 0px 10px 3px #0000000d; 
+    -webkit-box-shadow: 0px 0px 10px 3px #0000000d;
+    -moz-box-shadow: 0px 0px 10px 3px #0000000d;
+    padding: 30px 24px 24px 24px;
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+}
+.add-student-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.heading span{
+    padding: 4px;
+}
+.heading h1{
+    font-size: large;
+}
+.heading{
+    display: flex;
+    align-items: center;
+}
+.add-student-item{
+    display: flex;
+    margin: 5px;
+    justify-content: space-between;
+    align-items: center;
+}
+.add-student-main{
+    margin: 3px;
+}
+.value-item input{
+    width: 300px;
+    padding: 10px;
+    border-style: hidden;
+    outline: none;
+    box-shadow: 0px 0px 6px 3px #0000000d;
+    border-radius: 10px;
+    background-color: #fff;
+
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.value-item select{
+    width: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 3px #0000000d; 
+    -webkit-box-shadow: 0px 0px 10px 3px #0000000d;
+    -moz-box-shadow: 0px 0px 10px 3px #0000000d;
+    border-style: hidden;
+    outline: none;
+    background-color: #fff;
+}
+.margin-btm{
+    margin-bottom: 15px;
+}
+.label-item{
+    margin-right: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: first baseline;
+    align-items: center;
+}
+.submit{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 10px;
+}
+.submit button{
+    padding: 8px;
+    background-color: #ffffff;
+    border: 0.1px solid black;
+    border-radius: 5px;
+    margin-top: 10px;
+    box-shadow: 0px 0px 10px 3px #0000000d; 
+    -webkit-box-shadow: 0px 0px 10px 3px #0000000d;
+    -moz-box-shadow: 0px 0px 10px 3px #0000000d; 
+    letter-spacing: 1px;  
+}
+.submit button:hover{
+    cursor: pointer;
+    background-color: #e4e3ed;
+    border-radius: 5px;
+    border-left: none;
+    border-right: none;
+}
+@media screen and (max-width:800px){
+    .add-student-form{
+        width: 100%;
+        overflow: scroll;
+        margin: auto;
+        padding: auto;
+        scrollbar-width: none;
+    }
+    .value-item select , .value-item input{
+        width: 150px;
+    }
+    .label-item{
+        margin-right: 10px;
+    }
+}

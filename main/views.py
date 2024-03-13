@@ -1,14 +1,53 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse,redirect
 from . import models
+from django.core.mail import send_mail
+from django.conf import settings
 from datetime import datetime, timedelta
 import calendar
-
+from django.contrib.auth.models import User
+import random,string
 
 # Login & SignUp
 def user_login(request):
     return render(request, "common/login.html")
-def student_signup(request):
-    pass
+def add_student(request):
+    if request.method == 'POST':
+        first_name = request.POST.get("first-name")
+        last_name = request.POST.get("last-name")
+        email = request.POST.get("email")
+        register_no = request.POST.get("register-no")
+        class_attending = request.POST.get("class")
+        dob = request.POST.get("dob")
+        gender = request.POST.get("gender")
+        transport = request.POST.get("transport")
+        phone_no = request.POST.get("phone-no")
+        mentor = request.POST.get("mentor")
+        username =f"{class_attending[:5]}{register_no[-3:]}"
+
+        password = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+        staff_user = models.User.objects.get(username=mentor)
+        class_attending = models.Class.objects.get(class_id=class_attending)
+        mentor=models.Staff.objects.get(user=staff_user)
+        user = User.objects.create_user(first_name=first_name,last_name=last_name,email=email,username=username , password=password)
+        user.save()
+        message = f'''
+Hello {first_name}, Welcome To VSTUD.
+We are from Velammal Institute Of Technology!!!
+Username : {username}
+password : {password}
+
+Disclaimer : **Dont forget to change your password on website**
+'''
+        send_mail(
+                'VSTUD',message,'settings.EMAIL_HOST_USER',[email],fail_silently=False
+
+            )        
+        if user:
+            student = models.Student(user=user, name=first_name,register_number=register_no,class_attending=class_attending,date_of_birth=dob,gender=gender,phone=phone_no,mentor=mentor)
+            student.save()
+            return redirect('attendance')
+            
+    return render(request , "staff/add-student-form.html")
 
 def cal_attendance(start_date, attendance, holidays):
     completed_holidays = []

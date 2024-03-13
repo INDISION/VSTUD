@@ -1,0 +1,128 @@
+{% extends "staff/base.html" %}
+{% load static %}
+{% block title %} Add Student {% endblock title %}
+{% block style %}
+<link rel="stylesheet" href= "{% static "css/staff/add-student-form.css" %}" >
+{% endblock style %}
+{% block main-content %}
+<div class="main-content">
+    <div class="add-student-container">
+        <form action="" method="POST" class="add-student-form">
+                {% csrf_token %}
+            <div class="heading margin-btm">
+                <span class="material-symbols-outlined">person_add</span>
+                <h1 class="bold">Add Student</h1>
+            </div>
+            <div class="add-student-main">
+                <div class="add-student-item margin-btm">
+                    <div class="label-item">
+                        <label for="first-name">First Name :</label>
+                    </div>
+                    <div class="value-item">
+                        <input type="text" placeholder="Enter First name ..." name="first-name" required>
+                    </div>
+                </div>
+                <div class="add-student-item margin-btm">
+                    <div class="label-item">
+                        <label for="last-name">Last Name :</label>
+                    </div>
+                    <div class="value-item">
+                        <input type="text"placeholder="Enter Last name." name = "last-name"required>
+                    </div>
+                </div>
+                <div class="add-student-item margin-btm">
+                    <div class="label-item">
+                        <label for="email">Enter Email :</label>
+                    </div>
+                    <div class="value-item">
+                        <input type="email"placeholder="Enter email." name = "email"required>
+                    </div>
+                </div>
+                <div class="add-student-item margin-btm">
+                    <div class="label-item">
+                        <label for="register-no">Register Number :</label>
+                    </div>
+                    <div class="value-item">
+                        <input type="number"placeholder="Enter RegNo." name="register-no"required>
+                    </div>
+                </div>
+
+                <div class="add-student-item margin-btm">
+                    <div class="label-item">
+                        <label for="class">Enter Class :</label>
+                    </div>
+                    <div class="value-item">
+                        <select name="class" id="class" required>
+                            <option value="default">Please select class</option>
+                            <option value="cs21a6">CS21A6</option>
+                            <option value="cs21a5">CS21A5</option>
+                            <option value="cs21a4">CS21A4</option>
+                        </select>
+                        
+                    </div>
+                </div>
+                <div class="add-student-item margin-btm">
+                    <div class="label-item">
+                        <label for="dob">Date Of Birth :</label>
+                    </div>
+                    <div class="value-item">
+                        <input type="date" name="dob" id="dob" required>
+                    </div>
+                </div>
+                <div class="add-student-item margin-btm">
+                    <div class="label-item">
+                        <label for="gender">Select Gender :</label>
+                    </div>
+                    <div class="value-item">
+                        <select name="gender" id="gender" required>
+                            <option value="default">Please select gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="add-student-item margin-btm">
+                    <div class="label-item">
+                        <label for="transport">Select Transportation :</label>
+                    </div>
+                    <div class="value-item">
+                        <select name="transport" id="transport" required>
+                            <option value="default">Please select transport</option>
+                            <option value="bus">B</option>
+                            <option value="hostel">H</option>
+                            <option value="private">P</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="add-student-item margin-btm">
+                    <div class="label-item">
+                        <label for="phone-no">Phone Number :</label>
+                    </div>
+                    <div class="value-item">
+                        <input type="number" name="phone-no" id="phone-no" placeholder="Enter Ph-no." required>
+                    </div>
+                </div>
+                <div class="add-student-item margin-btm">
+                    <div class="label-item">
+                        <label for="mentor">Select Mentor :</label>
+                    </div>
+                    <div class="value-item">
+                        <select name="mentor" id="mentor" required>
+                            <option value="default">Please select mentor</option>
+                            <option value="bala">Mr.K.Balachander</option>
+                            <option value="gayu">Ms.Gayatri</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="add-timetable-item submit margin-btm">
+                    <button id="save">Add Student</button>  
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock main-content %}
+{% block js %}
+{% endblock js %}
+
+            
