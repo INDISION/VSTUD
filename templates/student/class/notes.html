@@ -4,19 +4,14 @@
 {% block title %}TimeTable{% endblock title %}
 
 {% block style %}
-<link rel="stylesheet" href=" {% static "css/staff/style.css" %}">
-<link rel="stylesheet" href="{% static "css/staff/notes.css" %}">
 <link rel="stylesheet" href="{% static "css/student/notes.css" %}">
 {% endblock style %}
 
-{% block user-name %}{{student.name}}{% endblock user-name %}{{student.name}}
+{% block user-name %}{{student.name}}{% endblock user-name %}
 
 {% block main-content %}
 {{ user|set_user }}
 <div class="main-content">
-    <div class="add-notes">
-        <button class="add-notes-button">Add Notes</button>
-    </div>
     {% for subject in subjects %}
         {% if subject.staff%}
         <div class="notes-main-container">
