@@ -200,7 +200,17 @@ def staff_attendance(request):
     return render(request, "staff/class/staff-attendance.html")
 
 def staff_notes(request):
-    return render(request, "staff/class/staff-notes.html")
+    user = request.user
+    staff = models.Staff.objects.get(user=user)
+    subjects = models.Subject.objects.filter(staff=staff)
+    context = {
+        'user': user,
+        'staff': staff,
+        'subjects': subjects,
+    }
+    print(subjects)
+
+    return render(request, "staff/class/staff-notes.html", context)
 
 def staff_ia(request):
     return render(request, "staff/result/staff-ia.html")
