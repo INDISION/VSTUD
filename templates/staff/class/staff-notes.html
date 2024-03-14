@@ -18,7 +18,7 @@
     </div>
     {% for subject in subjects %}
         {% if subject.staff %}
-        <div class="notes-main-container">
+        <div class="notes-main-container {{subject.class_related}} hidden">
             <div class="notes-icon">
                 <span class="material-symbols-outlined">collections_bookmark</span>
             </div>
@@ -63,11 +63,38 @@
     var notes = document.getElementById("notes");
     notes.classList.add("active");
 
-    {% for subject in all_notes %}
+    var study_materials = document.getElementById("hidden");
+    var dropdown = document.getElementById("class");
+    var value = dropdown.value;
+    var notesContainers = document.getElementsByClassName("notes-main-container");
+
+    for(let container of notesContainers) {
+        container.style.display = "none";
+    }
+
+    var notesContainers = document.getElementsByClassName(value);
+    for(let container of notesContainers) {
+        container.style.display = "flex";
+    }
+
+    dropdown.addEventListener("change", function() {
+        var notesContainers = document.getElementsByClassName("notes-main-container");
+        for(let container of notesContainers) {
+            container.style.display = "none";
+        }
+        var value = dropdown.value;
+        var notesContainers = document.getElementsByClassName(value);
+        for(let container of notesContainers) {
+            container.style.display = "flex";
+        }
+    });
+
+    {% for subject in all_notes %}  
         {% for note in subject %}
             var subject_code = "{{note.subject.code}}";
             var title = "{{note.title}}";
             var date = "{{note.created_on.date}}";
+            
 
             var table = document.getElementById(subject_code);
             var tr = document.createElement("tr");
@@ -81,7 +108,6 @@
             console.log(tr);
             console.log(table)
             table.appendChild(tr);
-
         {% endfor %}
     {% endfor %}
 </script>

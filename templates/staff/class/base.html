@@ -32,7 +32,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a href=" {% url "staff-attendance" %} ">
+                        <a href=" {% url "staff-ia-result" %} ">
                             <div class="menu-item-content">
                                 <span class="material-symbols-outlined">library_books</span>
                                 <span class="menu-text">Library</span>
@@ -59,7 +59,7 @@
                     </span>
                 </div>
                 {% block class_dropdown %}
-                    <div class="class-dropdown">
+                    <div class="class-dropdown" id = "class-dropdown">
                         <select id="class" name="class" class="class-dropdown-menu uppercase">
                             {% for class in classes %}
                                 <option value="{{class.class_id}}" >{{class.class_id}}</option>

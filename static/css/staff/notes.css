@@ -20,3 +20,7 @@
 .add-notes-button:active {
     transform: scale(0.9);
 }
+
+.hidden {
+    display: none;
+}

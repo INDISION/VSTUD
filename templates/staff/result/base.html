@@ -33,7 +33,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a href=" {% url "staff-ia" %} ">
+                        <a href=" {% url "staff-ia-result" %} ">
                             <div class="menu-item-content">
                                 <span class="material-symbols-outlined">library_books</span>
                                 <span class="menu-text">Library</span>
@@ -41,7 +41,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a href=" {% url "staff-ia" %} ">
+                        <a href=" {% url "staff-ia-result" %} ">
                             <div class="menu-item-content active">
                                 <span class="material-symbols-outlined">backpack</span>
                                 <span class="menu-text">Results</span>
@@ -59,6 +59,15 @@
                         menu
                     </span>
                 </div>
+                {% block class_dropdown %}
+                <div class="class-dropdown">
+                    <select id="class" name="class" class="class-dropdown-menu uppercase">
+                        {% for class in classes %}
+                            <option value="{{class.class_id}}" >{{class.class_id}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% endblock class_dropdown %}
                 <div class="greeting">
                     <h4>Hello, {{student.name}}</h4>
                 </div>

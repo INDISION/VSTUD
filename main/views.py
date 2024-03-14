@@ -27,7 +27,7 @@ def user_login(request):
                 except:
                     staff = None
                 if(staff!=None):
-                    return redirect("staff-timetable")
+                    return redirect("staff-attendance")
                 else:
                     return redirect("attendance")
         else:
@@ -69,33 +69,6 @@ def attendance(request):
     }
     return render(request, "student/class/attendance.html", data)
 
-def staff_attendance(request):
-    user = request.user
-    staff = get_object_or_404(models.Staff, user=user)
-    subjects = models.Subject.objects.filter(staff=staff)
-    class_attending_list = []
-    for subject in subjects:
-        class_attending = subject.class_related
-        if class_attending not in class_attending_list:
-            class_attending_list.append(class_attending)
-    # Absentees List
-    absent_students = []
-    present_students = []
-    for class_attending in class_attending_list:
-        students = models.Student.objects.filter(class_attending=class_attending)
-        for student in students:
-            student_attendance = models.Attendance.objects.get(student=student, class_related=class_attending, date=date.today())
-            if student_attendance.present_status:
-                present_students.append(student)
-            else:
-                absent_students.append(student)
-    
-    context = {
-        "user":user,
-        "staff":staff,
-        "classes":class_attending_list,
-    }
-    return render(request, "staff/class/attendance.html", context)
 def timetable(request):
     user = request.user
     student = models.Student.objects.get(user=user)
@@ -226,16 +199,47 @@ def add_timetable_form(request):
     return render(request, "staff/class/add-timetable-form.html")
 
 def staff_attendance(request):
-    return render(request, "staff/class/staff-attendance.html")
+    user = request.user
+    staff = get_object_or_404(models.Staff, user=user)
+    subjects = models.Subject.objects.filter(staff=staff)
+    class_attending_list = []
+    for subject in subjects:
+        class_attending = subject.class_related
+        if class_attending not in class_attending_list:
+            class_attending_list.append(class_attending)
+    # Absentees List
+    # absent_students = []
+    # present_students = []
+    # for class_attending in class_attending_list:
+    #     students = models.Student.objects.filter(class_attending=class_attending)
+    #     for student in students:
+    #         student_attendance = models.Attendance.objects.get(student=student, class_related=class_attending, date=date.today())
+    #         if student_attendance.present_status:
+    #             present_students.append(student)
+    #         else:
+    #             absent_students.append(student)
+    
+    context = {
+        "user":user,
+        "staff":staff,
+        "classes":class_attending_list,
+    }
+    return render(request, "staff/class/staff-attendance.html", context)
 
 def staff_notes(request):
     user = request.user
-    staff = models.Staff.objects.get(user=user)
+    staff = get_object_or_404(models.Staff, user=user)
     subjects = models.Subject.objects.filter(staff=staff)
+    class_attending_list = []
+    for subject in subjects:
+        class_attending = subject.class_related
+        if class_attending not in class_attending_list:
+            class_attending_list.append(class_attending)
     context = {
         'user': user,
         'staff': staff,
         'subjects': subjects,
+        "classes": class_attending_list,
     }
     print(subjects)
 
