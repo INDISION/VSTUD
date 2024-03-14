@@ -1,0 +1,261 @@
+{% extends "staff/class/base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}TimeTable{% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static "css/staff/staff_timetable.css" %}">
+{% endblock style %}
+
+{% block user-name %}{{user.username}}{% endblock user-name %}
+
+{% block main-content %}
+{{ user|set_user }}
+<div class="main-content">
+    <div class="timetable-page">
+        <div class="customise-timetable">
+            <div>
+               <a href="{% url 'add-timetable-form' %}"> <button><span class="material-symbols-outlined">add_notes</span> 
+                Add Timetable
+            </button></a>
+            </div>
+            <div>
+                <a href="{% url 'add-timetable-form' %}"><button><span class="material-symbols-outlined">add_notes</span> 
+                    Edit Timetable
+                </button></a>
+            </div>
+        </div>
+        <div class="weekly-timetable">
+            <h1 class="semi-bold">Weekly Schedule</h1>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th class="periods"><div>Periods
+                        </div><span class="material-symbols-outlined">
+                            trending_flat
+                            </span></th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th rowspan="8"></th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th rowspan="8"></th>
+                        <th>6</th>
+                        <th>7</th>
+                    </tr>
+                    <tr>
+                        <th class="days"><div>Days</div> <span class="material-symbols-outlined">
+                            south
+                            </span></th>
+                        <th>8:30 to 9:20</th>
+                        <th>9:20 to 10:10</th>
+                        <th>10:10 to 11:00</th>
+                        <th>11:15 to 12:00</th>
+                        <th>12:00 to 12:50</th>
+                        <th>1:30 to 2:20</th>
+                        <th>2:20 to 3:15</th>
+                    </tr>
+                    <tr>
+                        <td>MON</td>
+                        <td>
+                            <div class="course-id">-</div>
+                            <div class="subject"></div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">-</div>
+                            <div class="subject"></div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">-</div>
+                            <div class="subject"></div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Tue</td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">-</div>
+                            <div class="subject"></div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">-</div>
+                            <div class="subject"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Wed</td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">-</div>
+                            <div class="subject"></div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">-</div>
+                            <div class="subject"></div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">-</div>
+                            <div class="subject"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Thu</td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">-</div>
+                            <div class="subject"></div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">-</div>
+                            <div class="subject"></div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">-</div>
+                            <div class="subject"></div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Fri</td>
+                        <td>
+                            <div class="course-id">-</div>
+                            <div class="subject"></div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">-</div>
+                            <div class="subject"></div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sat</td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                        <td>
+                            <div class="course-id">CS21A</div>
+                            <div class="subject">CC&BT</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>                    
+        </div>
+
+
+</div>
+{% endblock main-content %}
+
+{% block js %}
+<script>
+    var footer_node = document.getElementById("footer");
+    var active_node = footer_node.getElementsByClassName("active")[0];
+    active_node.classList.remove("active");
+    var timetable = document.getElementById("timetable");
+    timetable.classList.add("active"); 
+</script>
+{% endblock js %}

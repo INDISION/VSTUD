@@ -1,0 +1,114 @@
+{% extends "staff/class/base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Staff Notes{% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static "css/student/notes.css" %}">
+<link rel="stylesheet" href="{% static "css/staff/notes.css" %}">
+{% endblock style %}
+
+{% block user-name %}{{student.name}}{% endblock user-name %}
+
+{% block main-content %}
+{{ user|set_user }}
+<div class="main-content">
+    <div class="add-notes">
+        <button class="add-notes-button">Add Notes</button>
+    </div>
+    {% for subject in subjects %}
+        {% if subject.staff %}
+        <div class="notes-main-container {{subject.class_related}} hidden">
+            <div class="notes-icon">
+                <span class="material-symbols-outlined">collections_bookmark</span>
+            </div>
+            
+            <div class="notes-container">
+                <div class="subject-name-container">
+                    <h6 class="subject-name semi-bold">{{subject.name}}</h6> 
+                </div>
+                <div class="staff_name-date">
+                    <h3 class="staff-name light">{{subject.staff}}</h3>
+                </div>
+                <div class="horizontal-line">
+                    <hr>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="bold">Name</th>
+                                <th class="bold">Date</th>
+                                <th class="bold">Share</th>
+                                <th class="bold">Download</th>
+                            </tr>
+                        </thead>
+                        <tbody id="{{subject.code}}">
+                        </tbody>
+                    </table>
+                </div>
+                    
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}            
+</div>
+{% endblock main-content %}
+
+{% block js %}
+<script>
+    var footer_node = document.getElementById("footer");
+    var active_node = footer_node.getElementsByClassName("active")[0];
+    active_node.classList.remove("active");
+    var notes = document.getElementById("notes");
+    notes.classList.add("active");
+
+    var study_materials = document.getElementById("hidden");
+    var dropdown = document.getElementById("class");
+    var value = dropdown.value;
+    var notesContainers = document.getElementsByClassName("notes-main-container");
+
+    for(let container of notesContainers) {
+        container.style.display = "none";
+    }
+
+    var notesContainers = document.getElementsByClassName(value);
+    for(let container of notesContainers) {
+        container.style.display = "flex";
+    }
+
+    dropdown.addEventListener("change", function() {
+        var notesContainers = document.getElementsByClassName("notes-main-container");
+        for(let container of notesContainers) {
+            container.style.display = "none";
+        }
+        var value = dropdown.value;
+        var notesContainers = document.getElementsByClassName(value);
+        for(let container of notesContainers) {
+            container.style.display = "flex";
+        }
+    });
+
+    {% for subject in all_notes %}  
+        {% for note in subject %}
+            var subject_code = "{{note.subject.code}}";
+            var title = "{{note.title}}";
+            var date = "{{note.created_on.date}}";
+            
+
+            var table = document.getElementById(subject_code);
+            var tr = document.createElement("tr");
+            var td1 = document.createElement("td");
+            var td2 = document.createElement("td");
+            td1.innerText = title;
+            td2.innerText = date;
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.innerHTML = tr.innerHTML + '<td class="cursor-pointer"><span class="material-symbols-outlined share-icon">share</span></td> <td class="cursor-pointer"><a href="{{note.file.url}}"><span class="material-symbols-outlined download-icon">download</span></a></td>';
+            console.log(tr);
+            console.log(table)
+            table.appendChild(tr);
+        {% endfor %}
+    {% endfor %}
+</script>
+{% endblock js %}

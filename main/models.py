@@ -35,7 +35,7 @@ class Class(models.Model):
     semester = models.PositiveIntegerField()
     year = models.PositiveIntegerField()
     start_date = models.DateField(null=True)
-    end_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)  
     coordinator = models.ForeignKey(Staff, on_delete=models.CASCADE)
     class_id = models.CharField(max_length=10, unique=True, editable=False)
     def __str__(self):
