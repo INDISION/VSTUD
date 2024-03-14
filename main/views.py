@@ -3,26 +3,27 @@ from django.shortcuts import get_object_or_404
 from . import models
 from datetime import datetime, timedelta, date
 import calendar
+from .templatetags.custom_filters import calculate_attendance
 
+# Home
+def home(request):
+    user = request.user
+    student=staff=None
+    try:
+        student = models.Student.objects.get(user=user)
+    except:
+        staff = models.Staff.objects.get(user=user)
+    if student:
+        return redirect("attendance")
+    elif staff:
+        return redirect("staff-attendance")
+    else:
+        return redirect("login")
 # Login & SignUp
 def user_login(request):
     return render(request, "staff/class/base.html")
 def student_signup(request):
     pass
-
-def cal_attendance(start_date, attendance, holidays):
-    completed_holidays = []
-    for holiday in holidays:
-        if holiday.date <= datetime.now().date() and holiday.date >= start_date:
-            completed_holidays.append(holiday)
-    days = (datetime.now().date() - start_date).days + 1
-    working_days = days - len(completed_holidays)
-    present_days = []
-    for day in attendance:
-        if day.date <= datetime.now().date() and day.date >= start_date:
-            present_days.append(holiday)
-    attendance_percent = int(len(present_days)/working_days*100)
-    return attendance_percent
 
 # Class
 def attendance(request):
@@ -30,12 +31,10 @@ def attendance(request):
     year = datetime.now().year
     user = request.user
     student = models.Student.objects.get(user=user)
-    user_attendance = models.Attendance.objects.filter(student=student)
-    holidays = models.Holiday.objects.filter(class_related=student.class_attending)
 
-    month_percent = cal_attendance(start_date=datetime(year, month, 1).date(), attendance=user_attendance, holidays=holidays)
+    month_percent = calculate_attendance(student=student, start_date=datetime(year, month, 1).date())
 
-    sem_percent = cal_attendance(start_date=student.class_attending.start_date, attendance=user_attendance, holidays=holidays)
+    sem_percent = calculate_attendance(student=student, start_date=student.class_attending.start_date)
 
     data = {
         "sem_percent" : sem_percent,
@@ -56,20 +55,34 @@ def staff_attendance(request):
     # Absentees List
     absent_students = []
     present_students = []
-    for class_attending in class_attending_list:
-        students = models.Student.objects.filter(class_attending=class_attending)
-        for student in students:
-            student_attendance = models.Attendance.objects.get(student=student, class_related=class_attending, date=date.today())
-            if student_attendance.present_status:
-                present_students.append(student)
-            else:
-                absent_students.append(student)
-    
+    extra_details = {}
     context = {
         "user":user,
         "staff":staff,
+        "date" : date.today(),
+        "details":extra_details,
         "classes":class_attending_list,
+        "absentees":absent_students,
     }
+    for class_attending in class_attending_list:
+        class_id = class_attending.class_id
+        class_absent_students = []
+        class_present_students = []
+        students = models.Student.objects.filter(class_attending=class_attending)
+        for student in students:
+            try:
+                student_attendance = models.Attendance.objects.get(student=student, class_related=class_attending, date=date.today())
+            except:
+                student_attendance = None
+            if student_attendance!=None and student_attendance.present_status:
+                class_present_students.append(student)
+            else:
+                class_absent_students.append(student)
+            context[student.user.username] = calculate_attendance(start_date=student.class_attending.start_date, student=student)
+        absent_students.append(class_absent_students)
+        present_students.append(class_present_students)
+        extra_details[class_id+"_strenth"] = len(students)
+    print(extra_details)
     return render(request, "staff/class/attendance.html", context)
 def timetable(request):
     user = request.user

@@ -136,6 +136,7 @@ table {
 .main-content {
     margin-bottom: 80px;
 }
+/* toolbar */
 .toolbar {
     height: 60px;
     background-color: #fff;
@@ -150,6 +151,43 @@ table {
 }
 .toolbar .menu-btn span{
     display: none;
+}
+.greeting{
+    padding: 20px;
+}
+.profile-dropdown-menu{
+    position: relative;
+}
+.profile-dropdown-menu-content {
+    width: 300px;
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 160px;
+    min-height: 100px;
+    box-shadow: 0px 0px 7px 7px #0000000d;
+    right: 0;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+.profile-dropdown-menu-content.show {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+.profile-dropdown-menu-content a{
+    color: black;
+    padding: 24px 24px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+    border-top: 0.5px solid #7a71c9;
+}
+.profile-dropdown-menu-content .top-item{
+    border-top: none;
+}
+.profile-dropdown-menu-content a:hover {
+    background-color: #594bda20;
 }
 /* Footer Menu */
 .footer-menu {

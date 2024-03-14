@@ -1,5 +1,6 @@
 {% extends "staff/class/base.html" %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}Attendance{% endblock title %}
 
 {% block style %}
@@ -9,42 +10,46 @@
 {% block user-name %}{{staff.name}}{% endblock user-name %}
 
 {% block main-content %}
+
 <div class="main-content">
-    <div class="attendance">
-        <div class="day-present " id="day-present">
-            <div class="card-head">
-                <h1 class="bold">Present on 28/02/2024</h1>
-            </div>
-            <div class="card-footer">
-                <div>
-                    <span>40</span>
+    {% for class in classes %}
+        <div class="attendance attendance-{{class.class_id}}">
+            <div class="day-present " id="day-present">
+                <div class="card-head">
+                    <h1 class="bold">Present on {{date}}</h1>
                 </div>
-                <div>
-                    <p>out of 60</p>
-                </div>
+                <div class="card-footer">
+                    <div>
+                        <span>{{class|class_present_count}}<span>
+                    </div>
+                    <div>
+                        Out Of {{class|class_strength}}
+                    </div>
 
+                </div>
+                
+            </div>
+            <div class="day-absent " id="day-absent">
+                <div class="card-head">
+                    <h1 class="bold">Absent on {{date}}</h1>
+                </div>
+                <div class="card-footer">
+                    <div>
+                        <span>{{class|class_absent_count}}</span>
+                    </div>
+                    <div>
+                        Out Of {{class|class_strength}}
+                    </div>
+
+                </div>
+                
             </div>
             
         </div>
-        <div class="day-absent " id="day-absent">
-            <div class="card-head">
-                <h1 class="bold">Absent on 28/02/2024</h1>
-            </div>
-            <div class="card-footer">
-                <div>
-                    <span>20</span>
-                </div>
-                <div>
-                    <p>out of 60</p>
-                </div>
+    {% endfor %}
 
-            </div>
-            
-        </div>
-        
-    </div>
-
-        <div class="absentees-container">
+    {% for class_absentees in absentees %}
+        <div class="absentees-container absentees-{{class_absentees.0.class_attending.class_id}}">
             <h1 class="bold">Absentees List</h1>
             
             <div class="table-container">
@@ -52,7 +57,6 @@
                     <tr>
                         <th>
                             Register No
-
                         </th>
                         <th>
                             Name
@@ -64,43 +68,72 @@
                             Attendance(%)
                         </th>
                     </tr>
-                    <tr>
-                        <td>113321104009</td>
-                        <td>B.Viswanath</td>
-                        <td>3</td>
-                        <td>70</td>
-
-                    </tr>
-                    <tr>
-                        <td>113321104010</td>
-                        <td>Botta Sridhar</td>
-                        <td>2</td>
-                        <td>70</td>
-
-                    </tr>
-                    <tr>
-                        <td>113321104004</td>
-                        <td>Anga Sri Ajay Kumar</td>
-                        <td>7</td>
-                        <td>70</td>
-
-                    </tr>
-                    <tr>
-                        <td>113321104048</td>
-                        <td>K.Pathek Kumar</td>
-                        <td>2</td>
-                        <td>70</td>
-
-                    </tr>
-                    
+                    {% for absent_student in class_absentees %}
+                        <tr>
+                            <td>{{absent_student.register_number}}</td>
+                            <td>{{absent_student.name}}</td>
+                            <td id="{{absent_student.user.username}}-leaves">{{absent_student|calculate_leaves}}</td>
+                            <td id="{{absent_student.user.username}}-attendance">{{absent_student|calculate_attendance}}</td>
+                        </tr>
+                    {% endfor %}
                 </table>
 
             </div>
 
         </div>
-
+    {% endfor %}
 </div>
+
 {% endblock main-content %}
 
 {% block js %}
+    <script>
+        var attendance_containers = document.getElementsByClassName("attendance");
+        for(let attendance_container of attendance_containers) {
+            attendance_container.style.display="none"
+        }
+        var absentees_containers = document.getElementsByClassName("absentees-container");
+        for(let absentees_container of absentees_containers) {
+            absentees_container.style.display="none"
+        }
+
+        var dropdown = document.getElementById("class-dropdown-trigger");
+        var value = dropdown.innerText.toLowerCase();
+        console.log(value)
+
+        var attendance_containers = document.getElementsByClassName("attendance-"+value);
+        var absentees_containers = document.getElementsByClassName("absentees-"+value);
+        for(let container of attendance_containers) {
+            container.style.display = "flex";
+        }
+        for(let container of absentees_containers) {
+            container.style.display = "flex";
+        }
+
+        function handleDropdownChange(){
+            var attendance_containers = document.getElementsByClassName("attendance");
+            var absentees_containers = document.getElementsByClassName("absentees-container");
+            for(let container of attendance_containers) {
+                container.style.display = "none";
+            }
+            for(let container of absentees_containers) {
+                container.style.display = "none";
+            }
+            var dropdown = document.getElementById("class-dropdown-trigger");
+            var value = dropdown.innerText.toLowerCase();
+            var attendance_containers = document.getElementsByClassName("attendance-"+value);
+            var absentees_containers = document.getElementsByClassName("absentees-"+value);
+            for(let container of attendance_containers) {
+                container.style.display = "flex";
+            }
+            for(let container of absentees_containers) {
+                container.style.display = "flex";
+            }
+        }
+        var callback = function (MutationsList, observer) {
+            handleDropdownChange();
+        }
+        var observer = new MutationObserver(callback);
+        observer.observe(dropdown, {attributes:false, childList:true, subtree:false})
+    </script>
 {% endblock js %}
