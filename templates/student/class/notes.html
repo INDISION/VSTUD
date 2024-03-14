@@ -4,12 +4,10 @@
 {% block title %}TimeTable{% endblock title %}
 
 {% block style %}
-<link rel="stylesheet" href=" {% static "css/staff/style.css" %}">
-<link rel="stylesheet" href="{% static "css/staff/notes.css" %}">
 <link rel="stylesheet" href="{% static "css/student/notes.css" %}">
 {% endblock style %}
 
-{% block user-name %}{{student.name}}{% endblock user-name %}{{student.name}}
+{% block user-name %}{{student.name}}{% endblock user-name %}
 
 {% block main-content %}
 {{ user|set_user }}

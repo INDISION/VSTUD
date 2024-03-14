@@ -40,7 +40,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a href=" {% url "staff-ia" %} ">
+                        <a href=" {% url "staff-ia-result" %} ">
                             <div class="menu-item-content">
                                 <span class="material-symbols-outlined">backpack</span>
                                 <span class="menu-text">Results</span>
@@ -58,22 +58,21 @@
                         menu
                     </span>
                 </div>
-                <div class="class-dropdown">
-                    <select id="class" name="class" class="class-dropdown-menu">
-                        <option value="">21CSA</option>
-                        <option value="">21CSB</option>
-                        <option value="">22CSA</option>
-                        <option value="">20CSA</option>
-                      </select>
-                </div>
+                {% block class_dropdown %}
+                    <div class="class-dropdown">
+                        <select id="class" name="class" class="class-dropdown-menu uppercase">
+                            {% for class in classes %}
+                                <option value="{{class.class_id}}" >{{class.class_id}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endblock class_dropdown %}
                 <div class="greeting">
                     <h4>Hello, {% block user-name %}Stud{% endblock user-name %}</h4>
                 </div>
             </div>
             {% block main-content %}
-            <div class="main-content">
-                       
-            </div>
+            <div class="main-content"></div>
             {% endblock main-content %}
             <div class="footer-menu" id="footer">
                 <div class="footer-menu-items">
