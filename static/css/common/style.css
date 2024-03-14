@@ -40,6 +40,12 @@ a {
     text-decoration: none !important;
     color: #000;
 }
+.uppercase {
+    text-transform: uppercase;
+}
+.lowercase {
+    text-transform: lowercase;
+}
 .cursor-pointer {
     cursor: pointer;
 }

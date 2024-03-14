@@ -1,0 +1,106 @@
+{% extends "staff/class/base.html" %}
+{% load static %}
+{% block title %}Attendance{% endblock title %}
+
+{% block style %}
+    <link rel="stylesheet" href= "{% static "css/staff/attendance.css" %}" >
+{% endblock style %}
+
+{% block user-name %}{{staff.name}}{% endblock user-name %}
+
+{% block main-content %}
+<div class="main-content">
+    <div class="attendance">
+        <div class="day-present " id="day-present">
+            <div class="card-head">
+                <h1 class="bold">Present on 28/02/2024</h1>
+            </div>
+            <div class="card-footer">
+                <div>
+                    <span>40</span>
+                </div>
+                <div>
+                    <p>out of 60</p>
+                </div>
+
+            </div>
+            
+        </div>
+        <div class="day-absent " id="day-absent">
+            <div class="card-head">
+                <h1 class="bold">Absent on 28/02/2024</h1>
+            </div>
+            <div class="card-footer">
+                <div>
+                    <span>20</span>
+                </div>
+                <div>
+                    <p>out of 60</p>
+                </div>
+
+            </div>
+            
+        </div>
+        
+    </div>
+
+        <div class="absentees-container">
+            <h1 class="bold">Absentees List</h1>
+            
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>
+                            Register No
+
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Total Leaves
+                        </th>
+                        <th>
+                            Attendance(%)
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>113321104009</td>
+                        <td>B.Viswanath</td>
+                        <td>3</td>
+                        <td>70</td>
+
+                    </tr>
+                    <tr>
+                        <td>113321104010</td>
+                        <td>Botta Sridhar</td>
+                        <td>2</td>
+                        <td>70</td>
+
+                    </tr>
+                    <tr>
+                        <td>113321104004</td>
+                        <td>Anga Sri Ajay Kumar</td>
+                        <td>7</td>
+                        <td>70</td>
+
+                    </tr>
+                    <tr>
+                        <td>113321104048</td>
+                        <td>K.Pathek Kumar</td>
+                        <td>2</td>
+                        <td>70</td>
+
+                    </tr>
+                    
+                </table>
+
+            </div>
+
+        </div>
+
+</div>
+{% endblock main-content %}
+
+{% block js %}
+{% endblock js %}

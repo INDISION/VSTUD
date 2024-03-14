@@ -1,18 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from . import models
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import calendar
 
-def user_role(user):
-    try:
-        student = models.Student.objects.get(user=user)
-        staff = False
-    except:
-        staff = models.Staff.objects.get(user=user)
-        student = False
-    role = {"student":student, "staff":staff}
-    return role
 # Login & SignUp
 def user_login(request):
     return render(request, "staff/class/base.html")
@@ -53,6 +44,33 @@ def attendance(request):
     }
     return render(request, "student/class/attendance.html", data)
 
+def staff_attendance(request):
+    user = request.user
+    staff = get_object_or_404(models.Staff, user=user)
+    subjects = models.Subject.objects.filter(staff=staff)
+    class_attending_list = []
+    for subject in subjects:
+        class_attending = subject.class_related
+        if class_attending not in class_attending_list:
+            class_attending_list.append(class_attending)
+    # Absentees List
+    absent_students = []
+    present_students = []
+    for class_attending in class_attending_list:
+        students = models.Student.objects.filter(class_attending=class_attending)
+        for student in students:
+            student_attendance = models.Attendance.objects.get(student=student, class_related=class_attending, date=date.today())
+            if student_attendance.present_status:
+                present_students.append(student)
+            else:
+                absent_students.append(student)
+    
+    context = {
+        "user":user,
+        "staff":staff,
+        "classes":class_attending_list,
+    }
+    return render(request, "staff/class/attendance.html", context)
 def timetable(request):
     user = request.user
     student = models.Student.objects.get(user=user)
@@ -106,6 +124,8 @@ def notes(request):
         for note in subject_note:
             print(note.title)
     context = {
+        "user":user,
+        "student":student,
         "subjects":subjects,
         "all_notes":_notes,
     }
