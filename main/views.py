@@ -54,16 +54,16 @@ def staff_attendance(request):
         if class_attending not in class_attending_list:
             class_attending_list.append(class_attending)
     # Absentees List
-    absent_students = []
-    present_students = []
-    for class_attending in class_attending_list:
-        students = models.Student.objects.filter(class_attending=class_attending)
-        for student in students:
-            student_attendance = models.Attendance.objects.get(student=student, class_related=class_attending, date=date.today())
-            if student_attendance.present_status:
-                present_students.append(student)
-            else:
-                absent_students.append(student)
+    # absent_students = []
+    # present_students = []
+    # for class_attending in class_attending_list:
+    #     students = models.Student.objects.filter(class_attending=class_attending)
+    #     for student in students:
+    #         student_attendance = models.Attendance.objects.get(student=student, class_related=class_attending, date=date.today())
+    #         if student_attendance.present_status:
+    #             present_students.append(student)
+    #         else:
+    #             absent_students.append(student)
     
     context = {
         "user":user,
