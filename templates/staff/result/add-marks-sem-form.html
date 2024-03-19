@@ -1,0 +1,89 @@
+
+{% extends "staff/result/base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Add Marks-Semester Form{% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static "css/staff/forms.css" %}">
+{% endblock style %}
+
+{% block user-name %}{{staff.name}}{% endblock user-name %}{{staff.name}}
+
+{% block main-content %}
+{{ user|set_user }}
+<div class="main-content">
+    <form class="form">
+        {% csrf_token %}
+        <div class="header mb-25">
+            <h1 class="semi-bold">Add Marks - Semester</h1>
+        </div>
+        <div class="field-main-container">
+            <div class="field-container">
+                <div class="field-label">
+                    <label class="medium">Name :</label>
+                </div>
+                <div class="field-value">
+                    <p class="regular">Kondubouina Pathek Kumar</p>
+                </div>
+            </div> 
+            <div class="field-container">
+                <div class="field-label">
+                    <label class="medium">Reg No :</label>
+                </div>
+                <div class="field-value">
+                    <p class="regular">113321104048</p>
+                </div>
+            </div> 
+            <div class="field-container">
+                <div class="field-label">
+                    <label class="medium">Subject Name :</label>
+                </div>
+                <div class="field-value">
+                    <p class="regular">Data Warehousing</p>
+                </div>
+            </div>
+            <div class="field-container">
+                <div class="field-label">
+                    <label class="medium">Grade :</label>
+                </div>
+                <div class="field-value">
+                    <p class="regular">
+                        <div class="dropdown-div">
+                            <select id="class" name="class" class="dropdown-select">
+                                <option value="">O</option>
+                                <option value="">A+</option>
+                                <option value="">A</option>
+                                <option value="">B+</option>
+                                <option value="">B</option>
+                          </select>
+                        </div>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <div class="buttons-container">
+            <div class="save-and-exit-button">
+                <button type="submit">Save & Exit</button>
+            </div>
+            <div class="next-button">
+                <button type="submit">Next</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock main-content %}
+
+{% block js %}
+<script>
+    var footer_node = document.getElementById("footer");
+    var active_node = footer_node.getElementsByClassName("active")[0];
+    active_node.classList.remove("active");
+    var notes = document.getElementById("notes");
+    notes.classList.add("active");
+</script>
+{% endblock js %}
+
+
+

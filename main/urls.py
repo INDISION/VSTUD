@@ -16,5 +16,14 @@ urlpatterns = [
     path("login", views.user_login , name="login"),
     path("staff/timetable", views.staff_timetable, name="staff-timetable"),
     path("staff/add-timetable-form", views.add_timetable_form, name="add-timetable-form"),
+    path("staff/add-notes-form", views.add_notes_form , name="add-notes-form"),
+    path("staff/add-staff-form", views.add_staff_form , name="add-staff-form"),
+    path("staff/add-subject-form", views.add_subject_form , name="add-subject-form"),
+    path("staff/add-holiday-form", views.add_holiday_form , name="add-holiday-form"),
+    path("staff/add-attendance-form", views.add_attendance_form , name="add-attendance-form"),
+    path("staff/add-marks-ia-form", views.add_marks_ia_form , name="add-marks-ia-form"),
+    path("staff/add-marks-model-form", views.add_marks_model_form , name="add-marks-model-form"),
+    path("staff/add-marks-semester-form", views.add_marks_semester_form , name="add-marks-semester-form"),
+
 
 ]

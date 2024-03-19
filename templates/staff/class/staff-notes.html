@@ -14,7 +14,7 @@
 {{ user|set_user }}
 <div class="main-content">
     <div class="add-notes">
-        <button class="add-notes-button">Add Notes</button>
+        <a href = "{% url "add-notes-form" %}"><button class="add-notes-button">Add Notes</button></a>
     </div>
     {% for subject in subjects %}
         {% if subject.staff %}
@@ -63,7 +63,6 @@
     var notes = document.getElementById("notes");
     notes.classList.add("active");
 
-    var study_materials = document.getElementById("hidden");
     var dropdown = document.getElementById("class");
     var value = dropdown.value;
     var notesContainers = document.getElementsByClassName("notes-main-container");

@@ -1,0 +1,294 @@
+html, body {
+    height: 100%;
+}
+
+.main-content {
+    width: 100%;
+    height: 100%;
+    padding: 30px;
+    background-color: #0000000d;
+  }
+
+.form {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 0px 10px 3px #0000000d; 
+    -webkit-box-shadow: 0px 0px 10px 3px #0000000d;
+    -moz-box-shadow: 0px 0px 10px 3px #0000000d;
+    padding: 10px;
+    border-radius: 10px;
+    overflow-x: auto;
+    background-color: white;
+    min-height: 70%;
+  }
+
+  .header {
+    margin-bottom: 50px;
+   
+  }
+
+  .field-main-container {
+    width: 50%;
+  }
+
+  .field-container {
+    display: flex;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .field-label {
+    display: flex;
+    align-items: center;
+    width: 50%;
+  }
+
+  .field-value {
+    width: 50%;
+  }
+
+  .field-value input {
+    
+    padding: 8px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1px solid #594bda20;
+    border-radius: 25px;
+    background-color: #FFFFFF;
+    transition: all .3s;
+  }
+
+  .field-value input:focus {
+    outline: none;
+    box-shadow: 0px 0px 3px 3px #0000000d;
+    -webkit-box-shadow: 0px 0px 3px 3px #0000000d;
+    -moz-box-shadow: 0px 0px 3px 3px #0000000d;
+    border: none;
+    transition: all .3s;
+  }
+
+  .buttons-container {
+    display: flex;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.buttons-container button {
+    padding: 6px 15px;
+      text-align: center;
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      text-decoration: none;
+      color: #5A4BDA;
+      background: transparent;
+      cursor: pointer;
+      transition: ease-out 0.5s;
+      border: 2px solid #5A4BDA;
+      border-radius: 10px;
+      box-shadow: inset 0 0 0 0 #5A4BDA;
+      margin-right: 20px;
+  }
+
+  .buttons-container button:hover {
+    color: white;
+    box-shadow: inset 0 -100px 0 0 #5A4BDA; 
+  }
+  
+  .buttons-container button:active {
+    transform: scale(0.9);
+  }
+
+  .number-field::-webkit-outer-spin-button,
+  .number-field::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.number-field[type=number] {
+  -moz-appearance: textfield;
+}
+
+.file-field {
+  width: 250px;
+}
+
+.text-field {
+  width: 250px;
+}
+
+.email-field {
+  width: 250px;
+}
+
+.date-field {
+  width: 250px;
+}
+
+.number-field {
+  width: 250px;
+}
+
+.time-field {
+  width: 250px;
+}
+
+/* CSS for toggle button in attendance-form */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  height: 34px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #3C3C; /* default color */
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  right: 4px; /* initially at the right side */
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+/* Set button checked by default */
+input:checked + .slider {
+  background-color: #FF0000; /* green color */
+}
+
+/* Set button checked style */
+input:checked + .slider:before {
+  transform: translateX(-85px); /* move to the left side when checked */
+}
+
+/* Added CSS */
+.slider:after {
+  content: 'PRESENT';
+  color: white;
+  display: block;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  font-size: 10px;
+  font-family: Verdana, sans-serif;
+}
+
+/* Change content when button is checked */
+input:checked + .slider:after {
+  content: 'ABSENT';
+}
+
+/* Css for all dropdowns */
+.dropdown-select {
+  border: 1px solid #594bda20;
+  padding: 6px 12px;
+  border-radius: 25px;
+  background-color: white;
+  transition: all .3s;
+  width: 250px;
+}
+
+input[type="date"]{
+  background-color: #ffffff;
+  padding: 6px;
+  font-family: "Roboto Mono",monospace;
+  color: black;
+  font-size: 16px;
+  border: 1px solid #594bda20;
+  outline: none;
+  border-radius: 9px;
+}
+::-webkit-calendar-picker-indicator{
+  background-color: #ffffff;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+
+
+  /* CSS for mobile screens */
+
+  @media(max-width: 800px)
+{
+  .main-content {
+    margin-top: 80px;
+  }
+
+  .form {
+    width: auto;
+    /* padding: 10px; */
+  }
+
+  .field-main-container {
+    width: 100%;
+  }
+
+  .field-container {
+    width: 100%;
+  }
+
+  .field-label {
+    width: 45%;
+  }
+
+  .field-value {
+    width: 55%;
+  }
+
+  .field-value input {
+    font-size: 10px;
+}
+
+.dropdown-select {
+  padding: 6px 10px;
+  width: 150px;
+}
+
+.file-field {
+  width: 150px;
+}
+
+.text-field {
+  width: 150px;
+}
+
+.email-field {
+  width: 150px;
+}
+
+.date-field {
+  width: 150px;
+}
+
+.number-field {
+  width: 150px;
+}
+
+.time-field {
+  width: 150px;
+}
+
+
+}

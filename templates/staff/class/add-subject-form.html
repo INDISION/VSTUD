@@ -1,0 +1,88 @@
+
+{% extends "staff/class/base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Add Subject Form{% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static "css/staff/forms.css" %}">
+{% endblock style %}
+
+{% block user-name %}{{staff.name}}{% endblock user-name %}{{staff.name}}
+
+{% block main-content %}
+{{ user|set_user }}
+<div class="main-content">
+    <form action="" class="form">
+        {% csrf_token %}
+      <div class="header">
+        <h1 class="semi-bold">Add Subjects</h1>
+      </div>
+      <div class="field-main-container">
+        <div class="field-container">
+          <div class="field-label">
+            <label for="" class="medium">Subject name :</label>
+          </div>
+          <div class="field-value">
+            <input type="text" placeholder="Ex: Data Warehousing" class="text-field"/>
+          </div>
+        </div>
+        <div class="field-container">
+          <div class="field-label">
+            <label for="" class="medium">Subject code :</label>
+          </div>
+          <div class="field-value">
+            <input type="text" placeholder="Ex: CCS339" class="text-field"/>
+          </div>
+        </div>
+        <div class="field-container">
+          <div class="field-label">
+            <label for="" class="medium">Subject credit :</label>
+          </div>
+          <div class="field-value">
+            <input type="number" class="number-field" placeholder="Ex: 4"/>
+          </div>
+        </div>
+        <div class="field-container">
+          <div class="field-label">
+            <label for="" class="medium">Staff name :</label>
+          </div>
+          <div class="field-value">
+            <p class="regular">
+              <div class="dropdown-div">
+                  <select id="class" name="class" class="dropdown-select">
+                    <option value="">Select Staff</option>
+                      <option value="">Dr.K.Balachander</option>
+                      <option value="">Mr.R.Nithin Kumar</option>
+                      <option value="">Ms.A.K.Gayathri</option>
+                      <option value="">Mr.J.Sathiya Jeba Sundar</option>
+                      <option value="">Mr.R.Raja</option>
+                </select>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="buttons-container">
+          <div class="save-and-exit-button">
+              <button>Save & Exit</button>
+          </div>
+          <div class="next-button">
+              <button>Next</button>
+          </div>
+      </div>
+    </form>
+  </div>
+{% endblock main-content %}
+
+{% block js %}
+<script>
+    var footer_node = document.getElementById("footer");
+    var active_node = footer_node.getElementsByClassName("active")[0];
+    active_node.classList.remove("active");
+    var notes = document.getElementById("notes");
+    notes.classList.add("active");
+</script>
+{% endblock js %}
+
+

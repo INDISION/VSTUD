@@ -248,5 +248,38 @@ def staff_notes(request):
 def staff_ia(request):
     return render(request, "staff/result/staff-ia.html")
 
+def add_notes_form(request):
+    if request.method == 'POST':
+        note_name = request.POST.get('note_name')
+        note_file = request.POST.get('note_file')
+        models.Note.objects.create(
+            title = note_name,
+            file = note_file,    
+        )
+        return redirect("staff-notes")
+
+    return render(request, "staff/class/add-notes-form.html")
+
+def add_staff_form(request):
+    return render(request, "staff/class/add-staff-form.html")
+
+def add_subject_form(request):
+    return render(request, "staff/class/add-subject-form.html")
+
+def add_holiday_form(request):
+    return render(request, "staff/class/add-holiday-form.html")
+
+def add_attendance_form(request):
+    return render(request, "staff/class/add-attendance-form.html")
+
+def add_marks_ia_form(request):
+    return render(request, "staff/result/add-marks-ia-form.html")
+
+def add_marks_model_form(request):
+    return render(request, "staff/result/add-marks-model-form.html")
+
+def add_marks_semester_form(request):
+    return render(request, "staff/result/add-marks-sem-form.html")
+
 
 
