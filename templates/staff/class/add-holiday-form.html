@@ -13,12 +13,20 @@
 {% block main-content %}
 {{ user|set_user }}
 <div class="main-content">
-    <form action="" class="form">
+    <form action = " {% url "add-holiday-form" class_id %} " class="form" method = "post">
         {% csrf_token %}
         <div class="header">
             <h1 class="semi-bold">Add Holidays</h1>
         </div>
         <div class="field-main-container">
+            <div class="field-container hidden">
+                <div class="field-label">
+                    <label for="" class="">Date :</label>
+                </div>
+                <div class="field-value">
+                    <input type="text" name="class-related" value="{{class_id}}">
+                </div>
+            </div>
             <div class="field-container">
                 <div class="field-label">
                     <label for="" class="date-field medium">Date :</label>
@@ -32,16 +40,16 @@
                     <label for="" class="medium">Description : </label>
                 </div>
                 <div class="field-value">
-                    <input placeholder="Type here..." class="text-field" type="text" />
+                    <input placeholder="Type here..." class="text-field" name = "description" type="text" />
                 </div>
             </div>
         </div> 
         <div class="buttons-container">
             <div class="save-and-exit-button">
-                <button>Save & Exit</button>
+                <button type = "submit" name = "save-and-exit">Save & Exit</button>
             </div>
             <div class="next-button">
-                <button>Next</button>
+                <button type = "submit" name = "next">Next</button>
             </div>
         </div> 
     </form>

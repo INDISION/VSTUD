@@ -266,8 +266,42 @@ def add_staff_form(request):
 def add_subject_form(request):
     return render(request, "staff/class/add-subject-form.html")
 
-def add_holiday_form(request):
-    return render(request, "staff/class/add-holiday-form.html")
+def add_holiday_form(request,class_id=None):
+    user = request.user
+    staff = get_object_or_404(models.Staff, user=user)
+    subjects = models.Subject.objects.filter(staff=staff)
+    class_attending_list = []
+    for subject in subjects:
+        class_attending = subject.class_related
+        if class_attending not in class_attending_list:
+            class_attending_list.append(class_attending)
+
+    if request.method == 'POST':
+        class_id = request.POST.get("class-related")
+        class_related = models.Class.objects.get(class_id = class_id)
+        date = request.POST.get('date')
+        description = request.POST.get('description')
+        print(date)
+        print(description)
+        models.Holiday.objects.create(
+            class_related = class_related,
+            date = date,
+            description = description,
+        )
+
+        print("---------------")
+        if 'save-and-exit' in request.POST:
+            return redirect("staff-attendance")
+        elif 'next' in request.POST:
+            return redirect("add-holiday-form", class_id)
+    context = {
+        'user': user,
+        'staff': staff,
+        'subjects': subjects,
+        "classes": class_attending_list,
+        "class_id": class_id
+    }
+    return render(request, "staff/class/add-holiday-form.html" ,context)
 
 def add_attendance_form(request):
     return render(request, "staff/class/add-attendance-form.html")
@@ -279,7 +313,10 @@ def add_marks_model_form(request):
     return render(request, "staff/result/add-marks-model-form.html")
 
 def add_marks_semester_form(request):
-    return render(request, "staff/result/add-marks-sem-form.html")
+    return render(request, "staff/result/add-marks-sem-form.html")\
+    
+def add_student_form(request):
+    return render(request, "staff/class/add-student-form.html")
 
 
 

@@ -39,7 +39,7 @@
                     <label class="medium">Date : </label>
                 </div>
                 <div class="field-value">
-                    <input type="date" class="date-field">
+                    <input type="date" class="date-field" id = "date-field">
                 </div>
             </div> 
             <div class="field-container">
@@ -58,17 +58,17 @@
         </div> 
         <div class="buttons-container">
             <div class="save-and-exit-button">
-                <button>Save & Exit</button>
+                <button type = "submit">Save & Exit</button>
             </div>
             <div class="next-button">
-                <button>Next</button>
+                <button type = "submit">Next</button>
             </div>
         </div> 
               
     </form>
 </div>
 {% endblock main-content %}
-
+<script src=" {% static "js/forms.js" %} "></script>
 {% block js %}
 <script>
     var footer_node = document.getElementById("footer");
