@@ -11,13 +11,13 @@
 {% block main-content %}
 <div class="main-content">
     <div class="attendance">
-        <div class="month-attendance cursor-pointer" id="month-attendance">
+        <div class="month-attendance" id="month-attendance">
             <div class="card-head">
                 <h1 class="bold">Current Month</h1>
             </div>
             <span>{{month_percent}}%</span>
         </div>
-        <div class="sem-attendance cursor-pointer" id="sem-attendance">
+        <div class="sem-attendance" id="sem-attendance">
             <div class="card-head">
                 <h1 class="bold">Current Semester</h1>
             </div>
@@ -25,84 +25,7 @@
         </div>
     </div>
 </div>
-
-<div class="month-overlay" id="monthly-overlay">
-    <div class="card">
-        <div class="detail">
-            <canvas id="monthly-chart"></canvas>
-        </div>
-    </div>
-</div>
-<div class="sem-overlay" id="sem-overlay">
-    <div class="card">
-        <div class="detail">
-            <canvas id="sem-chart"></canvas>
-        </div>
-    </div>
-</div>
 {% endblock main-content %}
 
 {% block js %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const monthly_chart = document.getElementById("monthly-chart");
-    new Chart(monthly_chart, {
-        type: 'bar',
-        data: {
-            labels: ['Working Days', 'Present', 'Absent'],
-            datasets:[{
-                label: "Monthly Analysis",
-                data: [23, 18, 5],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginatZero:true
-                }
-            }
-        }
-    });
-    const sem_chart = document.getElementById("sem-chart");
-    new Chart(sem_chart, {
-        type: 'bar',
-        data: {
-            labels: ['Working Days', 'Present', 'Absent', 'Comming Days'],
-            datasets:[{
-                label: "Semester Analysis",
-                data: [84, 66, 5, 13],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginatZero:true
-                }
-            }
-        }
-    });
-    document.addEventListener('DOMContentLoaded', ()=> {
-        var monthAttendance = document.getElementById("month-attendance");
-        var semAttendance = document.getElementById("sem-attendance");
-        var monthlyOverlay = document.getElementById("monthly-overlay");
-        var semOverlay = document.getElementById("sem-overlay");
-        document.addEventListener('click', (event)=> {
-            if(monthAttendance.contains(event.target)){
-                monthlyOverlay.style.visibility="visible";
-            }
-            else if(monthlyOverlay.contains(event.target)){
-                monthlyOverlay.style.visibility="hidden";
-            }
-            else if(semAttendance.contains(event.target)){
-                semOverlay.style.visibility="visible";
-            }
-            else if(semOverlay.contains(event.target)) {
-                semOverlay.style.visibility="hidden";
-            }
-        });
-    })
-    
-</script>
 {% endblock js %}

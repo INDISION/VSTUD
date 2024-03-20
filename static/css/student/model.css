@@ -9,6 +9,7 @@
 }
 .model th {
     font-weight: 600;
+    background-color: #594bda20;
 }
 .model th, .model td{
     padding: 20px;

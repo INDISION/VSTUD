@@ -1,0 +1,75 @@
+{% extends "staff/result/base.html" %}
+{% load static %}
+{% block title %}Semester Result{% endblock title %}
+
+{% block style %}
+    <link rel="stylesheet" href= "{% static 'css/student/model.css' %}" >
+{% endblock style %}
+
+{% block user-name %}{{student.name}}{% endblock user-name %}
+
+{% block class_dropdown %}
+<div class="class-dropdown-menu">
+    <div id="class-dropdown-menu-content" class="class-dropdown-menu-content">
+        {% for class in classes %}
+            {% if class.class_id !=  class_id %}
+            <a href="{% url "staff-sem-result" class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock class_dropdown %}
+
+{% block main_content %}
+<div class="main-content">
+    {% if semester_results %}
+        <div class="model">
+            <h1 class="bold">Semester</h1>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                S.No
+                            </th>
+                            <th>
+                                Register
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Marks
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in semester_results %}
+                            {% if result.marks >= 60  %}
+                            <tr class="pass" >
+                            {% elif result.marks < 60  %}
+                            <tr class="fail" >
+                            {% endif %}
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ result.student.register_number }}</td>
+                                <td>{{ result.student.user.first_name }} {{ result.student.user.last_name }}</td>
+                                <td>{{ result.marks }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock main_content %}
+
+{% block js %}
+<script>
+    var footer_node = document.getElementById("footer")
+    var active_node = footer_node.getElementsByClassName("active")[0]
+    active_node.classList.remove("active")
+    var sem = document.getElementById("semester")
+    sem.classList.add("active")
+</script>
+{% endblock js %}

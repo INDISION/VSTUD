@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BASE{% endblock title %}</title>
+    <!-- google icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <link rel="stylesheet" href=" {% static "css/common/style.css" %}">
+    <link rel="stylesheet" href=" {% static "css/staff/style.css" %}">
+    {% block style %}{% endblock style %}
+</head>
+<body>
+    <!-- Complete Page -->
+    <div class="container">
+
+        <!-- Complete Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <h1 class="bold cursor-pointer">VSTUD</h1>
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <a href=" {% url "staff-attendance" class_id %} ">
+                            <div class="menu-item-content">
+                                <span class="material-symbols-outlined">School</span>
+                                <span class="menu-text">Class</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="">
+                            <div class="menu-item-content">
+                                <span class="material-symbols-outlined">library_books</span>
+                                <span class="menu-text">Library</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href=" {% url "staff-ia-result" class_id %} ">
+                            <div class="menu-item-content active">
+                                <span class="material-symbols-outlined">backpack</span>
+                                <span class="menu-text">Results</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="overlay" id="overlay"></div>
+            <div class="toolbar">
+                <div class="initial">
+                    <div class="menu-btn" id="menu-btn">
+                        <span class="material-symbols-outlined openbtn cursor-pointer" onclick="openNav()">
+                            menu
+                        </span>
+                    </div>
+                    <div class="class-container">
+                            <span class="cursor-pointer uppercase" id="class-dropdown-trigger">{{class_id}}</span>  
+                    </div>
+                </div>
+                <div class="profile-container">
+                        <span class="material-symbols-outlined cursor-pointer">
+                            account_circle
+                        </span>
+                </div>
+            </div>
+            <div class="profile-dropdown-menu">
+                <div id="profile-dropdown-menu-content" class="profile-dropdown-menu-content">
+                    <div class="greeting">
+                        {% if student %}
+                            <h4 class="bold">Hello, {{student.name}}</h4>
+                        {% elif staff %}
+                        <h4 class="bold">Hello, {{staff.name}}</h4>
+                        {% endif %}
+                    </div>
+                    <a href="#" >Profile</a>
+                    <a href="#">Reset Password</a>
+                    <a href="#" >Logout</a>
+                </div>
+            </div>
+            {% block class_dropdown %}{% endblock class_dropdown %}
+            {% block main_content %}
+            {% endblock main_content %}
+            <div class="footer-menu" id="footer">
+                <div class="footer-menu-items">
+                    <a href=" {% url "staff-ia-result" class_id %} ">
+                        <div class="footer-menu-item active" id="ia">
+                            <span class="material-symbols-outlined">box_edit</span>                        
+                            <span class="menu-text">IA</span>
+                        </div>
+                    </a>
+                    <a href=" {% url "staff-model-result" class_id %} ">
+                        <div class="footer-menu-item" id="model">
+                            <span class="material-symbols-outlined">edit_square</span>                       
+                            <span class="menu-text">Model</span>
+                        </div>
+                    </a>
+                    <a href=" {% url "staff-sem-result" class_id %} ">
+                        <div class="footer-menu-item" id="semester">
+                            <span class="material-symbols-outlined">sticky_note_2</span>                        
+                            <span class="menu-text">Semester</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src=" {% static "js/script.js" %}"></script>
+    <script>
+        var class_dropdown_trigger = document.getElementById("class-dropdown-trigger");
+        var class_dropdown_menu_content = document.getElementById("class-dropdown-menu-content");
+        var first_class_dropdown_menu_item = class_dropdown_menu_content.querySelector('a');
+        first_class_dropdown_menu_item.style.borderTop = "none";
+    </script>
+    {% block js %}{% endblock js %}
+</body>
+</html>

@@ -37,8 +37,5 @@
 .fail{
     background-color: rgb(250, 233, 214);
 }
-/* .pass{
-    background-color:  rgba(0, 215, 140, 0.381);
-} */
 @media screen and (max-width:500px) {
 }
