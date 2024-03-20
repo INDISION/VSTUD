@@ -35,7 +35,7 @@ class Class(models.Model):
     semester = models.PositiveIntegerField()
     year = models.PositiveIntegerField()
     start_date = models.DateField(null=True)
-    end_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)  
     coordinator = models.ForeignKey(Staff, on_delete=models.CASCADE)
     class_id = models.CharField(max_length=10, unique=True, editable=False)
     def __str__(self):
@@ -91,6 +91,7 @@ class Result(models.Model):
         return f"{self.exam.name}-{self.exam.subject.code}-{self.student}"
     class Meta:
         unique_together = ['exam', 'class_related', 'student']
+        ordering = ['student__register_number']
     
 class Holiday(models.Model):
     class_related = models.ForeignKey(Class, on_delete=models.CASCADE)

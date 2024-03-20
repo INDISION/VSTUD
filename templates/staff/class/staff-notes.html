@@ -1,0 +1,85 @@
+{% extends "staff/class/base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Staff Notes{% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static "css/student/notes.css" %}">
+<link rel="stylesheet" href="{% static "css/staff/notes.css" %}">
+{% endblock style %}
+
+{% block class_dropdown %}
+<div class="class-dropdown-menu">
+    <div id="class-dropdown-menu-content" class="class-dropdown-menu-content">
+        {% for class in classes %}
+            {% if class.class_id !=  class_id %}
+            <a href="{% url "staff-notes" class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock class_dropdown %}
+
+{% block main_content %}
+{{ user|set_user }}
+<div class="main-content">
+    <div class="add-notes">
+        <button class="add-notes-button">Add Notes</button>
+    </div>
+    <div class="all-notes">
+        {% if subject %}
+        <div class="notes-main-container">
+            <div class="notes-icon">
+                <span class="material-symbols-outlined">collections_bookmark</span>
+            </div>
+            
+            <div class="notes-container">
+                <div class="subject-name-container">
+                    <h6 class="subject-name semi-bold">{{subject.name}}</h6> 
+                </div>
+                <div class="staff_name-date">
+                    <h3 class="staff-name light">{{subject.staff}}</h3>
+                </div>
+                <div class="horizontal-line">
+                    <hr>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="bold">Name</th>
+                                <th class="bold">Date</th>
+                                <th class="bold">Share</th>
+                                <th class="bold">Download</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for note in subject_notes %}
+                                <tr>
+                                    <td>{{note.title}}</td>
+                                    <td>{{note.created_on.date}}</td>
+                                    <td><span class="material-symbols-outlined share-icon">share</span></td>
+                                    <td><span class="material-symbols-outlined download-icon">download</span></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                    
+            </div>
+        </div>
+        {% endif %}
+    </div>
+            
+</div>
+{% endblock main_content %}
+
+{% block js %}
+<script>
+    var footer_node = document.getElementById("footer");
+    var active_node = footer_node.getElementsByClassName("active")[0];
+    active_node.classList.remove("active");
+    var notes = document.getElementById("notes");
+    notes.classList.add("active");
+</script>
+{% endblock js %}

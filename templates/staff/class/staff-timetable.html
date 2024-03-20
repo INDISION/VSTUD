@@ -1,4 +1,4 @@
-{% extends "student/class/base.html" %}
+{% extends "staff/class/base.html" %}
 {% load static %}
 {% load custom_filters %}
 {% block title %}TimeTable{% endblock title %}
@@ -7,65 +7,75 @@
     <link rel="stylesheet" href= "{% static 'css/student/timetable.css' %}" >
 {% endblock style %}
 
-{% block user-name %}{{student.name}}{% endblock user-name %}
+{% block class_dropdown %}
+<div class="class-dropdown-menu">
+    <div id="class-dropdown-menu-content" class="class-dropdown-menu-content">
+        {% for class in classes %}
+            {% if class.class_id !=  class_id %}
+                <a href="{% url "staff-timetable" class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock class_dropdown %}
 
-{% block main-content %}
-{{ user|set_user }}
-<div class="main-content">
-    <div class="weekly-timetable">
-            <h1 class="semi-bold">Weekly Schedule</h1>
+{% block main_content %}
+    {{ class_id|set_class_id }}
+    <div class="main-content">
+        <div class="weekly-timetable">
+                <h1 class="semi-bold">Weekly Schedule</h1>
+                <div class="table-container">
+                    <table>
+                        <tbody id="weekly-timetable">
+                            <tr id="period-counter">
+                                <th>Periods</th>
+                            </tr>
+                            <tr id="timings">
+                                <th>Days</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>                    
+        </div>
+        <div class="academic-calendar">
+            <h1 class="semi-bold">Academic calendar</h1>
+            {% for month, month_cal in cal.items %}
             <div class="table-container">
                 <table>
-                    <tbody id="weekly-timetable">
-                        <tr id="period-counter">
-                            <th>Periods</th>
-                        </tr>
-                        <tr id="timings">
-                            <th>Days</th>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>                    
-    </div>
-    <div class="academic-calendar">
-        <h1 class="semi-bold">Academic calendar</h1>
-        {% for month, month_cal in cal.items %}
-        <div class="table-container">
-            <table>
-                <tr><th colspan="7">{{month}}</th></tr>   
-                <tr>
-                    <th>Mon</th>    
-                    <th>Tue</th>
-                    <th>Wed</th>
-                    <th>Thu</th>
-                    <th>Fri</th>
-                    <th>Sat</th>
-                    <th>Sun</th>
-                </tr>
-                {% for week in month_cal %}
+                    <tr><th colspan="7">{{month}}</th></tr>   
                     <tr>
-                        {% for day in week %}
-                            {% if day == 0 %}
-                                <td></td>
-                            {% else %}
-                                {% if month|check_holiday:day %}
-                                    <td class="holiday">{{day}}</td>
-                                {% else %}
-                                <td class="working">{{day}}</td>
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}
+                        <th>Mon</th>    
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Thu</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                        <th>Sun</th>
                     </tr>
-                {% endfor %}
-            </table>
+                    {% for week in month_cal %}
+                        <tr>
+                            {% for day in week %}
+                                {% if day == 0 %}
+                                    <td></td>
+                                {% else %}
+                                    {% if month|staff_check_holiday:day %}
+                                        <td class="holiday">{{day}}</td>
+                                    {% else %}
+                                    <td class="working">{{day}}</td>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            {% endfor %}
+            
+            
         </div>
-        {% endfor %}
-        
-        
+        <div class="exam-timetable"></div>
     </div>
-    <div class="exam-timetable"></div>
-</div>
-{% endblock main-content %}
+{% endblock main_content %}
 
 {% block js %}
 <script>
@@ -113,7 +123,12 @@
             if(staff!="None"){
                 var timetable_row = document.getElementById(day);
                 var timetable_row_data = document.createElement("td");
-                timetable_row_data.textContent = "{{period.subject.name|safe}}";
+                if(staff=="{{staff}}"){
+                    timetable_row_data.textContent = "{{period.subject.name|safe}}";
+                }
+                else {
+                    timetable_row_data.textContent = "-";
+                }
                 timetable_row.appendChild(timetable_row_data);
             }
         {% endfor %}
