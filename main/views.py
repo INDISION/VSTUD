@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, date
 import calendar
 from .templatetags.custom_filters import calculate_attendance
 
-# Home
+# Basic
 def home(request):
     user = request.user
     student=staff=None
@@ -22,7 +22,7 @@ def home(request):
         return redirect("staff-attendance")
     else:
         return redirect("login")
-# Login & SignUp
+
 def user_login(request):   
     if request.method == 'POST':
         username = request.POST.get("username")
@@ -42,9 +42,6 @@ def user_login(request):
             messages.error(request, "Invalid username or password.")
             return redirect("login")
     return render(request, "student/common/login.html")
-
-def student_signup(request):
-    pass
 
 # Class
 def attendance(request):
@@ -211,69 +208,7 @@ def notes(request):
         "all_notes":_notes,
     }
     print(_notes[4])
-    return render(request, "student/class/notes.html", context)  
-    
-# Result
-def ia_result(request):
-    user = request.user
-    student = models.Student.objects.get(user=user)
-    ia1 = models.Result.objects.filter(exam__name="ia1", student=student, class_related=student.class_attending)
-    ia2 = models.Result.objects.filter(exam__name="ia2", student=student, class_related=student.class_attending)
-    ia3 = models.Result.objects.filter(exam__name="ia3", student=student, class_related=student.class_attending)
-    context = {
-        "user":user,
-        "student":student,
-        "ia1":ia1,
-        "ia2":ia2,
-        "ia3":ia3
-    }
-    return render(request, "student/result/ia.html", context)
-
-def model_result(request):
-    user = request.user
-    student = models.Student.objects.get(user=user)
-    model_exam = models.Result.objects.filter(exam__name="model", student=student, class_related=student.class_attending)
-    context = {
-        "user":user,
-        "student":student,
-        "model":model_exam,
-    }
-    return render(request, "student/result/model.html", context)
-
-def sem_result(request):
-    user = request.user
-    student = models.Student.objects.get(user=user)
-    semesters_data = []
-    for i in range(1,9):
-        sem = "semester-"+str(i)
-        semesters_data.append(models.Result.objects.filter(exam__name=sem, student=student))
-    print(semesters_data)
-    context = {
-        "user":user,
-        "student":student,
-        "semesters_data":semesters_data
-    }
-    return render(request, "student/result/sem.html", context)
-
-#For Staffs
-def add_timetable_form(request):
-    if request.method == 'POST':
-        day = request.POST.get('day')
-        start_time = request.POST.get('start_time')
-        end_time = request.POST.get('end_time')
-        subject_name = request.POST.get('period')
-        subject = get_object_or_404(models.Subject, name=subject_name)     
-        models.TimeTable.objects.create(
-            day=day,
-            start_time=start_time,
-            end_time=end_time,
-            subject=subject
-        )
-    if 'save_and_next' in request.POST:
-        return render(request, "staff/add-timetable-form.html")
-    elif 'save_and_exit' in request.POST:
-        return render(request, "staff/staff-timetable.html")
-    return render(request, "staff/class/add-timetable-form.html")
+    return render(request, "student/class/notes.html", context) 
 
 def staff_notes(request, class_id=None):
     user = request.user
@@ -296,6 +231,23 @@ def staff_notes(request, class_id=None):
     }
 
     return render(request, "staff/class/staff-notes.html", context)
+
+    
+# Result
+def ia_result(request):
+    user = request.user
+    student = models.Student.objects.get(user=user)
+    ia1 = models.Result.objects.filter(exam__name="ia1", student=student, class_related=student.class_attending)
+    ia2 = models.Result.objects.filter(exam__name="ia2", student=student, class_related=student.class_attending)
+    ia3 = models.Result.objects.filter(exam__name="ia3", student=student, class_related=student.class_attending)
+    context = {
+        "user":user,
+        "student":student,
+        "ia1":ia1,
+        "ia2":ia2,
+        "ia3":ia3
+    }
+    return render(request, "student/result/ia.html", context)
 
 def staff_ia_result(request, class_id=None):
     user = request.user
@@ -321,6 +273,17 @@ def staff_ia_result(request, class_id=None):
     }
     return render(request, "staff/result/staff-ia.html", context)
 
+def model_result(request):
+    user = request.user
+    student = models.Student.objects.get(user=user)
+    model_exam = models.Result.objects.filter(exam__name="model", student=student, class_related=student.class_attending)
+    context = {
+        "user":user,
+        "student":student,
+        "model":model_exam,
+    }
+    return render(request, "student/result/model.html", context)
+
 def staff_model_result(request, class_id=None):
     user = request.user
     staff = models.Staff.objects.get(user=user)
@@ -340,6 +303,21 @@ def staff_model_result(request, class_id=None):
         "model_results" : model_results,
     }
     return render(request, "staff/result/staff-model.html", context)
+
+def sem_result(request):
+    user = request.user
+    student = models.Student.objects.get(user=user)
+    semesters_data = []
+    for i in range(1,9):
+        sem = "semester-"+str(i)
+        semesters_data.append(models.Result.objects.filter(exam__name=sem, student=student))
+    print(semesters_data)
+    context = {
+        "user":user,
+        "student":student,
+        "semesters_data":semesters_data
+    }
+    return render(request, "student/result/sem.html", context)
 
 def staff_sem_result(request, class_id=None):
     user = request.user
@@ -361,3 +339,26 @@ def staff_sem_result(request, class_id=None):
         "semester_results" : semester_results,
     }
     return render(request, "staff/result/staff-sem.html", context)
+
+# Forms
+def add_timetable_form(request):
+    if request.method == 'POST':
+        day = request.POST.get('day')
+        start_time = request.POST.get('start_time')
+        end_time = request.POST.get('end_time')
+        subject_name = request.POST.get('period')
+        subject = get_object_or_404(models.Subject, name=subject_name)     
+        models.TimeTable.objects.create(
+            day=day,
+            start_time=start_time,
+            end_time=end_time,
+            subject=subject
+        )
+    if 'save_and_next' in request.POST:
+        return render(request, "staff/add-timetable-form.html")
+    elif 'save_and_exit' in request.POST:
+        return render(request, "staff/staff-timetable.html")
+    return render(request, "staff/class/add-timetable-form.html")
+
+def student_signup(request):
+    pass
