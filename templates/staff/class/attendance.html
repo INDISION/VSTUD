@@ -1,26 +1,43 @@
 {% extends "staff/class/base.html" %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}Attendance{% endblock title %}
 
 {% block style %}
     <link rel="stylesheet" href= "{% static "css/staff/attendance.css" %}" >
 {% endblock style %}
 
-{% block user-name %}{{staff.name}}{% endblock user-name %}
+{% block class_dropdown %}
+<div class="class-dropdown-menu">
+    <div id="class-dropdown-menu-content" class="class-dropdown-menu-content">
+        {% for class in classes %}
+            {% if class.class_id !=  class_id %}
+            <a href="{% url "staff-attendance" class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock class_dropdown %}
 
-{% block main-content %}
+{% block main_content %}
+
 <div class="main-content">
+    {% if holiday %}
+    <div class="holiday">
+        <img src="{% static "img/holiday.png" %}" alt="">
+    </div>
+    {% else %}
     <div class="attendance">
         <div class="day-present " id="day-present">
             <div class="card-head">
-                <h1 class="bold">Present on 28/02/2024</h1>
+                <h1 class="bold">Present on {{date}}</h1>
             </div>
             <div class="card-footer">
                 <div>
-                    <span>40</span>
+                    <span>{{present}}<span>
                 </div>
                 <div>
-                    <p>out of 60</p>
+                    Out Of {{strength}}
                 </div>
 
             </div>
@@ -28,14 +45,14 @@
         </div>
         <div class="day-absent " id="day-absent">
             <div class="card-head">
-                <h1 class="bold">Absent on 28/02/2024</h1>
+                <h1 class="bold">Absent on {{date}}</h1>
             </div>
             <div class="card-footer">
                 <div>
-                    <span>20</span>
+                    <span>{{absent}}</span>
                 </div>
                 <div>
-                    <p>out of 60</p>
+                    Out Of {{strength}}
                 </div>
 
             </div>
@@ -44,63 +61,41 @@
         
     </div>
 
-        <div class="absentees-container">
-            <h1 class="bold">Absentees List</h1>
-            
-            <div class="table-container">
-                <table>
+    <div class="absentees-container">
+        <h1 class="bold">Absentees List</h1>
+        
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th>
+                        Register No
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Total Leaves
+                    </th>
+                    <th>
+                        Attendance(%)
+                    </th>
+                </tr>
+                {% for absent_student in absentees %}
                     <tr>
-                        <th>
-                            Register No
-
-                        </th>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Total Leaves
-                        </th>
-                        <th>
-                            Attendance(%)
-                        </th>
+                        <td>{{absent_student.register_number}}</td>
+                        <td>{{absent_student.name}}</td>
+                        <td id="{{absent_student.user.username}}-leaves">{{absent_student|calculate_leaves}}</td>
+                        <td id="{{absent_student.user.username}}-attendance">{{absent_student|calculate_attendance}}</td>
                     </tr>
-                    <tr>
-                        <td>113321104009</td>
-                        <td>B.Viswanath</td>
-                        <td>3</td>
-                        <td>70</td>
-
-                    </tr>
-                    <tr>
-                        <td>113321104010</td>
-                        <td>Botta Sridhar</td>
-                        <td>2</td>
-                        <td>70</td>
-
-                    </tr>
-                    <tr>
-                        <td>113321104004</td>
-                        <td>Anga Sri Ajay Kumar</td>
-                        <td>7</td>
-                        <td>70</td>
-
-                    </tr>
-                    <tr>
-                        <td>113321104048</td>
-                        <td>K.Pathek Kumar</td>
-                        <td>2</td>
-                        <td>70</td>
-
-                    </tr>
-                    
-                </table>
-
-            </div>
+                {% endfor %}
+            </table>
 
         </div>
 
+    </div>
+    {% endif %}
 </div>
-{% endblock main-content %}
 
-{% block js %}
-{% endblock js %}
+{% endblock main_content %}
+
+{% block js %}{% endblock js %}

@@ -49,6 +49,14 @@
      align-items: center;
      
 }
+.holiday {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.holiday img{
+    width: 50%;
+}
 
 .absentees-container table{
     margin: 10px;

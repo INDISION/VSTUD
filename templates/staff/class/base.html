@@ -24,7 +24,7 @@
             <div class="sidebar-menu">
                 <div class="menu-items">
                     <div class="menu-item">
-                        <a href=" {% url "staff-attendance" %} ">
+                        <a href=" {% url "staff-attendance" class_id %} ">
                             <div class="menu-item-content active">
                                 <span class="material-symbols-outlined">School</span>
                                 <span class="menu-text">Class</span>
@@ -32,7 +32,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a href=" {% url "staff-ia-result" %} ">
+                        <a href="">
                             <div class="menu-item-content">
                                 <span class="material-symbols-outlined">library_books</span>
                                 <span class="menu-text">Library</span>
@@ -40,7 +40,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a href=" {% url "staff-ia-result" %} ">
+                        <a href=" {% url "staff-ia-result" class_id %} ">
                             <div class="menu-item-content">
                                 <span class="material-symbols-outlined">backpack</span>
                                 <span class="menu-text">Results</span>
@@ -53,42 +53,53 @@
         <div class="content">
             <div class="overlay" id="overlay"></div>
             <div class="toolbar">
-                <div class="menu-btn" id="menu-btn">
-                    <span class="material-symbols-outlined openbtn cursor-pointer" onclick="openNav()">
-                        menu
-                    </span>
-                </div>
-                {% block class_dropdown %}
-                    <div class="class-dropdown" id = "class-dropdown">
-                        <select id="class" name="class" class="class-dropdown-menu uppercase">
-                            {% for class in classes %}
-                                <option value="{{class.class_id}}" >{{class.class_id}}</option>
-                            {% endfor %}
-                        </select>
+                <div class="initial">
+                    <div class="menu-btn" id="menu-btn">
+                        <span class="material-symbols-outlined openbtn cursor-pointer" onclick="openNav()">
+                            menu
+                        </span>
                     </div>
-                {% endblock class_dropdown %}
-                <div class="greeting">
-                    <h4>Hello, {% block user-name %}Stud{% endblock user-name %}</h4>
+                    <div class="class-container">
+                            <span class="cursor-pointer uppercase" id="class-dropdown-trigger">{{class_id}}</span>  
+                    </div>
+                </div>
+                <div class="profile-container">
+                        <span class="material-symbols-outlined cursor-pointer">
+                            account_circle
+                        </span>
                 </div>
             </div>
-            {% block main-content %}
-            <div class="main-content"></div>
-            {% endblock main-content %}
+            <div class="profile-dropdown-menu">
+                <div id="profile-dropdown-menu-content" class="profile-dropdown-menu-content">
+                    <div class="greeting">
+                        {% if student %}
+                            <h4 class="bold">Hello, {{student.name}}</h4>
+                        {% elif staff %}
+                        <h4 class="bold">Hello, {{staff.name}}</h4>
+                        {% endif %}
+                    </div>
+                    <a href="#" >Profile</a>
+                    <a href="#">Reset Password</a>
+                    <a href="#" >Logout</a>
+                </div>
+            </div>
+            {% block class_dropdown %}{% endblock class_dropdown %}
+            {% block main_content %}{% endblock main_content %}
             <div class="footer-menu" id="footer">
                 <div class="footer-menu-items">
-                    <a href=" {% url "staff-attendance" %} ">
+                    <a href=" {% url "staff-attendance" class_id %} ">
                         <div class="footer-menu-item active" id="attendance">
                             <span class="material-symbols-outlined">group</span>
                             <span class="menu-text">Attendance</span>
                         </div>
                     </a>
-                    <a href=" {% url "staff-notes" %} ">
+                    <a href=" {% url "staff-notes" class_id %} ">
                         <div class="footer-menu-item" id="notes">
                             <span class="material-symbols-outlined">notes</span>
                             <span class="menu-text">Notes</span>
                         </div>
                     </a>
-                    <a href=" {% url "staff-timetable" %} ">
+                    <a href=" {% url "staff-timetable" class_id %} ">
                         <div class="footer-menu-item" id="timetable">
                             <span class="material-symbols-outlined">today</span>
                             <span class="menu-text">TimeTable</span>
@@ -99,7 +110,13 @@
         </div>
     </div>
 
-    <script src=" {% static "js/script.js" %} "></script>
+    <script src=" {% static "js/script.js" %}"></script>
+    <script>
+        var class_dropdown_trigger = document.getElementById("class-dropdown-trigger");
+        var class_dropdown_menu_content = document.getElementById("class-dropdown-menu-content");
+        var first_class_dropdown_menu_item = class_dropdown_menu_content.querySelector('a');
+        first_class_dropdown_menu_item.style.borderTop = "none";
+    </script>
     {% block js %}{% endblock js %}
 </body>
 </html>

@@ -4,251 +4,142 @@
 {% block title %}IA Marks{% endblock title %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static "css/staff/staff-ia.css" %}">
+<link rel="stylesheet" href="{% static "css/staff/staff-result.css" %}">
 {% endblock style %}
 
 {% block user-name %}{{user.username}}{% endblock user-name %}
 
-{% block main-content %}
+{% block class_dropdown %}
+<div class="class-dropdown-menu">
+    <div id="class-dropdown-menu-content" class="class-dropdown-menu-content">
+        {% for class in classes %}
+            {% if class.class_id !=  class_id %}
+            <a href="{% url "staff-ia-result" class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock class_dropdown %}
+
+{% block main_content %}
 {{ user|set_user }}
 <div class="main-content">
+    {% if ia1_results %}
     <div class="ia-main-container">
         <div class="ia-container" id="ia-container">
-            <div class="expand-button">
-                <button class="expand-or-minimize" id="expand-or-minimize">Expand</button>
-            </div>
             <div class="header">
                 <p class="semi-bold">Internal Assessment - 1</p>
             </div>
-            <div class="marks-table" id="marks-table">
+            <div class="table-container" id="marks-table">
                 <table>
                     <thead>
                         <tr>
                             <th>S.No</th>
                             <th>Register No</th>
                             <th>Name</th>
+                            <th>Exam</th>
                             <th>Marks</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Add table rows with student records here -->
-                        <tr>
-                            <td>1</td>
-                            <td>2021001</td>
-                            <td>John Doe</td>
-                            <td>85</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2021002</td>
-                            <td>Jane Smith</td>
-                            <td>92</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>2021003</td>
-                            <td>Jane</td>
-                            <td>92</td>
-                        </tr>
-                        <!-- Add more rows as needed -->
+                        {% for result in ia1_results %}
+                            {% if result.marks >= 60  %}
+                            <tr class="pass" >
+                            {% elif result.marks < 60  %}
+                            <tr class="fail" >
+                            {% endif %}
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ result.student.register_number }}</td>
+                                <td>{{ result.student.user.first_name }} {{ result.student.user.last_name }}</td>
+                                <td>IA 1</td>
+                                <td>{{ result.marks }}</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="ia-container">
+    </div>
+    {% endif %}
+    {% if ia2_results %}
+    <div class="ia-main-container">
+        <div class="ia-container" id="ia-container">
             <div class="header">
                 <p class="semi-bold">Internal Assessment - 2</p>
             </div>
+            <div class="table-container" id="marks-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Register No</th>
+                            <th>Name</th>
+                            <th>Exam</th>
+                            <th>Marks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in ia2_results %}
+                            {% if result.marks >= 60  %}
+                            <tr class="pass" >
+                            {% elif result.marks < 60  %}
+                            <tr class="fail" >
+                            {% endif %}
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ result.student.register_number }}</td>
+                                <td>{{ result.student.user.first_name }} {{ result.student.user.last_name }}</td>
+                                <td>IA 2</td>
+                                <td>{{ result.marks }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+    {% endif %}
+    {% if ia3_results %}
+    <div class="ia-main-container">
+        <div class="ia-container" id="ia-container">
+            <div class="expand-button">
+                <button class="expand-or-minimize" id="expand-or-minimize">Expand</button>
+            </div>
+            <div class="header">
+                <p class="semi-bold">Internal Assessment - 3</p>
+            </div>
+            <div class="table-container" id="marks-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Register No</th>
+                            <th>Name</th>
+                            <th>Exam</th>
+                            <th>Marks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in ia3_results %}
+                            {% if result.marks >= 60  %}
+                            <tr class="pass" >
+                            {% elif result.marks < 60  %}
+                            <tr class="fail" >
+                            {% endif %}
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ result.student.register_number }}</td>
+                                <td>{{ result.student.user.first_name }} {{ result.student.user.last_name }}</td>
+                                <td>IA 3</td>
+                                <td>{{ result.marks }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
-{% endblock main-content %}
+{% endblock main_content %}
 
 {% block js %}
 <script>
@@ -257,31 +148,6 @@
     active_node.classList.remove("active");
     var ia = document.getElementById("ia");
     ia.classList.add("active"); 
-
-    var isExpanded = false;
-    
-        document.getElementById("expand-or-minimize").addEventListener("click", function() {
-            var container = document.getElementById("ia-container");
-            var tableContainer = document.getElementById("marks-table");
-            var tableHeight = tableContainer.scrollHeight;
-
-    
-            if (!isExpanded) {
-                // container.style.paddingBottom = "100px";
-                container.style.justifyContent = "flex-start"; 
-                tableContainer.style.overflowY = "visible";
-                document.getElementById("expand-or-minimize").innerText = "Minimize";
-                container.style.height = "auto";
-                tableContainer.style.height = "auto"
-            } else {
-                container.style.height = "420px";
-                container.style.justifyContent = ""; 
-                tableContainer.style.overflowY = "hidden"; 
-                document.getElementById("expand-or-minimize").innerText = "Expand";
-            }
-    
-            isExpanded = !isExpanded;
-        });
 </script>
 {% endblock js %}
 

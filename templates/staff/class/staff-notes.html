@@ -8,17 +8,27 @@
 <link rel="stylesheet" href="{% static "css/staff/notes.css" %}">
 {% endblock style %}
 
-{% block user-name %}{{student.name}}{% endblock user-name %}
+{% block class_dropdown %}
+<div class="class-dropdown-menu">
+    <div id="class-dropdown-menu-content" class="class-dropdown-menu-content">
+        {% for class in classes %}
+            {% if class.class_id !=  class_id %}
+            <a href="{% url "staff-notes" class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock class_dropdown %}
 
-{% block main-content %}
+{% block main_content %}
 {{ user|set_user }}
 <div class="main-content">
     <div class="add-notes">
         <a href = "{% url "add-notes-form" %}"><button class="add-notes-button">Add Notes</button></a>
     </div>
-    {% for subject in subjects %}
-        {% if subject.staff %}
-        <div class="notes-main-container {{subject.class_related}} hidden">
+    <div class="all-notes">
+        {% if subject %}
+        <div class="notes-main-container">
             <div class="notes-icon">
                 <span class="material-symbols-outlined">collections_bookmark</span>
             </div>
@@ -43,7 +53,15 @@
                                 <th class="bold">Download</th>
                             </tr>
                         </thead>
-                        <tbody id="{{subject.code}}">
+                        <tbody>
+                            {% for note in subject_notes %}
+                                <tr>
+                                    <td>{{note.title}}</td>
+                                    <td>{{note.created_on.date}}</td>
+                                    <td><span class="material-symbols-outlined share-icon">share</span></td>
+                                    <td><span class="material-symbols-outlined download-icon">download</span></td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -51,9 +69,10 @@
             </div>
         </div>
         {% endif %}
-    {% endfor %}            
+    </div>
+            
 </div>
-{% endblock main-content %}
+{% endblock main_content %}
 
 {% block js %}
 <script>
@@ -62,6 +81,7 @@
     active_node.classList.remove("active");
     var notes = document.getElementById("notes");
     notes.classList.add("active");
+<<<<<<< HEAD
 
     var dropdown = document.getElementById("class");
     var value = dropdown.value;
@@ -109,5 +129,7 @@
             table.appendChild(tr);
         {% endfor %}
     {% endfor %}
+=======
+>>>>>>> ajay
 </script>
 {% endblock js %}

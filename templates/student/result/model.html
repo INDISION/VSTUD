@@ -16,6 +16,9 @@
             <table>
                 <tr>
                     <th>
+                        Subject Code
+                    </th>
+                    <th>
                         Subjects
                     </th>
                     <th>
@@ -24,6 +27,7 @@
                 </tr>
                 {% for result in model  %}
                     <tr id="{{result}}">
+                        <td class="uppercase">{{ result.exam.subject.code }}</td>
                         <td>{{result.exam.subject.name}}</td>
                         <td>{{result.marks}}</td>
                     </tr>

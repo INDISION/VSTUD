@@ -19,9 +19,6 @@
                         Subjects
                     </th>
                     <th>
-                        Marks for 60
-                    </th>
-                    <th>
                         Marks for 100
                     </th>
                 </tr>
@@ -89,14 +86,10 @@
 {% block js %}
 <script>
     {% for result in ia1 %}
-        var marks_for_60 = "{{result.marks}}";
-        var marks_for_100 = Math.round(marks_for_60/60*100);
+        var marks = "{{result.marks}}";
         var id = "{{result.exam.name}}-{{result.exam.subject.code}}-{{result.student}}";
         var ia1_row = document.getElementById(id);
-        var ia1_row_data = document.createElement("td");
-        ia1_row_data.innerText = marks_for_100;
-        ia1_row.appendChild(ia1_row_data);
-        if(marks_for_100<60){
+        if(marks<60){
             ia1_row.classList.add("fail");
         }
         else {
@@ -104,14 +97,10 @@
         }
     {% endfor %}
     {% for result in ia2 %}
-        var marks_for_60 = "{{result.marks}}";
-        var marks_for_100 = Math.round(marks_for_60/60*100);
+        var marks = "{{result.marks}}";
         var id = "{{result.exam.name}}-{{result.exam.subject.code}}-{{result.student}}";
         var ia2_row = document.getElementById(id);
-        var ia2_row_data = document.createElement("td");
-        ia2_row_data.innerText = marks_for_100;
-        ia2_row.appendChild(ia2_row_data);
-        if(marks_for_100<60){
+        if(marks<60){
             ia2_row.classList.add("fail");
         }
         else {
@@ -119,14 +108,10 @@
         }
     {% endfor %}
     {% for result in ia3 %}
-        var marks_for_60 = "{{result.marks}}";
-        var marks_for_100 = Math.round(marks_for_60/60*100);
+        var marks = "{{result.marks}}";
         var id = "{{result.exam.name}}-{{result.exam.subject.code}}-{{result.student}}";
         var ia3_row = document.getElementById(id);
-        var ia3_row_data = document.createElement("td");
-        ia3_row_data.innerText = marks_for_100;
-        ia3_row.appendChild(ia3_row_data);
-        if(marks_for_100<60){
+        if(marks<60){
             ia3_row.classList.add("fail");
         }
         else {

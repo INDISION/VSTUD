@@ -10,13 +10,16 @@ class Department(models.Model):
     code = models.CharField(max_length=10, unique=True)
     def __str__(self):
         return self.code
+    class Meta:
+        ordering = ['code']
 
 class Staff(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
     phone = models.CharField(max_length=20)
     def __str__(self):
         return self.name
+    class Meta:
+        ordering = ['user__first_name']
     
 class Course(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
@@ -29,6 +32,8 @@ class Course(models.Model):
     def save(self, *args, **kwargs):
         self.course_id = f"{self.department}{str(self.year_of_join)[-2:]}{self.section}"
         super(Course, self).save(*args, **kwargs)
+    class Meta:
+        ordering = ['course_id']
     
 class Class(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -43,10 +48,11 @@ class Class(models.Model):
     def save(self, *args, **kwargs):
         self.class_id = f"{self.course}{str(self.semester)}"
         super(Class, self).save(*args, **kwargs)
+    class Meta:
+        ordering = ['class_id']
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
     register_number = models.CharField(max_length=20, unique=True)
     class_attending = models.ForeignKey(Class, on_delete=models.CASCADE)
     date_of_birth = models.DateField()
@@ -59,15 +65,19 @@ class Student(models.Model):
         self.user.username = f"{self.class_attending.course}{self.register_number[-3:]}"
         super(User, self.user).save(*args, **kwargs)
         super(Student, self).save(*args, **kwargs)
+    class Meta:
+        ordering = ['register_number']
 
 class Subject(models.Model):
     name = models.CharField(max_length=100)
-    code = models.CharField(max_length=100, blank=True, null=True)
+    code = models.CharField(max_length=100, blank=True, null=True, unique=True)
     credit = models.PositiveIntegerField(blank=True, null=True)
     class_related = models.ForeignKey(Class, on_delete=models.CASCADE)
     staff = models.ForeignKey(Staff, on_delete=models.CASCADE, blank=True, null=True)
     def __str__(self):
         return f"{self.name}-{self.staff}"
+    class Meta:
+        ordering = ['code']
 
 class Exam(models.Model):
     name = models.CharField(max_length=100)
@@ -79,6 +89,8 @@ class Exam(models.Model):
     def save(self, *args, **kwargs):
         self.exam_id = f"{self.name}-{self.subject.code}"
         super(Exam, self).save(*args, **kwargs)
+    class Meta:
+        ordering = ['exam_id']
     
 class Result(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE, null=True)
@@ -91,6 +103,7 @@ class Result(models.Model):
         return f"{self.exam.name}-{self.exam.subject.code}-{self.student}"
     class Meta:
         unique_together = ['exam', 'class_related', 'student']
+        ordering = ['student__register_number']
     
 class Holiday(models.Model):
     class_related = models.ForeignKey(Class, on_delete=models.CASCADE)
@@ -98,6 +111,9 @@ class Holiday(models.Model):
     description = models.CharField(max_length=200, blank=True)
     def __str__(self):
         return f"{self.date}-{self.description}"
+    class Meta:
+        unique_together = ['class_related', 'date']
+        ordering = ['date', 'class_related']
     
 class Attendance(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
@@ -106,6 +122,9 @@ class Attendance(models.Model):
     present_status = models.BooleanField(default=False)
     def __str__(self):
         return f"{self.student}-{self.present_status}"
+    class Meta:
+        unique_together = ['date', 'class_related','student']
+        ordering = ['student__register_number']
     
 class TimeTable(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
@@ -115,7 +134,8 @@ class TimeTable(models.Model):
     def __str__(self):
         return f"{self.subject.name}-{self.day}"
     class Meta:
-        ordering = ['start_time', 'day']
+        unique_together = ['subject', 'day','start_time']
+        ordering = ['day', 'start_time']
 
 class Note(models.Model):
     title = models.CharField(max_length=200)
@@ -125,6 +145,9 @@ class Note(models.Model):
 
     def __str__(self):
         return self.title
+    class Meta:
+        unique_together = ['subject', 'file']
+        ordering = ['subject']
 
 @receiver(pre_delete, sender=Note)
 def delete_note_file(sender, instance, **kwargs):
