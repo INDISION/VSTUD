@@ -261,7 +261,43 @@ def add_notes_form(request):
     return render(request, "staff/class/add-notes-form.html")
 
 def add_staff_form(request):
-    return render(request, "staff/class/add-staff-form.html")
+    user = request.user
+    staff = get_object_or_404(models.Staff, user=user)
+    subjects = models.Subject.objects.filter(staff=staff)
+    class_attending_list = []
+    for subject in subjects:
+        class_attending = subject.class_related
+        if class_attending not in class_attending_list:
+            class_attending_list.append(class_attending)
+
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        user_name = staff_reg
+        
+
+
+        staff_name = request.POST.get('staff_name')
+        staff_number = request.POST.get('staff_number')
+        staff_email = request.POST.get('staff_email')
+        staff_reg = request.POST.get('staff_reg')
+        models.Staff.objects.create(
+            user = user,
+            name = staff_name,
+            phone = staff_number,    
+        )
+        if 'save-and-exit' in request.POST:
+            return redirect("staff-attendance")
+        elif 'next' in request.POST:
+            return redirect("add-staff-form")
+    context = {
+        'user': user,
+        'staff': staff,
+        'subjects': subjects,
+        "classes": class_attending_list,
+    }
+        
+    return render(request, "staff/class/add-staff-form.html", context)
 
 def add_subject_form(request):
     return render(request, "staff/class/add-subject-form.html")
@@ -286,7 +322,7 @@ def add_holiday_form(request,class_id=None):
         models.Holiday.objects.create(
             class_related = class_related,
             date = date,
-            description = description,
+            description = description,  
         )
 
         print("---------------")
@@ -299,7 +335,7 @@ def add_holiday_form(request,class_id=None):
         'staff': staff,
         'subjects': subjects,
         "classes": class_attending_list,
-        "class_id": class_id
+        "class_id": class_id,
     }
     return render(request, "staff/class/add-holiday-form.html" ,context)
 
