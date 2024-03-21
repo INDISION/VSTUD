@@ -4,17 +4,14 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from . import models
+from django.contrib.auth.models import User
 from datetime import datetime, timedelta, date
 import calendar
+import random, string
 
-def class_dropdown(staff):
-    subjects = models.Subject.objects.filter(staff = staff)
-    class_attending = []
-    for subject in subjects:
-        class_attending.append(subject.class_related)
-    return class_attending
 
-# Login & SignUp
+
+# Basic
 def user_login(request):   
     if request.method == 'POST':
         username = request.POST.get("username")
@@ -35,22 +32,13 @@ def user_login(request):
             return redirect("login")
     return render(request, "student/common/login.html")
 
-def student_signup(request):
-    pass
+def class_dropdown(staff):
+    subjects = models.Subject.objects.filter(staff = staff)
+    class_attending = []
+    for subject in subjects:
+        class_attending.append(subject.class_related)
+    return class_attending
 
-def cal_attendance(start_date, attendance, holidays):
-    completed_holidays = []
-    for holiday in holidays:
-        if holiday.date <= datetime.now().date() and holiday.date >= start_date:
-            completed_holidays.append(holiday)
-    days = (datetime.now().date() - start_date).days + 1
-    working_days = days - len(completed_holidays)
-    present_days = []
-    for day in attendance:
-        if day.date <= datetime.now().date() and day.date >= start_date:
-            present_days.append(holiday)
-    attendance_percent = int(len(present_days)/working_days*100)
-    return attendance_percent
 
 # Class
 def attendance(request):
@@ -68,6 +56,71 @@ def attendance(request):
         "student" : student,
     }
     return render(request, "student/class/attendance.html", data)
+
+def staff_attendance(request):
+    user = request.user
+    staff = get_object_or_404(models.Staff, user=user)
+    subjects = models.Subject.objects.filter(staff=staff)
+    class_attending_list = []
+    for subject in subjects:
+        class_attending = subject.class_related
+        if class_attending not in class_attending_list:
+            class_attending_list.append(class_attending)
+    # Absentees List
+    # absent_students = []
+    # present_students = []
+    # for class_attending in class_attending_list:
+    #     students = models.Student.objects.filter(class_attending=class_attending)
+    #     for student in students:
+    #         student_attendance = models.Attendance.objects.get(student=student, class_related=class_attending, date=date.today())
+    #         if student_attendance.present_status:
+    #             present_students.append(student)
+    #         else:
+    #             absent_students.append(student)
+    
+    context = {
+        "user":user,
+        "staff":staff,
+        "classes":class_attending_list,
+    }
+    return render(request, "staff/class/staff-attendance.html", context)
+
+def notes(request):
+    user = request.user
+    student = models.Student.objects.get(user=user)
+    subjects = models.Subject.objects.filter(class_related=student.class_attending)
+    _notes = []
+    for subject in subjects:
+        _notes.append(models.Note.objects.filter(subject=subject))
+    for subject_note in _notes:
+        for note in subject_note:
+            print(note.title)
+    context = {
+        "user":user,
+        "student":student,
+        "subjects":subjects,
+        "all_notes":_notes,
+    }
+    return render(request, "student/class/notes.html", context)  
+    
+def staff_notes(request):
+    user = request.user
+    staff = get_object_or_404(models.Staff, user=user)
+    subjects = models.Subject.objects.filter(staff=staff)
+    class_attending_list = []
+    for subject in subjects:
+        class_attending = subject.class_related
+        if class_attending not in class_attending_list:
+            class_attending_list.append(class_attending)
+    context = {
+        'user': user,
+        'staff': staff,
+        'subjects': subjects,
+        "classes": class_attending_list,
+    }
+    print(subjects)
+
+    return render(request, "staff/class/staff-notes.html", context)
 
 def timetable(request):
     user = request.user
@@ -109,24 +162,16 @@ def timetable(request):
         }
     return render(request, "student/class/timetable.html", context)
 
-def notes(request):
+def staff_timetable(request):
     user = request.user
-    student = models.Student.objects.get(user=user)
-    subjects = models.Subject.objects.filter(class_related=student.class_attending)
-    _notes = []
-    for subject in subjects:
-        _notes.append(models.Note.objects.filter(subject=subject))
-    for subject_note in _notes:
-        for note in subject_note:
-            print(note.title)
-    context = {
+    staff = models.Staff.objects.get(user=user)
+    context ={
+        "staff":staff,
         "user":user,
-        "student":student,
-        "subjects":subjects,
-        "all_notes":_notes,
     }
-    return render(request, "student/class/notes.html", context)  
-    
+    return render(request, "staff/class/staff-timetable.html", context)
+
+
 # Result
 def ia_result(request):
     user = request.user
@@ -142,6 +187,9 @@ def ia_result(request):
         "ia3":ia3
     }
     return render(request, "student/result/ia.html", context)
+
+def staff_ia(request):
+    return render(request, "staff/result/staff-ia.html")
 
 def model_result(request):
     user = request.user
@@ -169,15 +217,10 @@ def sem_result(request):
     }
     return render(request, "student/result/sem.html", context)
 
-#For Staffs
-def staff_timetable(request):
-    user = request.user
-    staff = models.Staff.objects.get(user=user)
-    context ={
-        "staff":staff,
-        "user":user,
-    }
-    return render(request, "staff/class/staff-timetable.html", context)
+
+# Forms
+def student_signup(request):
+    pass
 
 def add_timetable_form(request):
     if request.method == 'POST':
@@ -197,56 +240,6 @@ def add_timetable_form(request):
     elif 'save_and_exit' in request.POST:
         return render(request, "staff/staff-timetable.html")
     return render(request, "staff/class/add-timetable-form.html")
-
-def staff_attendance(request):
-    user = request.user
-    staff = get_object_or_404(models.Staff, user=user)
-    subjects = models.Subject.objects.filter(staff=staff)
-    class_attending_list = []
-    for subject in subjects:
-        class_attending = subject.class_related
-        if class_attending not in class_attending_list:
-            class_attending_list.append(class_attending)
-    # Absentees List
-    # absent_students = []
-    # present_students = []
-    # for class_attending in class_attending_list:
-    #     students = models.Student.objects.filter(class_attending=class_attending)
-    #     for student in students:
-    #         student_attendance = models.Attendance.objects.get(student=student, class_related=class_attending, date=date.today())
-    #         if student_attendance.present_status:
-    #             present_students.append(student)
-    #         else:
-    #             absent_students.append(student)
-    
-    context = {
-        "user":user,
-        "staff":staff,
-        "classes":class_attending_list,
-    }
-    return render(request, "staff/class/staff-attendance.html", context)
-
-def staff_notes(request):
-    user = request.user
-    staff = get_object_or_404(models.Staff, user=user)
-    subjects = models.Subject.objects.filter(staff=staff)
-    class_attending_list = []
-    for subject in subjects:
-        class_attending = subject.class_related
-        if class_attending not in class_attending_list:
-            class_attending_list.append(class_attending)
-    context = {
-        'user': user,
-        'staff': staff,
-        'subjects': subjects,
-        "classes": class_attending_list,
-    }
-    print(subjects)
-
-    return render(request, "staff/class/staff-notes.html", context)
-
-def staff_ia(request):
-    return render(request, "staff/result/staff-ia.html")
 
 def add_notes_form(request):
     if request.method == 'POST':
@@ -273,16 +266,21 @@ def add_staff_form(request):
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
-        user_name = staff_reg
-        
 
-
-        staff_name = request.POST.get('staff_name')
+        staff_name = first_name + ' ' +  last_name
         staff_number = request.POST.get('staff_number')
         staff_email = request.POST.get('staff_email')
         staff_reg = request.POST.get('staff_reg')
+
+        
+        user_name = staff_reg
+        password = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+        new_user = User.objects.create_user(first_name=first_name,last_name=last_name,email=staff_email,username=user_name,password=password)
+        new_user.is_staff = True
+        new_user.save()
+
         models.Staff.objects.create(
-            user = user,
+            user = new_user,
             name = staff_name,
             phone = staff_number,    
         )
@@ -300,7 +298,22 @@ def add_staff_form(request):
     return render(request, "staff/class/add-staff-form.html", context)
 
 def add_subject_form(request):
-    return render(request, "staff/class/add-subject-form.html")
+    user = request.user
+    staff = get_object_or_404(models.Staff, user=user)
+    subjects = models.Subject.objects.filter(staff=staff)
+    class_attending_list = []
+    for subject in subjects:
+        class_attending = subject.class_related
+        if class_attending not in class_attending_list:
+            class_attending_list.append(class_attending)
+    context = {
+        'user': user,
+        'staff': staff,
+        'subjects': subjects,
+        "classes": class_attending_list,
+    }
+    
+    return render(request, "staff/class/add-subject-form.html", context)
 
 def add_holiday_form(request,class_id=None):
     user = request.user
