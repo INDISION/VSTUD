@@ -301,6 +301,7 @@ def add_subject_form(request):
     user = request.user
     staff = get_object_or_404(models.Staff, user=user)
     subjects = models.Subject.objects.filter(staff=staff)
+    staff_members = models.Staff.objects.get("name")
     class_attending_list = []
     for subject in subjects:
         class_attending = subject.class_related
@@ -311,8 +312,17 @@ def add_subject_form(request):
         'staff': staff,
         'subjects': subjects,
         "classes": class_attending_list,
+        'staff_members': staff_members,
     }
     
+
+    if request.method == 'POST':
+        subject_name = request.POST.get('subject_name')
+        subject_code = request.POST.get('subject_code')
+        subject_credit = request.POST.get('subject_credit')
+
+        
+
     return render(request, "staff/class/add-subject-form.html", context)
 
 def add_holiday_form(request,class_id=None):
