@@ -43,15 +43,15 @@
             </div>
             <form action="{% url "login" %}" method = "POST">
                 {% csrf_token %}
-                <div class="email mb-25">
-                    <label for="email">Email: </label>
-                    <input type="text" id="email" name="username" class="input-field" placeholder="abc@gmail.com"
-                        required="">
+                <div class="username mb-25">
+                    <label for="username">Username: </label>
+                    <input type="text" id="username" name="username" class="input-field" placeholder="your username"
+                        required>
                 </div>
                 <div class="password mb-25">
                     <label for="password">Password: </label>
                     <input type="password" id="password" name="password" class="input-field"
-                        placeholder="your password here" required="">
+                        placeholder="your password" required>
                 </div>
                 <div class="submit mb-5">
                     <button type = "submit" class="submit-button"> Submit </button>

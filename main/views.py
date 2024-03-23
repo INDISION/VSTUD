@@ -4,11 +4,16 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from . import models
-from datetime import datetime, timedelta, date
 import calendar
+from datetime import datetime, timedelta, date
 from .templatetags.custom_filters import calculate_attendance
+from django.core.mail import send_mail
+from django.conf import settings
+import random,string
+from django.contrib.auth.models import User
 
 # Basic
+@login_required
 def home(request):
     user = request.user
     student=staff=None
@@ -35,15 +40,22 @@ def user_login(request):
                 except:
                     staff = None
                 if(staff!=None):
-                    return redirect("staff-attendance")
+                    subjects = models.Subject.objects.filter(staff=staff)
+                    class_attending_list = []
+                    for subject in subjects:
+                        class_attending = subject.class_related
+                        if class_attending not in class_attending_list:
+                            class_attending_list.append(class_attending)
+                    return redirect("staff-attendance", class_attending_list[0].class_id)
                 else:
                     return redirect("attendance")
         else:
             messages.error(request, "Invalid username or password.")
             return redirect("login")
-    return render(request, "student/common/login.html")
+    return render(request, "common/login.html")
 
 # Class
+@login_required
 def attendance(request):
     month = datetime.now().month
     year = datetime.now().year
@@ -61,6 +73,7 @@ def attendance(request):
     }
     return render(request, "student/class/attendance.html", data)
 
+@login_required
 def staff_attendance(request, class_id=None):
     user = request.user
     staff = models.Staff.objects.get(user=user)
@@ -87,14 +100,13 @@ def staff_attendance(request, class_id=None):
             student_attendance = None
         if student_attendance!=None and student_attendance.present_status:
             class_present_students.append(student)
-        else:
+        elif student_attendance!=None and student_attendance.present_status==False:
             class_absent_students.append(student)
         context[student.user.username] = calculate_attendance(start_date=student.class_attending.start_date, student=student)
     try:
         holiday = models.Holiday.objects.get(date=date.today(), class_related__class_id=class_id)
     except:
         holiday = False
-    
     context["present"] = len(class_present_students)
     context["absent"] = len(class_absent_students)
     context["strength"] = len(class_absent_students) + len(class_present_students)
@@ -102,6 +114,7 @@ def staff_attendance(request, class_id=None):
     context["holiday"] = holiday
     return render(request, "staff/class/attendance.html", context)
 
+@login_required
 def timetable(request):
     user = request.user
     student = models.Student.objects.get(user=user)
@@ -142,6 +155,7 @@ def timetable(request):
         }
     return render(request, "student/class/timetable.html", context)
 
+@login_required
 def staff_timetable(request, class_id=None):
     user = request.user
     staff = models.Staff.objects.get(user=user)
@@ -191,6 +205,7 @@ def staff_timetable(request, class_id=None):
     }
     return render(request, "staff/class/staff-timetable.html", context)
 
+@login_required
 def notes(request):
     user = request.user
     student = models.Student.objects.get(user=user)
@@ -210,6 +225,7 @@ def notes(request):
     print(_notes[4])
     return render(request, "student/class/notes.html", context) 
 
+@login_required
 def staff_notes(request, class_id=None):
     user = request.user
     staff = get_object_or_404(models.Staff, user=user)
@@ -234,6 +250,7 @@ def staff_notes(request, class_id=None):
 
     
 # Result
+@login_required
 def ia_result(request):
     user = request.user
     student = models.Student.objects.get(user=user)
@@ -249,6 +266,7 @@ def ia_result(request):
     }
     return render(request, "student/result/ia.html", context)
 
+@login_required
 def staff_ia_result(request, class_id=None):
     user = request.user
     staff = models.Staff.objects.get(user=user)
@@ -273,6 +291,7 @@ def staff_ia_result(request, class_id=None):
     }
     return render(request, "staff/result/staff-ia.html", context)
 
+@login_required
 def model_result(request):
     user = request.user
     student = models.Student.objects.get(user=user)
@@ -284,6 +303,7 @@ def model_result(request):
     }
     return render(request, "student/result/model.html", context)
 
+@login_required
 def staff_model_result(request, class_id=None):
     user = request.user
     staff = models.Staff.objects.get(user=user)
@@ -304,6 +324,7 @@ def staff_model_result(request, class_id=None):
     }
     return render(request, "staff/result/staff-model.html", context)
 
+@login_required
 def sem_result(request):
     user = request.user
     student = models.Student.objects.get(user=user)
@@ -319,6 +340,7 @@ def sem_result(request):
     }
     return render(request, "student/result/sem.html", context)
 
+@login_required
 def staff_sem_result(request, class_id=None):
     user = request.user
     staff = models.Staff.objects.get(user=user)
@@ -341,6 +363,62 @@ def staff_sem_result(request, class_id=None):
     return render(request, "staff/result/staff-sem.html", context)
 
 # Forms
+@login_required
+def add_attendance_form(request, class_id, _date):
+    user = request.user
+    staff = get_object_or_404(models.Staff, user=user)
+    subjects = models.Subject.objects.filter(staff=staff)
+    staff_members = models.Staff.objects.all()
+    class_attending_list = []
+    for subject in subjects:
+        class_attending = subject.class_related
+        if class_attending not in class_attending_list:
+            class_attending_list.append(class_attending)
+
+    class_related = models.Class.objects.get(class_id=class_id)
+    students = models.Student.objects.filter(class_attending = class_related)
+    for student in students:
+        try:
+            _attendance = models.Attendance.objects.get(student=student, date=_date)
+        except:
+            _attendance = None
+        if _attendance:
+            continue
+        else:
+            _student = student
+            break
+
+    context = {
+        'user': user,
+        'staff': staff,
+        'subjects': subjects,
+        "classes": class_attending_list,
+        'staff_members': staff_members,
+        'class': class_related,
+        'class_id':class_id,
+        'date': _date,
+        'student':_student,
+    }
+
+    if request.method == 'POST':
+        class_id = request.POST.get('class_id')
+        register_number = request.POST.get('reg_no')
+        print("-------------",register_number)
+        date = request.POST.get('date')
+        present_status = request.POST.get('present-status')
+        class_related = models.Class.objects.get(class_id=class_id)
+        student = models.Student.objects.get(register_number=register_number)
+        print(student)
+        models.Attendance.objects.create(student=student, class_related=class_related, date=date, present_status=present_status)
+
+        if 'save_and_next' in request.POST:
+            return redirect('staff-attendance-form', class_id, _date)
+        elif 'save_and_exit' in request.POST:
+            return redirect("staff-attendance")
+        
+    return render(request, "staff/class/add-attendance-form.html", context)
+
+@login_required
 def add_timetable_form(request):
     if request.method == 'POST':
         day = request.POST.get('day')
@@ -360,5 +438,69 @@ def add_timetable_form(request):
         return render(request, "staff/staff-timetable.html")
     return render(request, "staff/class/add-timetable-form.html")
 
-def student_signup(request):
-    pass
+@login_required
+def user_role(user):
+    try:
+        student = models.Student.objects.get(user=user)
+        staff = False
+    except:
+        staff = models.Staff.objects.get(user=user)
+        student = False
+    role = {"student":student, "staff":staff}
+    return role
+
+@login_required
+def add_student(request):
+    user = request.user
+    staff = get_object_or_404(models.Staff, user=user)
+    subjects = models.Subject.objects.filter(staff=staff)
+    class_attending_list = []
+    for subject in subjects:
+        class_attending = subject.class_related
+        if class_attending not in class_attending_list:
+            class_attending_list.append(class_attending)
+
+    context = {
+        'user': user,
+        'staff': staff,
+        'subjects': subjects,
+        "classes": class_attending_list,
+        "class_id":class_attending_list[0]
+    }
+    if request.method == 'POST':
+        first_name = request.POST.get("first-name")
+        last_name = request.POST.get("last-name")
+        email = request.POST.get("email")
+        register_no = request.POST.get("register-no")
+        class_attending = request.POST.get("class")
+        dob = request.POST.get("dob")
+        gender = request.POST.get("gender")
+        transport = request.POST.get("transport")
+        phone_no = request.POST.get("phone-no")
+        mentor = request.POST.get("mentor")
+        username =f"{class_attending[:5]}{register_no[-3:]}"
+
+        password = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+        staff_user = models.User.objects.get(username=mentor)
+        class_attending = models.Class.objects.get(class_id=class_attending)
+        mentor=models.Staff.objects.get(user=staff_user)
+        user = User.objects.create_user(first_name=first_name,last_name=last_name,email=email,username=username , password=password)
+        user.save()
+        message = f'''
+Hello {first_name}, Welcome To VSTUD.
+We are from Velammal Institute Of Technology!!!
+Username : {username}
+password : {password}
+
+Disclaimer : **Dont forget to change your password on website**
+'''
+        send_mail(
+                'VSTUD',message,'settings.EMAIL_HOST_USER',[email],fail_silently=False
+
+            )        
+        if user:
+            student = models.Student(user=user, name=first_name,register_number=register_no,class_attending=class_attending,date_of_birth=dob,gender=gender,phone=phone_no,mentor=mentor)
+            student.save()
+            return redirect('attendance')
+    
+    return render(request , "staff/class/add-student.html", context)

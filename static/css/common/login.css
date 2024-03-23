@@ -47,8 +47,8 @@ label {
 
 .input-field {
     width: 80%;
-    padding: 8px 12px;
-    font-size: 16px;
+    padding: 12px;
+    font-size: 14px;
     font-family: inherit;
     border: 1px solid #594bda20;
     border-radius: 25px;
@@ -65,7 +65,6 @@ label {
   
   .input-field:focus {
     outline: none;
-    /* box-shadow: 0 0 10px 1px #5A4BDA; */
     box-shadow: 0px 0px 3px 3px #0000000d;
     -webkit-box-shadow: 0px 0px 3px 3px #0000000d;
     -moz-box-shadow: 0px 0px 3px 3px #0000000d;
@@ -171,9 +170,6 @@ label {
   /*---------------------------------- CSS for login form in mobiles ----------------------------------------------- */
 @media(max-width: 800px)
 {
-  body, html {
-    height: 100%;
-  }
   
   /* CSS for main container */
   .main-container {
@@ -185,7 +181,6 @@ label {
   /* CSS for login image*/
 
   .login-image {
-    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -195,7 +190,6 @@ label {
   
 /* CSS for login form on the right side */
   .form {
-    margin-bottom: 150px;
     box-shadow: 0 0 30px rgba(183, 0, 255, 0.1);
     padding: 30px;
     width: 90%;
@@ -203,8 +197,8 @@ label {
 
   .input-field {
     width: 100%;
-    padding: 8px 40px;
-    font-size: 16px;
+    padding: 12px 24px;
+    font-size: 14px;
     font-family: inherit;
     border-radius: 25px;
     background-color: #FFFFFF;
@@ -213,6 +207,7 @@ label {
 
   label {
     display: block;
+    margin-bottom: 10px;
   }
 
 }
