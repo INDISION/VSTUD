@@ -9,16 +9,53 @@
 {% endblock style %}
 
 {% block user-name %}{{staff.name}}{% endblock user-name %}{{staff.name}}
+{% block class_dropdown %}
+ <div class="class-dropdown-menu">
+    <div id="class-dropdown-menu-content" class="class-dropdown-menu-content">
+        {% for class in classes %}
+            {% if class.class_id !=  class_id %}
+                <a href="{% url "add-marks-ia-form" class_id=class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock class_dropdown %}
 
-{% block main-content %}
+{% block main_content %}
 {{ user|set_user }}
 <div class="main-content">
-    <form class="form">
+    <form class="form" method="post" action="{% url "add-marks-ia-form" class_id=class_id %}">
         {% csrf_token %}
-        <div class="header mb-25">
-            <h1 class="semi-bold">Add Marks - IA</h1>
+        <div class="header mb-25" id="header">
+            <h1 class="semi-bold">Add Marks - IA 1</h1>
         </div>
         <div class="field-main-container">
+            <div class="field-container hidden">
+                <div class="field-label">
+                  <label for="" class="medium">Class id :</label>
+                </div>
+                <div class="field-value">
+                  <input type="text" placeholder="Ex: CCS339" class="text-field" name="class_id" value="{{class_id}}"/>
+                </div>
+            </div>
+            <div class="field-container">
+                <div class="field-label">
+                    <label class="medium">Select Exam :</label>
+                </div>
+                <div class="field-value">
+                    <p class="regular">
+                        <div class="dropdown-div">
+                            <select id="exam-select" name="class" class="dropdown-select">
+                                <option value="IA-1">IA-1</option>
+                                <option value="IA-2">IA-2</option>
+                                <option value="IA-3">IA-3</option>
+                                <option value="Model">Model</option>
+                                <option value="Semester">Semester</option>
+                          </select>
+                        </div>
+                    </p>
+                </div>
+            </div>
             <div class="field-container">
                 <div class="field-label">
                     <label class="medium">Name :</label>
@@ -40,7 +77,7 @@
                     <label class="medium">Subject Name :</label>
                 </div>
                 <div class="field-value">
-                    <p class="regular">Data Warehousing</p>
+                    <p class="regular"> {{subjects.name}} </p>
                 </div>
             </div>
             <div class="field-container">
@@ -49,6 +86,25 @@
                 </div>
                 <div class="field-value">
                     <input type="number" name="marks" class="number-field" min="0" max="100">
+                </div>
+            </div>
+            <div class="field-container hidden" id="grade-field">
+                <div class="field-label">
+                    <label class="medium">Grade :</label>
+                </div>
+                <div class="field-value">
+                    <p class="regular">
+                        <div class="dropdown-div">
+                            <select id="grade-select" name="class" class="dropdown-select">
+                                <option value="">O</option>
+                                <option value="">A+</option>
+                                <option value="">A</option>
+                                <option value="">B+</option>
+                                <option value="">B</option>
+                                <option value="">U</option>
+                          </select>
+                        </div>
+                    </p>
                 </div>
             </div>
 
@@ -63,15 +119,47 @@
         </div>
     </form>
 </div>
-{% endblock main-content %}
+{% endblock main_content %}
 
 {% block js %}
 <script>
+    var dropdown = document.getElementById('exam-select');
+    var gradeField = document.getElementById('grade-field');
+    var header = document.getElementById('header')
+    var h1Element = header.querySelector('h1');
+
+    dropdown.addEventListener('change', function() {
+        var selectedValue = dropdown.value;
+        console.log(selectedValue);
+        if (selectedValue === 'Semester') {
+            gradeField.classList.remove('hidden');
+            h1Element.textContent = 'Add Marks - Semester';
+        }
+        else if (selectedValue === 'Model') {
+            h1Element.textContent = 'Add Marks - Model';
+            gradeField.classList.add('hidden');
+        }
+        else if (selectedValue === 'IA-1') {
+            h1Element.textContent = 'Add Marks - IA 1';
+            gradeField.classList.add('hidden');
+        }
+        else if (selectedValue === 'IA-2') {
+            h1Element.textContent = 'Add Marks - IA 2';
+            gradeField.classList.add('hidden');
+        }
+         else {
+            h1Element.textContent = 'Add Marks - IA 3';
+            gradeField.classList.add('hidden');
+        }   
+    });
+
     var footer_node = document.getElementById("footer");
     var active_node = footer_node.getElementsByClassName("active")[0];
     active_node.classList.remove("active");
     var notes = document.getElementById("notes");
     notes.classList.add("active");
+
+   
 </script>
 {% endblock js %}
 

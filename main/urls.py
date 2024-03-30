@@ -22,7 +22,7 @@ urlpatterns = [
     path("add-subject-form/<str:class_id>", views.add_subject_form , name="add-subject-form"),
     path("add-holiday-form/<str:class_id>", views.add_holiday_form , name="add-holiday-form"),
     path("add-attendance-form/<str:class_id>/<str:_date>", views.add_attendance_form , name="add-attendance-form"),
-    path("staff/add-marks-ia-form", views.add_marks_ia_form , name="add-marks-ia-form"),
+    path("add-marks-ia-form/<str:class_id>", views.add_marks_ia_form , name="add-marks-ia-form"),
     path("staff/add-marks-model-form", views.add_marks_model_form , name="add-marks-model-form"),
     path("staff/add-marks-semester-form", views.add_marks_semester_form , name="add-marks-semester-form"),
     path("staff/add-student-form", views.add_student_form , name="add-student-form"),
@@ -31,6 +31,11 @@ urlpatterns = [
     path("check-mail-notfiication", views.check_mail_notification , name="check-mail-notification"),
     path("logout", views.user_logout , name="logout"),
     path("mail-form", views.mail_form , name="mail-form"),
+     path("admin/attendance/<str:class_id>", views.admin_attendance, name="admin-attendance"),
+    path("admin/notes/<str:class_id>", views.admin_notes, name="admin-notes"),
+    path("admin/timetable/<str:class_id>", views.admin_timetable, name="admin-timetable"),
+    path("admin/results/<str:class_id>", views.admin_results, name="admin-results"),
+    path("admin/exams/<str:class_id>", views.admin_exams, name="admin-exams"),
 
     
 ]

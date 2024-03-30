@@ -23,8 +23,7 @@
 {% block main_content %}
 {{ user|set_user }}
 <div class="main-content"> 
-    hhhh
-        <form action="{% url "add-timetable-form" class_id=class_id %}" method="post" class="form">
+        <form class="form" action="{% url "add-timetable-form" class_id=class_id %}" method="post">
             {% csrf_token %}
             <div class="header margin-btm">
                 <h1 class="semi-bold">Add TimeTable</h1>
@@ -81,10 +80,9 @@
                         <p class="regular">
                             <div class="dropdown-div">
                                 <select name="period" id="period" class="dropdown-select">
-                                    <option value="default">Please select anyone</option>
-                                    <option value="ccbct">CCBCT</option>
-                                    <option value="ccs3161">CCS3161</option>
-                                    <option value="maths">Maths</option>
+                                    {% for subject in subjects %}
+                                        <option value="{{subject.code}}">{{subject.name}}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </p>    
