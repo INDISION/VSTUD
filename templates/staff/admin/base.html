@@ -22,7 +22,7 @@
             <div class="logo">
                 <h1 class="bold cursor-pointer">VSTUD</h1>
             </div>
-            <div class="sidebar-menu">
+            <div class="sidebar-menu" id="sidebar-menu">
                 <div class="menu-items">
                     <div class="class-forms">
                         <div class="header">
@@ -30,21 +30,21 @@
                         </div>
                         <div class="menu-item">
                             <a href=" {% url "admin-attendance" class_id=class_id %} ">
-                                <div class="menu-item-content active">
+                                <div class="menu-item-content active" id="attendance">
                                     <span class="menu-text">Attendance</span>
                                 </div>
                             </a>
                         </div>
                         <div class="menu-item">
                             <a href="{% url "admin-notes" class_id %}">
-                                <div class="menu-item-content">
+                                <div class="menu-item-content" id="notes">
                                     <span class="menu-text">Notes</span>
                                 </div>
                             </a>
                         </div>
                         <div class="menu-item">
                             <a href=" {% url "admin-timetable" class_id %} ">
-                                <div class="menu-item-content">
+                                <div class="menu-item-content " id="timetable">
                                     <span class="menu-text">Timetable</span>
                                 </div>
                             </a>
@@ -56,14 +56,14 @@
                         </div>
                         <div class="menu-item">
                             <a href=" {% url "admin-results" class_id %} ">
-                                <div class="menu-item-content">
+                                <div class="menu-item-content " id="results">
                                     <span class="menu-text">Results</span>
                                 </div>
                             </a>
                         </div>
                         <div class="menu-item">
                             <a href="{% url "admin-exams" class_id %}">
-                                <div class="menu-item-content">
+                                <div class="menu-item-content" id="exams">
                                     <span class="menu-text">Exams</span>
                                 </div>
                             </a>
@@ -74,22 +74,22 @@
                             <p class="bold">Additional Forms</p>
                         </div>
                         <div class="menu-item">
-                            <a href=" {% url "staff-attendance" class_id %} ">
-                                <div class="menu-item-content">
+                            <a href=" {% url "admin-users" class_id %} ">
+                                <div class="menu-item-content " id="users">
                                     <span class="menu-text">Users</span>
                                 </div>
                             </a>
                         </div>
                         <div class="menu-item">
-                            <a href="">
-                                <div class="menu-item-content">
+                            <a href=" {% url "admin-subjects" class_id %} ">
+                                <div class="menu-item-content " id="subjects">
                                     <span class="menu-text">Subjects</span>
                                 </div>
                             </a>
                         </div>
                         <div class="menu-item">
                             <a href="">
-                                <div class="menu-item-content">
+                                <div class="menu-item-content" id="academic-details">
                                     <span class="menu-text">Academic Details</span>
                                 </div>
                             </a>

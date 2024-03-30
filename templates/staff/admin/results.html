@@ -68,4 +68,11 @@
 {% endblock main_content %}
 
 {% block js %}
+<script>
+    var sidebar_menu = document.getElementById("sidebar-menu");
+    var active_node = sidebar_menu.getElementsByClassName("active")[0];
+    active_node.classList.remove("active");
+    var  results = document.getElementById("results");
+    results.classList.add("active"); 
+</script>
 {% endblock js %}

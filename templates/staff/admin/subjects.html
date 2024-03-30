@@ -1,7 +1,7 @@
 {% extends "staff/admin/base.html" %}
 {% load static %}
 {% load custom_filters %}
-{% block title %}Results{% endblock title %}
+{% block title %}Subjects{% endblock title %}
 
 {% block style %}
     <link rel="stylesheet" href= "{% static "css/staff/attendance.css" %}" >
@@ -36,19 +36,21 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Code</th>
+                            <th>Subject Code</th>
                             <th>Subject Name</th>
-                            <th>Exam</th>
-                            <th>Date</th>
+                            <th>Staff First Name</th>
+                            <th>Staff Last Name</th>
+                            <th>Credits</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for exam in exams %}
+                        {% for subject in all_subjects %}
                         <tr>
-                            <td>{{exam.subject.code}}</td>
-                            <td>{{exam.subject.name}}</td>
-                            <td>{{exam.name}}</td>
-                            <td>{{exam.date}}</td>
+                            <td>{{subject.code}}</td>
+                            <td>{{subject.name}}</td>
+                            <td>{{subject.staff.user.first_name}}</td>
+                            <td>{{subject.staff.user.first_name}}</td>
+                            <td>{{subject.credit}}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -65,7 +67,7 @@
     var sidebar_menu = document.getElementById("sidebar-menu");
     var active_node = sidebar_menu.getElementsByClassName("active")[0];
     active_node.classList.remove("active");
-    var  exams = document.getElementById("exams");
-    exams.classList.add("active"); 
+    var  subjects = document.getElementById("subjects");
+    subjects.classList.add("active"); 
 </script>
 {% endblock js %}

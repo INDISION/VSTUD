@@ -62,4 +62,11 @@
 
 {% endblock main_content %}
 
+<script>
+    var sidebar_menu = document.getElementById("sidebar-menu");
+    var active_node = sidebar_menu.getElementsByClassName("active")[0];
+    active_node.classList.remove("active");
+    var  attendance = sidebar_menu.getElementById("attendance");
+    attendance.classList.add("active"); 
+</script>
 {% block js %}{% endblock js %}

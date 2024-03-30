@@ -748,6 +748,7 @@ def admin_results(request, class_id):
     else:
         return redirect("login")
     
+@login_required
 def admin_exams(request, class_id):
     user = request.user
     if is_staff(user):
@@ -772,4 +773,61 @@ def admin_exams(request, class_id):
         return render(request, "staff/admin/exams.html", context)
     else:
         return redirect("login")
+
+@login_required    
+def admin_users(request, class_id):
+    user = request.user
+    if is_staff(user):
+        staff = models.Staff.objects.get(user=user)
+        subjects = models.Subject.objects.filter(staff=staff)
+        class_attending_list = []
+        for subject in subjects:
+            class_attending = subject.class_related
+            if class_attending not in class_attending_list:
+                class_attending_list.append(class_attending)
+        periods = models.TimeTable.objects.filter(subject__class_related__class_id = class_id)
+        students = models.Student.objects.filter(class_attending__class_id=class_id)
+        all_staff = models.Staff.objects.all()
+        context = {
+            "user":user,
+            "staff":staff,
+            "classes":class_attending_list,
+            "class_id":class_id,
+            "date": datetime.today().date,
+            "periods":periods,
+            "students": students,
+            "staffs": all_staff,
+        }
+        return render(request, "staff/admin/users.html", context)
+    else:
+        return redirect("login")
+    
+@login_required    
+def admin_subjects(request, class_id):
+    user = request.user
+    if is_staff(user):
+        staff = models.Staff.objects.get(user=user)
+        subjects = models.Subject.objects.filter(staff=staff)
+        class_attending_list = []
+        for subject in subjects:
+            class_attending = subject.class_related
+            if class_attending not in class_attending_list:
+                class_attending_list.append(class_attending)
+        periods = models.TimeTable.objects.filter(subject__class_related__class_id = class_id)
+        students = models.Student.objects.filter(class_attending__class_id=class_id)
+        all_subjects = models.Subject.objects.filter(class_related__class_id=class_id)
+        context = {
+            "user":user,
+            "staff":staff,
+            "classes":class_attending_list,
+            "class_id":class_id,
+            "date": datetime.today().date,
+            "periods":periods,
+            "students": students,
+            "all_subjects":all_subjects,
+        }
+        return render(request, "staff/admin/subjects.html", context)
+    else:
+        return redirect("login")
+ 
     

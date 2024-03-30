@@ -51,7 +51,14 @@
         </div>
     </div>
 </div>
-
 {% endblock main_content %}
 
-{% block js %}{% endblock js %}
+{% block js %}
+<script>
+    var sidebar_menu = document.getElementById("sidebar-menu");
+    var active_node = sidebar_menu.getElementsByClassName("active")[0];
+    active_node.classList.remove("active");
+    var  notes = document.getElementById("notes");
+    notes.classList.add("active"); 
+</script>
+{% endblock js %}
