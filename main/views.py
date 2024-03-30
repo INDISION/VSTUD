@@ -309,9 +309,9 @@ def staff_ia_result(request, class_id=None):
         if class_attending not in class_attending_list:
             class_attending_list.append(class_attending)
     subject = models.Subject.objects.get(class_related__class_id = class_id, staff=staff)
-    ia1_results = models.Result.objects.filter(class_related_class_id=class_id, examname = 'ia1', exam_subject = subject)
-    ia2_results = models.Result.objects.filter(class_related_class_id=class_id, examname = 'ia2', exam_subject = subject)
-    ia3_results = models.Result.objects.filter(class_related_class_id=class_id, examname = 'ia3', exam_subject = subject)
+    ia1_results = models.Result.objects.filter(class_related__class_id=class_id, exam__name = 'ia1', exam__subject = subject)
+    ia2_results = models.Result.objects.filter(class_related__class_id=class_id, exam__name = 'ia2', exam__subject = subject)
+    ia3_results = models.Result.objects.filter(class_related__class_id=class_id, exam__name = 'ia3', exam__subject = subject)
     context = {
         "user":user,
         "staff":staff,
@@ -344,7 +344,7 @@ def staff_model_result(request, class_id=None):
         if class_attending not in class_attending_list:
             class_attending_list.append(class_attending)
     subject = models.Subject.objects.get(class_related__class_id = class_id, staff=staff)
-    model_results = models.Result.objects.filter(class_related_class_id=class_id, examname = 'model', exam_subject = subject)
+    model_results = models.Result.objects.filter(class_related__class_id=class_id, exam__name = 'model', exam__subject = subject)
     context = {
         "user":user,
         "staff":staff,
@@ -379,7 +379,7 @@ def staff_sem_result(request, class_id=None):
         if class_attending not in class_attending_list:
             class_attending_list.append(class_attending)
     subject = models.Subject.objects.get(class_related__class_id = class_id, staff=staff)
-    semester_results = models.Result.objects.filter(class_related_class_id=class_id, examname = 'semester', exam_subject = subject)
+    semester_results = models.Result.objects.filter(class_related__class_id=class_id, exam__name = 'semester', exam__subject = subject)
     print(semester_results)
     context = {
         "user":user,
@@ -699,26 +699,41 @@ def add_department_form(request, class_id = None, name=None):
 
 def password_reset_form(request):
     if request.method == 'POST':
-        user_email = request.POST.get('email')
-        # user = check_mail_notification(request)
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
+        
+        # Check if passwords match
         if password == confirm_password:
+            # Check if the user is authenticated
             if request.user.is_authenticated:
                 user = request.user
             else:
+                # Get the user email from the mail form
+                user_name = mail_form(request, return_email=False)
                 try:
-                    user = models.User.objects.get(email = user_email)
+                    user = models.User.objects.get(username = user_name)
                 except User.DoesNotExist:
-                    messages.error(request, "Enter your VSTUD registered email")
+                    # User does not exist, redirect to mail form
+                    return redirect("mail-form")  
+                
+            # Update the user's password
             user.set_password(password)
             user.save()
-            return redirect("logout")
-        else:
-            messages.error(request, "The password and confirm password should be the same.")
-            
-    return render(request, "common/password-reset-form.html")
 
+            # Update the user's session to prevent them from being logged out
+            # if not request.user.is_authenticated:
+            #     update_session_auth_hash(request, user)
+
+            # Redirect to logout page
+            return redirect("logout")
+
+        else:
+            # Passwords do not match, provide feedback to user
+            # For example, you can add an error message to the context
+            messages.error("The password and confirm password should be the same.")
+            
+    # Render the password reset form
+    return render(request, "common/password-reset-form.html")
 def check_mail_notification(request):
     user = request.user
     user_email = None
@@ -727,164 +742,34 @@ def check_mail_notification(request):
         user_email = request.user.email
     else:
         user_email = mail_form(request, return_email=True)
-    try:
-        user = models.User.objects.get(email = user_email)
-        print(user)
+    user = models.User.objects.get(email = user_email)
+    print(user)
+    token = default_token_generator.make_token(user)
+    # reset_url = request.build_absolute_uri(reverse('password_reset_confirm', kwargs={'uidb64': user.pk, 'token': token}))
+    reset_form_url = request.build_absolute_uri(reverse('password-reset-form'))
 
-        token = default_token_generator.make_token(user)
-        # reset_url = request.build_absolute_uri(reverse('password_reset_confirm', kwargs={'uidb64': user.pk, 'token': token}))
-        reset_form_url = request.build_absolute_uri(reverse('password-reset-form'))
+    send_mail(
+        'Password Reset',
+        f'Click the following link to reset your password: {reset_form_url}?token={token}',
+        settings.EMAIL_HOST_USER,  # Sender email address
+        [user_email],  # Recipient email address
+        fail_silently=False,
+    )
+    context = {
+        'user_email': user_email
+    }
+    return render(request, "common/check-mail-notification.html", context)
 
-        send_mail(
-            'Password Reset',
-            f'Click the following link to reset your password: {reset_form_url}?token={token}',
-            settings.EMAIL_HOST_USER,  # Sender email address
-            [user_email],  # Recipient email address
-            fail_silently=False,
-        )
-        context = {
-            'user_email': user_email,
-            'user': user
-        }
-        return render(request, "common/check-mail-notification.html", context)
-    except models.User.DoesNotExist:
-        messages.error(request, "Enter your VSTUD registered email.")
-        return None
-
-
-def mail_form(request, return_email=True):
+def mail_form(request, return_email=False):
     if request.method == 'POST':
         email = request.POST.get('email')
-        # user = models.User.objects.get(email = email)
-        # print(user)
+        user_name = request.POST.get('username')
         if return_email:
             return email
+        else:
+            return user_name
     return render(request, "common/mail-form.html")
 
-#admin page
 
-@login_required
-def admin_attendance(request, class_id):
-    user = request.user
-    if is_staff(user):
-        staff = models.Staff.objects.get(user=user)
-        subjects = models.Subject.objects.filter(staff=staff)
-        class_attending_list = []
-        for subject in subjects:
-            class_attending = subject.class_related
-            if class_attending not in class_attending_list:
-                class_attending_list.append(class_attending)
-        _attendance = models.Attendance.objects.filter(class_related__class_id=class_id)
-        context = {
-            "user":user,
-            "staff":staff,
-            "classes":class_attending_list,
-            "class_id":class_id,
-            "attendance":_attendance,
-            "date": datetime.today().date
-        }
-        return render(request, "staff/admin/attendance.html", context)
-    else:
-        return redirect("login")
-    
-@login_required
-def admin_notes(request, class_id):
-    user = request.user
-    if is_staff(user):
-        staff = models.Staff.objects.get(user=user)
-        subjects = models.Subject.objects.filter(staff=staff)
-        class_attending_list = []
-        for subject in subjects:
-            class_attending = subject.class_related
-            if class_attending not in class_attending_list:
-                class_attending_list.append(class_attending)
-        notes = models.Note.objects.filter(subject__class_related__class_id = class_id, subject_staff=staff)
-        context = {
-            "user":user,
-            "staff":staff,
-            "classes":class_attending_list,
-            "class_id":class_id,
-            "date": datetime.today().date,
-            "notes":notes,
-        }
-        return render(request, "staff/admin/notes.html", context)
-    else:
-        return redirect("login")
-    
-@login_required
-def admin_timetable(request, class_id):
-    user = request.user
-    if is_staff(user):
-        staff = models.Staff.objects.get(user=user)
-        subjects = models.Subject.objects.filter(staff=staff)
-        class_attending_list = []
-        for subject in subjects:
-            class_attending = subject.class_related
-            if class_attending not in class_attending_list:
-                class_attending_list.append(class_attending)
-        periods = models.TimeTable.objects.filter(subject__class_related__class_id = class_id)
-        holidays = models.Holiday.objects.filter(class_related__class_id = class_id)
-        print("----------------", periods)
-        context = {
-            "user":user,
-            "staff":staff,
-            "classes":class_attending_list,
-            "class_id":class_id,
-            "date": datetime.today().date,
-            "periods":periods,
-            "holidays":holidays,
-        }
-        return render(request, "staff/admin/timetable.html", context)
-    else:
-        return redirect("login")
-    
-@login_required
-def admin_results(request, class_id):
-    user = request.user
-    if is_staff(user):
-        staff = models.Staff.objects.get(user=user)
-        subjects = models.Subject.objects.filter(staff=staff)
-        class_attending_list = []
-        for subject in subjects:
-            class_attending = subject.class_related
-            if class_attending not in class_attending_list:
-                class_attending_list.append(class_attending)
-        periods = models.TimeTable.objects.filter(subject__class_related__class_id = class_id)
-        results = models.Result.objects.filter(exam__subject__class_related__class_id=class_id, exam__subject__staff=staff)
-        context = {
-            "user":user,
-            "staff":staff,
-            "classes":class_attending_list,
-            "class_id":class_id,
-            "date": datetime.today().date,
-            "periods":periods,
-            "results":results,
-        }
-        return render(request, "staff/admin/results.html", context)
-    else:
-        return redirect("login")
-    
-def admin_exams(request, class_id):
-    user = request.user
-    if is_staff(user):
-        staff = models.Staff.objects.get(user=user)
-        subjects = models.Subject.objects.filter(staff=staff)
-        class_attending_list = []
-        for subject in subjects:
-            class_attending = subject.class_related
-            if class_attending not in class_attending_list:
-                class_attending_list.append(class_attending)
-        periods = models.TimeTable.objects.filter(subject__class_related__class_id = class_id)
-        exams = models.Exam.objects.filter(subject__class_related__class_id=class_id, subject__staff=staff)
-        context = {
-            "user":user,
-            "staff":staff,
-            "classes":class_attending_list,
-            "class_id":class_id,
-            "date": datetime.today().date,
-            "periods":periods,
-            "exams":exams,
-        }
-        return render(request, "staff/admin/exams.html", context)
-    else:
-        return redirect("login")
+
+

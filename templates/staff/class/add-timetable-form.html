@@ -13,7 +13,7 @@
     <div id="class-dropdown-menu-content" class="class-dropdown-menu-content">
         {% for class in classes %}
             {% if class.class_id !=  class_id %}
-            <a href="{% url "staff-attendance" class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
+            <a href="{% url "add-timetable-form" class_id=class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
             {% endif %}
         {% endfor %}
     </div>
@@ -23,12 +23,21 @@
 {% block main_content %}
 {{ user|set_user }}
 <div class="main-content"> 
-        <form action="{% url "add-timetable-form" %}" method="post" class="form">
+    hhhh
+        <form action="{% url "add-timetable-form" class_id=class_id %}" method="post" class="form">
             {% csrf_token %}
             <div class="header margin-btm">
                 <h1 class="semi-bold">Add TimeTable</h1>
             </div>
             <div class="field-main-container">
+                <div class="field-container hidden">
+                    <div class="field-label">
+                        <label for="" class="">Class id :</label>
+                    </div>
+                    <div class="field-value">
+                        <input type="text" name="class-related" value="{{class_id}}">
+                    </div>
+                </div>
                 <div class="field-container margin-btm">
                     <div class="field-label">
                         <label for="day">Select Day :</label>

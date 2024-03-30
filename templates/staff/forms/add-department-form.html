@@ -1,21 +1,21 @@
-
-{% extends "staff/class/base.html" %}
+{% extends "staff/forms/base.html" %}
 {% load static %}
 {% load custom_filters %}
-{% block title %}Add Holiday Form{% endblock title %}
+{% block title %}Add Department Form{% endblock title %}
 
 {% block style %}
 <link rel="stylesheet" href="{% static "css/staff/forms.css" %}">
 {% endblock style %}
 
-{% block user-name %}{{staff.name}}{% endblock user-name %}{{staff.name}}
+{% block user-name %}{{student.name}}{% endblock user-name %}
+
 
 {% block class_dropdown %}
  <div class="class-dropdown-menu">
     <div id="class-dropdown-menu-content" class="class-dropdown-menu-content">
         {% for class in classes %}
             {% if class.class_id !=  class_id %}
-                <a href="{% url "add-notes-form" class_id=class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
+                <a href="{% url "add-department-form" class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
             {% endif %}
         {% endfor %}
     </div>
@@ -24,59 +24,55 @@
 
 {% block main_content %}
 {{ user|set_user }}
-<div class="main-content">
+<div class="main-content">            
     <div class="form-container">
-        <form action = " {% url "add-holiday-form" class_id %} " class="form" method = "post">
+        <form action="{% url "add-department-form" class_id %}" class="form" method="post">
             {% csrf_token %}
             <div class="header">
-                <h1 class="semi-bold">Add Holidays</h1>
+                <h1 class="bold">Add Department</h1>
             </div>
             <div class="field-main-container">
                 <div class="field-container hidden">
                     <div class="field-label">
-                        <label for="" class="">Date :</label>
+                      <label for="" class="medium">Class id :</label>
                     </div>
                     <div class="field-value">
-                        <input type="text" name="class-related" value="{{class_id}}">
+                      <input type="text" placeholder="Ex: CCS339" class="text-field" name="class_id" value="{{class_id}}"/>
                     </div>
                 </div>
                 <div class="field-container">
                     <div class="field-label">
-                        <label for="" class="date-field medium">Date :</label>
+                        <label for="department-name">Department Name :</label>
                     </div>
                     <div class="field-value">
-                        <input type="date" name="date" class="date-field">
+                        <input type="text" class="text-field" id="department-name" name="department_name" placeholder="Enter Dept name ..." required>
                     </div>
                 </div>
                 <div class="field-container">
                     <div class="field-label">
-                        <label for="" class="medium">Description : </label>
+                        <label for="department-code">Department Code :</label>
                     </div>
                     <div class="field-value">
-                        <input placeholder="Type here..." class="text-field" name = "description" type="text" />
+                        <input type="text" class="text-field" id="department-code" name="department_code" placeholder="Enter Dept code." required>
                     </div>
                 </div>
-            </div> 
+            </div>
             <div class="buttons-container">
-                <div class="save-and-exit-button">
-                    <button type = "submit" name = "save-and-exit">Save & Exit</button>
-                </div>
-                <div class="next-button">
-                    <button type = "submit" name = "next">Next</button>
-                </div>
-            </div> 
+                <button type="submit" name="save_and_exit">Save & Exit</button>
+                <button type="submit" name="save_and_next">Save & Next</button>  
+            </div>
         </form>
     </div>
 </div>
 {% endblock main_content %}
-
 {% block js %}
+<script src=" {% static 'js/forms.js' %} "></script>
 <script>
     var footer_node = document.getElementById("footer");
     var active_node = footer_node.getElementsByClassName("active")[0];
     active_node.classList.remove("active");
-    var notes = document.getElementById("notes");
-    notes.classList.add("active");
+    var attendance = document.getElementById("attendance");
+    attendance.classList.add("active");
 </script>
 {% endblock js %}
 

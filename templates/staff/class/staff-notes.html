@@ -23,9 +23,6 @@
 {% block main_content %}
 {{ user|set_user }}
 <div class="main-content">
-    <div class="add-notes">
-        <a href = "{% url "add-notes-form" %}"><button class="add-notes-button">Add Notes</button></a>
-    </div>
     <div class="all-notes">
         {% if subject %}
         <div class="notes-main-container">

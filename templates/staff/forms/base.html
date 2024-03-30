@@ -25,7 +25,7 @@
                 <div class="menu-items">
                     <div class="menu-item">
                         <a href=" {% url "staff-attendance" class_id %} ">
-                            <div class="menu-item-content">
+                            <div class="menu-item-content active">
                                 <span class="material-symbols-outlined">School</span>
                                 <span class="menu-text">Class</span>
                             </div>
@@ -41,7 +41,39 @@
                     </div>
                     <div class="menu-item">
                         <a href=" {% url "staff-ia-result" class_id %} ">
-                            <div class="menu-item-content active">
+                            <div class="menu-item-content">
+                                <span class="material-symbols-outlined">backpack</span>
+                                <span class="menu-text">Results</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href=" {% url "staff-ia-result" class_id %} ">
+                            <div class="menu-item-content">
+                                <span class="material-symbols-outlined">backpack</span>
+                                <span class="menu-text">Attendance</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href=" {% url "staff-ia-result" class_id %} ">
+                            <div class="menu-item-content">
+                                <span class="material-symbols-outlined">backpack</span>
+                                <span class="menu-text">Results</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href=" {% url "staff-ia-result" class_id %} ">
+                            <div class="menu-item-content">
+                                <span class="material-symbols-outlined">backpack</span>
+                                <span class="menu-text">Results</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a href=" {% url "staff-ia-result" class_id %} ">
+                            <div class="menu-item-content">
                                 <span class="material-symbols-outlined">backpack</span>
                                 <span class="menu-text">Results</span>
                             </div>
@@ -79,35 +111,12 @@
                         {% endif %}
                     </div>
                     <a href="#" >Profile</a>
-                    <a href="{% url "password-reset-form" %}">Reset Password</a>
-                    <a href="{% url "logout" %}" >Logout</a>
+                    <a href="#">Reset Password</a>
+                    <a href="#" >Logout</a>
                 </div>
             </div>
             {% block class_dropdown %}{% endblock class_dropdown %}
-            {% block main_content %}
-            {% endblock main_content %}
-            <div class="footer-menu" id="footer">
-                <div class="footer-menu-items">
-                    <a href=" {% url "staff-ia-result" class_id %} ">
-                        <div class="footer-menu-item active" id="ia">
-                            <span class="material-symbols-outlined">box_edit</span>                        
-                            <span class="menu-text">IA</span>
-                        </div>
-                    </a>
-                    <a href=" {% url "staff-model-result" class_id %} ">
-                        <div class="footer-menu-item" id="model">
-                            <span class="material-symbols-outlined">edit_square</span>                       
-                            <span class="menu-text">Model</span>
-                        </div>
-                    </a>
-                    <a href=" {% url "staff-sem-result" class_id %} ">
-                        <div class="footer-menu-item" id="semester">
-                            <span class="material-symbols-outlined">sticky_note_2</span>                        
-                            <span class="menu-text">Semester</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
+            {% block main_content %}{% endblock main_content %}
         </div>
     </div>
 

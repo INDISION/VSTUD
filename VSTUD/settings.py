@@ -126,3 +126,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True  # Or False if your email server doesn't use TLS
+EMAIL_HOST_USER = 'cs21048@velammalitech.edu.in'
+EMAIL_HOST_PASSWORD = 'Pathek718524'
+DEFAULT_FROM_EMAIL = 'cs21048@velammalitech.edu.in'

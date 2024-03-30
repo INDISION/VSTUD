@@ -79,12 +79,12 @@
                         {% endif %}
                     </div>
                     <a href="#" >Profile</a>
-                    <a href="#">Reset Password</a>
-                    <a href="#" >Logout</a>
+                    <a href="{% url 'check-mail-notification' %}?email={{ user_email }}">Reset Password</a>
+                    <a href="{% url "logout" %}" >Logout</a>
                 </div>
             </div>
             {% block class_dropdown %}{% endblock class_dropdown %}
-            {% block main_content %}{% endblock main_content %}
+            {% block main_content %}fff{% endblock main_content %}
             <div class="footer-menu" id="footer">
                 <div class="footer-menu-items">
                     <a href=" {% url "staff-attendance" class_id %} ">

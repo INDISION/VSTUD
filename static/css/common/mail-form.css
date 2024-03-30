@@ -18,21 +18,13 @@ body, html {
     padding: 25px;
 }
 
-.login-image {
-
-    display: flex;
-    width: 50%;
-    align-items: center;
-    justify-content: center;  
-}
-
 label {
   margin-left: 15px;
 }
 
 .form {
   display: flex;
-  width: 50%;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -46,7 +38,7 @@ label {
 /* CSS for input fields */
 
 .input-field {
-    width: 80%;
+    width: 100%;
     padding: 8px 12px;
     font-size: 16px;
     font-family: inherit;
@@ -54,7 +46,9 @@ label {
     border-radius: 25px;
     background-color: #FFFFFF;
     transition: all .3s;
-    width: calc(100% - 128px);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    /* width: calc(100% - 128px); */
   }
   
   .input-field::placeholder {
@@ -71,11 +65,11 @@ label {
     -moz-box-shadow: 0px 0px 3px 3px #0000000d;
     border: none;
     transition: all .3s;
+    margin-top: 40px;
   }
 
 /* CSS for labels to be aligned horzontally with their respective input fields */
   label {
-    display: inline-block;
     width: 100px;
   }
 
