@@ -7,8 +7,6 @@
 <link rel="stylesheet" href="{% static "css/staff/staff-result.css" %}">
 {% endblock style %}
 
-{% block user-name %}{{user.username}}{% endblock user-name %}
-
 {% block class_dropdown %}
 <div class="class-dropdown-menu">
     <div id="class-dropdown-menu-content" class="class-dropdown-menu-content">
@@ -22,10 +20,14 @@
 {% endblock class_dropdown %}
 
 {% block main_content %}
-{{ user|set_user }}
 <div class="main-content">
+    <div class="extra-menu-items">
+        <div class="menu-item ia1 active" onclick="showResult('ia1')">IA 1</div>
+        <div class="menu-item ia2 " onclick="showResult('ia2')">IA 2</div>
+        <div class="menu-item ia3 " onclick="showResult('ia3')">IA 3</div>
+    </div>
     {% if ia1_results %}
-    <div class="ia-main-container">
+    <div class="ia-main-container" id="ia1">
         <div class="ia-container" id="ia-container">
             <div class="header">
                 <p class="semi-bold">Internal Assessment - 1</p>
@@ -37,7 +39,6 @@
                             <th>S.No</th>
                             <th>Register No</th>
                             <th>Name</th>
-                            <th>Exam</th>
                             <th>Marks</th>
                         </tr>
                     </thead>
@@ -51,7 +52,6 @@
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ result.student.register_number }}</td>
                                 <td>{{ result.student.user.first_name }} {{ result.student.user.last_name }}</td>
-                                <td>IA 1</td>
                                 <td>{{ result.marks }}</td>
                             </tr>
                         {% endfor %}
@@ -62,7 +62,7 @@
     </div>
     {% endif %}
     {% if ia2_results %}
-    <div class="ia-main-container">
+    <div class="ia-main-container hidden" id="ia2">
         <div class="ia-container" id="ia-container">
             <div class="header">
                 <p class="semi-bold">Internal Assessment - 2</p>
@@ -74,7 +74,6 @@
                             <th>S.No</th>
                             <th>Register No</th>
                             <th>Name</th>
-                            <th>Exam</th>
                             <th>Marks</th>
                         </tr>
                     </thead>
@@ -88,7 +87,6 @@
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ result.student.register_number }}</td>
                                 <td>{{ result.student.user.first_name }} {{ result.student.user.last_name }}</td>
-                                <td>IA 2</td>
                                 <td>{{ result.marks }}</td>
                             </tr>
                         {% endfor %}
@@ -99,11 +97,8 @@
     </div>
     {% endif %}
     {% if ia3_results %}
-    <div class="ia-main-container">
+    <div class="ia-main-container hidden" id="ia3">
         <div class="ia-container" id="ia-container">
-            <div class="expand-button">
-                <button class="expand-or-minimize" id="expand-or-minimize">Expand</button>
-            </div>
             <div class="header">
                 <p class="semi-bold">Internal Assessment - 3</p>
             </div>
@@ -114,7 +109,6 @@
                             <th>S.No</th>
                             <th>Register No</th>
                             <th>Name</th>
-                            <th>Exam</th>
                             <th>Marks</th>
                         </tr>
                     </thead>
@@ -128,7 +122,6 @@
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ result.student.register_number }}</td>
                                 <td>{{ result.student.user.first_name }} {{ result.student.user.last_name }}</td>
-                                <td>IA 3</td>
                                 <td>{{ result.marks }}</td>
                             </tr>
                         {% endfor %}
@@ -148,6 +141,22 @@
     active_node.classList.remove("active");
     var ia = document.getElementById("ia");
     ia.classList.add("active"); 
+
+    function showResult(exam) {
+        console.log(exam)
+        var div = document.getElementById(exam);
+        var menu = document.getElementsByClassName(exam)[0];
+        var menus = document.getElementsByClassName("menu-item");
+        var divs = document.getElementsByClassName("ia-main-container");
+        for (let i = 0; i < divs.length; i++) {
+            divs[i].classList.add("hidden");
+        }
+        for (let i = 0; i < menus.length; i++) {
+            menus[i].classList.remove("active");
+        }
+        div.classList.remove("hidden")
+        menu.classList.add("active")
+    }
 </script>
 {% endblock js %}
 

@@ -20,6 +20,7 @@
 }
 .ia th {
     font-weight: 600 !important;
+    background-color: #594bda20;
 }
 .ia th, .ia td{
     padding: 20px;

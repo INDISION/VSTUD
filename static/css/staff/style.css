@@ -36,6 +36,27 @@
     background-color: #594bda20;
     border-radius: 5px;
 }
+.extra-menu-items {
+    display: flex;
+    margin-bottom: 20px;
+}
+.extra-menu-items .menu-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border-color: #594bda;
+    border-bottom: 1px solid #594bda;
+    cursor: pointer;
+}
+.extra-menu-items .menu-item:hover {
+    background-color: #594bda20;
+}
+.extra-menu-items .active {
+    border-bottom: none;
+    border-top: 1px solid #594bda;
+}
 @media screen and (max-width:800px) {
     .class-container span{
         margin-left: 20px;

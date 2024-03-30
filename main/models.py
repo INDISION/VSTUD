@@ -70,6 +70,20 @@ class Student(models.Model):
     class Meta:
         ordering = ['register_number']
 
+class Parent(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=20)
+    def __str__(self):
+        return self.user.username
+    def save(self, *args, **kwargs):
+        self.user.username = f"{self.student.user.username}p"
+        super(User, self.user).save(*args, **kwargs)
+        super(Parent, self).save(*args, **kwargs)
+    class Meta:
+        ordering = ['user']
+
+
 class Subject(models.Model):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=100)
@@ -82,13 +96,6 @@ class Subject(models.Model):
         unique_together = ['code', 'class_related']
         ordering = ['code']
 
-class Break(models.Model):
-    name = models.CharField(max_length=100)
-    class_related = models.ForeignKey(Class, on_delete=models.CASCADE)
-    def __str__(self):
-        return f"{self.name}-{self.class_related.class_id}"
-    class Meta:
-        ordering = ['class_related']
 
 class Exam(models.Model):
     name = models.CharField(max_length=100)
@@ -114,7 +121,7 @@ class Result(models.Model):
         return f"{self.exam.name}-{self.exam.subject.code}-{self.student}"
     class Meta:
         unique_together = ['exam', 'class_related', 'student']
-        ordering = ['student__register_number']
+        ordering = ['exam']
     
 class Holiday(models.Model):
     class_related = models.ForeignKey(Class, on_delete=models.CASCADE)
@@ -135,7 +142,7 @@ class Attendance(models.Model):
         return f"{self.student}-{self.present_status}"
     class Meta:
         unique_together = ['date', 'class_related','student']
-        ordering = ['student__register_number']
+        ordering = ['-date', 'student__register_number']
     
 class TimeTable(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
@@ -146,7 +153,7 @@ class TimeTable(models.Model):
         return f"{self.subject.name}-{self.day}"
     class Meta:
         unique_together = ['subject', 'day','start_time']
-        ordering = ['day', 'start_time']
+        ordering = ['start_time']
 
 class Note(models.Model):
     title = models.CharField(max_length=200)

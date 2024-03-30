@@ -72,15 +72,11 @@
             <div class="profile-dropdown-menu">
                 <div id="profile-dropdown-menu-content" class="profile-dropdown-menu-content">
                     <div class="greeting">
-                        {% if student %}
-                            <h4 class="bold">Hello, {{student.name}}</h4>
-                        {% elif staff %}
-                        <h4 class="bold">Hello, {{staff.name}}</h4>
-                        {% endif %}
+                        <h4 class="bold">Hello, {{staff.user.first_name}}</h4>
                     </div>
                     <a href="#" >Profile</a>
                     <a href="#">Reset Password</a>
-                    <a href="#" >Logout</a>
+                    <a href="{% url "logout" %}" >Logout</a>
                 </div>
             </div>
             {% block class_dropdown %}{% endblock class_dropdown %}

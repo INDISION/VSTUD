@@ -61,10 +61,8 @@ button:active {
 .header {
   margin-bottom: 20px;
 }
-
-.expand-button {
-  align-self: flex-end;
-  padding-right: 10px;
+.hidden {
+  display: none;
 }
 
    

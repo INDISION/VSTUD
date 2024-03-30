@@ -21,11 +21,7 @@
 {% endblock class_dropdown %}
 
 {% block main_content %}
-{{ user|set_user }}
 <div class="main-content">
-    <div class="add-notes">
-        <button class="add-notes-button">Add Notes</button>
-    </div>
     <div class="all-notes">
         {% if subject %}
         <div class="notes-main-container">
@@ -35,10 +31,10 @@
             
             <div class="notes-container">
                 <div class="subject-name-container">
-                    <h6 class="subject-name semi-bold">{{subject.name}}</h6> 
+                    <h6 class="subject-name semi-bold uppercase">{{subject.name}}</h6> 
                 </div>
                 <div class="staff_name-date">
-                    <h3 class="staff-name light">{{subject.staff}}</h3>
+                    <h3 class="staff-name light uppercase">{{subject.staff.user.first_name}}</h3>
                 </div>
                 <div class="horizontal-line">
                     <hr>

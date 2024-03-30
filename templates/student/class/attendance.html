@@ -24,6 +24,59 @@
             <span>{{sem_percent}}%</span>
         </div>
     </div>
+    <div class="weekly-analysis">
+        <div class="info-header">
+            Weekly Report Based On Attendance Stats
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Leaves</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for day, report in weekly_report.items %}
+                        {% if report > 0 %}
+                        <tr>
+                            <td>{{day}}</td>
+                            <td>{{report}}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                    <tr>
+                        <td class="bold">Total</td>
+                        <td class="bold">{{leaves}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="leaves-availed">
+        <div class="info-header">
+            Leaves Record Based On Attendance Stats
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Day</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for date, day in leaves_availed.items %}
+                        <tr>
+                            <td>{{date.date}}</td>
+                            <td>{{day}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock main-content %}
 

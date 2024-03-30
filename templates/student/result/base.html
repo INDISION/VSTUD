@@ -23,7 +23,7 @@
             <div class="sidebar-menu">
                 <div class="menu-items">
                     <div class="menu-item">
-                        <a href=" {% url "attendance" %} ">
+                        <a href=" {% url "attendance" student.user.username %} ">
                             <div class="menu-item-content">
                                 <span class="material-symbols-outlined">School</span>
                                 <span class="menu-text">Class</span>
@@ -31,7 +31,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a href=" {% url "ia-result" %} ">
+                        <a href=" {% url "ia-result" student.user.username %} ">
                             <div class="menu-item-content">
                                 <span class="material-symbols-outlined">library_books</span>
                                 <span class="menu-text">Library</span>
@@ -39,7 +39,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a href=" {% url "ia-result" %} ">
+                        <a href=" {% url "ia-result" student.user.username %} ">
                             <div class="menu-item-content active">
                                 <span class="material-symbols-outlined">backpack</span>
                                 <span class="menu-text">Results</span>
@@ -52,13 +52,31 @@
         <div class="content">
             <div class="overlay" id="overlay"></div>
             <div class="toolbar">
-                <div class="menu-btn" id="menu-btn">
-                    <span class="material-symbols-outlined openbtn cursor-pointer" onclick="openNav()">
-                        menu
-                    </span>
+                <div class="initial">
+                    <div class="menu-btn" id="menu-btn">
+                        <span class="material-symbols-outlined openbtn cursor-pointer" onclick="openNav()">
+                            menu
+                        </span>
+                    </div>
                 </div>
-                <div class="greeting">
-                    <h4>Hello, {{student.name}}</h4>
+                <div class="profile-container">
+                        <span class="material-symbols-outlined cursor-pointer">
+                            account_circle
+                        </span>
+                </div>
+            </div>
+            <div class="profile-dropdown-menu">
+                <div id="profile-dropdown-menu-content" class="profile-dropdown-menu-content">
+                    <div class="greeting">
+                        {% if student %}
+                            <h4 class="bold">Hello, {{user.first_name}}</h4>
+                        {% elif staff %}
+                        <h4 class="bold">Hello, {{staff.user.first_name}}</h4>
+                        {% endif %}
+                    </div>
+                    <a href="#" >Profile</a>
+                    <a href="#">Reset Password</a>
+                    <a href="{% url "logout" %}" >Logout</a>
                 </div>
             </div>
             {% block main-content %}
@@ -66,19 +84,19 @@
             {% endblock main-content %}
             <div class="footer-menu" id="footer">
                 <div class="footer-menu-items">
-                    <a href=" {% url "ia-result" %} ">
+                    <a href=" {% url "ia-result" student.user.username %} ">
                         <div class="footer-menu-item active" id="ia">
                             <span class="material-symbols-outlined">box_edit</span>                        
                             <span class="menu-text">IA</span>
                         </div>
                     </a>
-                    <a href=" {% url "model-result" %} ">
+                    <a href=" {% url "model-result" student.user.username %} ">
                         <div class="footer-menu-item" id="model">
                             <span class="material-symbols-outlined">edit_square</span>                       
                             <span class="menu-text">Model</span>
                         </div>
                     </a>
-                    <a href=" {% url "sem-result" %} ">
+                    <a href=" {% url "sem-result" student.user.username %} ">
                         <div class="footer-menu-item" id="semester">
                             <span class="material-symbols-outlined">sticky_note_2</span>                        
                             <span class="menu-text">Semester</span>

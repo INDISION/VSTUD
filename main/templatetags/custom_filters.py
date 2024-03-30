@@ -6,10 +6,10 @@ from datetime import datetime, date
 register = template.Library()
 
 
-@register.filter(name='set_user')
-def set_user(user):
+@register.filter(name='set_student')
+def set_student(student):
     global current_user
-    current_user = user
+    current_user = student.user
     return ""
 
 @register.filter(name='check_holiday')
@@ -60,23 +60,9 @@ def calculate_attendance(student, start_date=None):
     return attendance_percent
 
 @register.filter(name='calculate_leaves')
-def calculate_leaves(student, start_date=None):
-    if start_date==None:
-        start_date = student.class_attending.start_date
-    attendance = models.Attendance.objects.filter(student=student)
-    holidays = models.Holiday.objects.filter(class_related=student.class_attending)
-    completed_holidays = []
-    for holiday in holidays:
-        if holiday.date <= datetime.now().date() and holiday.date >= start_date:
-            completed_holidays.append(holiday)
-    days = (datetime.now().date() - start_date).days + 1
-    working_days = days - len(completed_holidays)
-    present_days = []
-    for day in attendance:
-        if day.date <= datetime.now().date() and day.date >= start_date:
-            present_days.append(day)
-    leaves = working_days - len(present_days)
-    return leaves
+def calculate_leaves(student):
+    leaves = models.Attendance.objects.filter(student=student, class_related=student.class_attending, present_status = False)
+    return len(leaves)
 
 @register.filter(name='class_strength')
 def class_strength(class_related):
@@ -92,3 +78,30 @@ def class_present_count(class_related):
 def class_absent_count(class_related):
     attendance = models.Attendance.objects.filter(class_related=class_related, present_status=False, date=date.today())
     return len(attendance)
+
+@register.filter(name='weekly_analysis')
+def weekly_analysis(student):
+    attendance = models.Attendance.objects.filter(student=student, class_related=student.class_attending)
+    absent_days = {}
+    for day in attendance:
+        if day.present_status==False:
+            _date = day.date
+            _week_name = _date.strftime("%A")
+            if _week_name not in absent_days:
+                absent_days[_week_name] = 1
+            else:
+                absent_days[_week_name] += 1
+    return absent_days
+
+@register.filter(name='leaves_availed')
+def leaves_availed(student):
+    attendance = models.Attendance.objects.filter(student=student, class_related=student.class_attending)
+    absent_days = {}
+    for day in attendance:
+        if day.present_status==False:
+            _date = day.date
+            _week_name = _date.strftime("%A")
+            if _week_name not in absent_days:
+                absent_days[day] = _week_name
+    return absent_days
+

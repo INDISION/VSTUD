@@ -6,80 +6,84 @@
     <link rel="stylesheet" href= "{% static 'css/student/ia.css' %}" >
 {% endblock style %}
 
-{% block user-name %}{{student.name}}{% endblock user-name %}
 
 {% block main-content %}
 <div class="main-content">
-    <div class="ia">
-        <h1 class="bold">Internal Assessment-1</h1>
-        <div class="ia-table">
-            <table>
-                <tr>
-                    <th>
-                        Subjects
-                    </th>
-                    <th>
-                        Marks for 100
-                    </th>
-                </tr>
-                {% for result in ia1  %}
-                    <tr id="{{result}}" >
-                        <td>{{result.exam.subject.name}}</td>
-                        <td>{{result.marks}}</td>
+    {% if ia1 %}
+        <div class="ia" id="ia1">
+            <h1 class="bold">Internal Assessment-1</h1>
+            <div class="ia-table">
+                <table>
+                    <tr>
+                        <th>Subject Code</th>
+                        <th>
+                            Subject
+                        </th>
+                        <th>
+                            Marks for 100
+                        </th>
                     </tr>
-                {% endfor %}
-            </table>
+                    {% for result in ia1  %}
+                        <tr id="{{result}}" >
+                            <td class="uppercase">{{result.exam.subject.code}}</td>
+                            <td class="uppercase">{{result.exam.subject.name}}</td>
+                            <td>{{result.marks}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
-    </div>
-    <div class="ia">
-        <h1 class="bold">Internal Assessment-2</h1>
-        <div class="ia-table">
-            <table>
-                <tr>
-                    <th>
-                        Subjects
-
-                    </th>
-                    <th>
-                        Marks for 60
-                    </th>
-                    <th>
-                        Marks for 100
-                    </th>
-                </tr>
-                {% for result in ia2  %}
-                    <tr id="{{result}}">
-                        <td>{{result.exam.subject.name}}</td>
-                        <td>{{result.marks}}</td>
+    {% endif %}
+    {% if ia2 %}
+        <div class="ia" id="ia2">
+            <h1 class="bold">Internal Assessment-2</h1>
+            <div class="ia-table">
+                <table>
+                    <tr>
+                        <th>Subject Code</th>
+                        <th>
+                            Subject
+                        </th>
+                        <th>
+                            Marks for 100
+                        </th>
                     </tr>
-                {% endfor %}
-            </table>
+                    {% for result in ia2  %}
+                        <tr id="{{result}}" >
+                            <td class="uppercase">{{result.exam.subject.code}}</td>
+                            <td class="uppercase">{{result.exam.subject.name}}</td>
+                            <td>{{result.marks}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
-    </div>
-    <div class="ia">
-        <h1 class="bold">Internal Assessment-3</h1>
-        <div class="ia-table">
-            <table>
-                <tr>
-                    <th>
-                        Subjects
-                    </th>
-                    <th>
-                        Marks for 60
-                    </th>
-                    <th>
-                        Marks for 100
-                    </th>
-                </tr>
-                {% for result in ia3  %}
-                    <tr id="{{result}}">
-                        <td>{{result.exam.subject.name}}</td>
-                        <td>{{result.marks}}</td>
+    {% endif %}
+    {% if ia3 %}
+        <div class="ia" id="ia3">
+            <h1 class="bold">Internal Assessment-3</h1>
+            <div class="ia-table">
+                <table>
+                    <tr>
+                        <th>Subject Code</th>
+                        <th>
+                            Subject
+                        </th>
+                        <th>
+                            Marks for 100
+                        </th>
                     </tr>
-                {% endfor %}
-            </table>
+                    {% for result in ia3  %}
+                        <tr id="{{result}}" >
+                            <td class="uppercase">{{result.exam.subject.code}}</td>
+                            <td class="uppercase">{{result.exam.subject.name}}</td>
+                            <td>{{result.marks}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
-    </div>
+    {% endif %}
 </div>
 {% endblock main-content %}
 

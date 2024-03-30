@@ -87,6 +87,16 @@ table {
     scroll-behavior: smooth;
     margin-bottom: 24px;
 }
+.table-container td{
+    padding: 20px;
+    letter-spacing: 0.1ch;
+}
+.table-container th{
+    padding: 20px;
+    font-weight: 800;
+    background-color: #594bda20;
+    letter-spacing: 0.2ch;
+}
 /* container */ 
 .container {
     display: flex;
@@ -169,6 +179,7 @@ table {
     right: 0;
     margin-right: 10px;
     border-radius: 10px;
+    z-index: 5;
 }
 .profile-dropdown-menu-content.show {
     display: block;

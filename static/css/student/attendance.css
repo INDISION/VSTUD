@@ -27,6 +27,19 @@
 .sem-attendance {
     background-color: rgb(231, 248, 243);
 }
+.weekly-analysis, .leaves-availed {
+    margin: 24px;
+    background-color: #fff;
+    box-shadow: 0px 5px 7px #0000000d;
+    padding: 24px;
+}
+.info-header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    background-color: #594bda20;
+    opacity: 0.5;
+}
 .month-overlay, .sem-overlay {
     visibility: hidden;
     position: absolute;
