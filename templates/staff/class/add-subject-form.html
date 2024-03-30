@@ -10,53 +10,15 @@
 
 {% block user-name %}{{staff.name}}{% endblock user-name %}{{staff.name}}
 
-{% block class_dropdown %}
-<div class="class-dropdown-menu">
-    <div id="class-dropdown-menu-content" class="class-dropdown-menu-content">
-        {% for class in classes %}
-            {% if class.class_id !=  class_id %}
-            <a href="{% url "add-subject-form" class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
-            {% endif %}
-        {% endfor %}
-    </div>
-</div>
-{% endblock class_dropdown %}
-
-{% block main_content %}
+{% block main-content %}
 {{ user|set_user }}
 <div class="main-content">
-  <div class="error-container" id="close">
-    {% if messages %}
-    
-        <div class="error" id = "error">
-            <div class = "error-icon">
-                <span class="material-symbols-outlined">info</span>
-            </div>
-            <div class="error-title regular">
-                {% for message in messages %}
-                    {{message}}
-                {% endfor %}
-            </div>
-            <div class="error-close">
-                <span class="material-symbols-outlined" onclick="closeAlert()">close</span>
-            </div> 
-        </div> 
-    {% endif %}
-</div>
-    <form action="{% url "add-subject-form" class_id %}" class="form" method="post"> 
+    <form action="{% url "add-subject-form" %}" class="form" method="post"> 
         {% csrf_token %}
       <div class="header">
         <h1 class="semi-bold">Add Subjects</h1>
       </div>
       <div class="field-main-container">
-        <div class="field-container hidden">
-          <div class="field-label">
-            <label for="" class="medium">Class id :</label>
-          </div>
-          <div class="field-value">
-            <input type="text" placeholder="Ex: CCS339" class="text-field" name="class_id" value="{{class_id}}"/>
-          </div>
-        </div>
         <div class="field-container">
           <div class="field-label">
             <label for="" class="medium">Subject name :</label>
@@ -88,11 +50,11 @@
           <div class="field-value">
             <p class="regular">
               <div class="dropdown-div">
-                  <select name="staff" class="dropdown-select">
+                  <select id="class" name="class" class="dropdown-select">
                     <option value="">Select Staff</option>
                     {% for staff_member in staff_members %}
-                      <option value="{{staff_member.user.username}}">{{staff_member.user.username}}</option>
-                     {% endfor %}
+                      <option value="{{staff_member.id}}">{{staff_member.name}}</option>
+                     
                 </select>
               </div>
             </p>
@@ -104,12 +66,12 @@
               <button type = "submit" name="save-and-exit">Save & Exit</button>
           </div>
           <div class="next-button">
-              <button type="submit" name="save-and-next">Save & Next</button>
+              <button type="submit" name="next">Next</button>
           </div>
       </div>
     </form>
   </div>
-{% endblock main_content %}
+{% endblock main-content %}
 
 {% block js %}
 <script>
@@ -118,11 +80,6 @@
     active_node.classList.remove("active");
     var notes = document.getElementById("notes");
     notes.classList.add("active");
-
-    function closeAlert() {
-      var alertBox = document.getElementById('close');
-      alertBox.style.display = 'none';
-  }
 </script>
 {% endblock js %}
 

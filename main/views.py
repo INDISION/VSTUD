@@ -309,9 +309,9 @@ def staff_ia_result(request, class_id=None):
         if class_attending not in class_attending_list:
             class_attending_list.append(class_attending)
     subject = models.Subject.objects.get(class_related__class_id = class_id, staff=staff)
-    ia1_results = models.Result.objects.filter(class_related__class_id=class_id, exam__name = 'ia1', exam__subject = subject)
-    ia2_results = models.Result.objects.filter(class_related__class_id=class_id, exam__name = 'ia2', exam__subject = subject)
-    ia3_results = models.Result.objects.filter(class_related__class_id=class_id, exam__name = 'ia3', exam__subject = subject)
+    ia1_results = models.Result.objects.filter(class_related_class_id=class_id, examname = 'ia1', exam_subject = subject)
+    ia2_results = models.Result.objects.filter(class_related_class_id=class_id, examname = 'ia2', exam_subject = subject)
+    ia3_results = models.Result.objects.filter(class_related_class_id=class_id, examname = 'ia3', exam_subject = subject)
     context = {
         "user":user,
         "staff":staff,
@@ -344,7 +344,7 @@ def staff_model_result(request, class_id=None):
         if class_attending not in class_attending_list:
             class_attending_list.append(class_attending)
     subject = models.Subject.objects.get(class_related__class_id = class_id, staff=staff)
-    model_results = models.Result.objects.filter(class_related__class_id=class_id, exam__name = 'model', exam__subject = subject)
+    model_results = models.Result.objects.filter(class_related_class_id=class_id, examname = 'model', exam_subject = subject)
     context = {
         "user":user,
         "staff":staff,
@@ -379,7 +379,7 @@ def staff_sem_result(request, class_id=None):
         if class_attending not in class_attending_list:
             class_attending_list.append(class_attending)
     subject = models.Subject.objects.get(class_related__class_id = class_id, staff=staff)
-    semester_results = models.Result.objects.filter(class_related__class_id=class_id, exam__name = 'semester', exam__subject = subject)
+    semester_results = models.Result.objects.filter(class_related_class_id=class_id, examname = 'semester', exam_subject = subject)
     print(semester_results)
     context = {
         "user":user,
@@ -699,41 +699,26 @@ def add_department_form(request, class_id = None, name=None):
 
 def password_reset_form(request):
     if request.method == 'POST':
+        user_email = request.POST.get('email')
+        # user = check_mail_notification(request)
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
-        
-        # Check if passwords match
         if password == confirm_password:
-            # Check if the user is authenticated
             if request.user.is_authenticated:
                 user = request.user
             else:
-                # Get the user email from the mail form
-                user_name = mail_form(request, return_email=False)
                 try:
-                    user = models.User.objects.get(username = user_name)
+                    user = models.User.objects.get(email = user_email)
                 except User.DoesNotExist:
-                    # User does not exist, redirect to mail form
-                    return redirect("mail-form")  
-                
-            # Update the user's password
+                    messages.error(request, "Enter your VSTUD registered email")
             user.set_password(password)
             user.save()
-
-            # Update the user's session to prevent them from being logged out
-            # if not request.user.is_authenticated:
-            #     update_session_auth_hash(request, user)
-
-            # Redirect to logout page
             return redirect("logout")
-
         else:
-            # Passwords do not match, provide feedback to user
-            # For example, you can add an error message to the context
-            messages.error("The password and confirm password should be the same.")
+            messages.error(request, "The password and confirm password should be the same.")
             
-    # Render the password reset form
     return render(request, "common/password-reset-form.html")
+
 def check_mail_notification(request):
     user = request.user
     user_email = None
@@ -742,34 +727,36 @@ def check_mail_notification(request):
         user_email = request.user.email
     else:
         user_email = mail_form(request, return_email=True)
-    user = models.User.objects.get(email = user_email)
-    print(user)
-    token = default_token_generator.make_token(user)
-    # reset_url = request.build_absolute_uri(reverse('password_reset_confirm', kwargs={'uidb64': user.pk, 'token': token}))
-    reset_form_url = request.build_absolute_uri(reverse('password-reset-form'))
+    try:
+        user = models.User.objects.get(email = user_email)
+        print(user)
 
-    send_mail(
-        'Password Reset',
-        f'Click the following link to reset your password: {reset_form_url}?token={token}',
-        settings.EMAIL_HOST_USER,  # Sender email address
-        [user_email],  # Recipient email address
-        fail_silently=False,
-    )
-    context = {
-        'user_email': user_email
-    }
-    return render(request, "common/check-mail-notification.html", context)
+        token = default_token_generator.make_token(user)
+        # reset_url = request.build_absolute_uri(reverse('password_reset_confirm', kwargs={'uidb64': user.pk, 'token': token}))
+        reset_form_url = request.build_absolute_uri(reverse('password-reset-form'))
 
-def mail_form(request, return_email=False):
+        send_mail(
+            'Password Reset',
+            f'Click the following link to reset your password: {reset_form_url}?token={token}',
+            settings.EMAIL_HOST_USER,  # Sender email address
+            [user_email],  # Recipient email address
+            fail_silently=False,
+        )
+        context = {
+            'user_email': user_email,
+            'user': user
+        }
+        return render(request, "common/check-mail-notification.html", context)
+    except models.User.DoesNotExist:
+        messages.error(request, "Enter your VSTUD registered email.")
+        return None
+
+
+def mail_form(request, return_email=True):
     if request.method == 'POST':
         email = request.POST.get('email')
-        user_name = request.POST.get('username')
+        # user = models.User.objects.get(email = email)
+        # print(user)
         if return_email:
             return email
-        else:
-            return user_name
     return render(request, "common/mail-form.html")
-
-
-
-

@@ -7,7 +7,7 @@ function setupDateValidation() {
     var currentDate = new Date().toISOString().split('T')[0];
 
     // Set the minimum date attribute to the current date
-    dateInput.setAttribute('max', currentDate);
+    dateInput.setAttribute('min', currentDate);
 
     // Event listener to validate date selection
     dateInput.addEventListener('input', function() {

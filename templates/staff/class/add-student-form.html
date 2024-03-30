@@ -12,119 +12,117 @@
 
 {% block main-content %}
 {{ user|set_user }}
-<div class="main-content">    
-    <div class="form-container">
-        <form action="{% url "add-student-form" %}" class="form" method = "post">
-            {% csrf_token %}
-            <div class="header margin-btm">
-                <h1 class="bold">Add Student</h1>
-            </div>
-            <div class="field-main-container">
-                <div class="field-container margin-btm">
-                    <div class="field-label">
-                        <label for="name">Student Name :</label>
-                    </div>
-                    <div class="field-value">
-                        <input type="text" class="text-field" placeholder="Enter student name ..." required>
-                    </div>
+<div class="main-content">            
+    <form action="" class="form">
+        {% csrf_token %}
+        <div class="header margin-btm">
+            <h1 class="bold">Add Student</h1>
+        </div>
+        <div class="field-main-container">
+            <div class="field-container margin-btm">
+                <div class="field-label">
+                    <label for="name">Student Name :</label>
                 </div>
-                <div class="field-container margin-btm">
-                    <div class="field-label">
-                        <label for="register-no">Register Number :</label>
-                    </div>
-                    <div class="field-value">
-                        <input type="number" class="number-field" placeholder="Enter RegNo." required>
-                    </div>
-                </div>
-                <div class="field-container margin-btm">
-                    <div class="field-label">
-                        <label for="class">Enter Class :</label>
-                    </div>
-                    <div class="field-value">
-                        <p class="regular">
-                            <div class="dropdown-div">
-                                <select name="class" id="class" required class="dropdown-select">
-                                    <option value="default">Please select class</option>
-                                    <option value="cs21a6">CS21A6</option>
-                                    <option value="cs21a5">CS21A5</option>
-                                    <option value="cs21a4">CS21A4</option>
-                                </select>
-                            </div>
-                        </p>       
-                    </div>
-                </div>
-                <div class="field-container margin-btm">
-                    <div class="field-label">
-                        <label for="dob">Date Of Birth :</label>
-                    </div>
-                    <div class="field-value">
-                       <input type="date" class="date-field" name="dob" id="dob" required>
-                    </div>
-                </div>
-                <div class="field-container margin-btm">
-                    <div class="field-label">
-                        <label for="gender">Select Gender :</label>
-                    </div>
-                    <div class="field-value">
-                        <p class="regular">
-                            <div class="dropdown-div">
-                                <select name="gender" class="dropdown-select" id="gender" required>
-                                    <option value="default">Please select gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                            </div>
-                        </p>
-                    </div>
-                </div>
-                <div class="field-container margin-btm">
-                    <div class="field-label">
-                        <label for="transport">Select Transportation :</label>
-                    </div>
-                    <div class="field-value">
-                        <p class="regular">
-                            <div class="dropdown-div">
-                                <select name="transport" class="dropdown-select" id="transport" required>
-                                    <option value="default">Please select transport</option>
-                                    <option value="bus">B</option>
-                                    <option value="hostel">H</option>
-                                    <option value="private">P</option>
-                                </select>
-                            </div>
-                        </p>    
-                    </div>
-                </div>
-                <div class="field-container margin-btm">
-                    <div class="field-label">
-                        <label for="phone-no">Phone Number :</label>
-                    </div>
-                    <div class="field-value">
-                        <input type="number" class="number-field" name="phone-no" id="phone-no" placeholder="Enter Ph-no." required>
-                    </div>
-                </div>
-                <div class="field-container margin-btm">
-                    <div class="field-label">
-                        <label for="mentor">Select Mentor :</label>
-                    </div>
-                    <div class="field-value">
-                        <p class="regular">
-                            <div class="dropdown-div">
-                                <select name="mentor" class="dropdown-select" id="mentor" required>
-                                    <option value="default">Please select mentor</option>
-                                    <option value="bala">Mr.K.Balachander</option>
-                                    <option value="gayu">Ms.Gayatri</option>
-                                </select>
-                            </div>
-                        </p>
-                    </div>
+                <div class="field-value">
+                    <input type="text" class="text-field" placeholder="Enter student name ..." required>
                 </div>
             </div>
-            <div class="buttons-container margin-btm">
-                <button type="submit" name="save_and_exit">Save & Exit</button>
-                <button type="submit" name="save_and_next">Save & Next</button>  
+            <div class="field-container margin-btm">
+                <div class="field-label">
+                    <label for="register-no">Register Number :</label>
+                </div>
+                <div class="field-value">
+                    <input type="number" class="number-field" placeholder="Enter RegNo." required>
+                </div>
             </div>
-        </form>
-    </div>        
+            <div class="field-container margin-btm">
+                <div class="field-label">
+                    <label for="class">Enter Class :</label>
+                </div>
+                <div class="field-value">
+                    <p class="regular">
+                        <div class="dropdown-div">
+                            <select name="class" id="class" required class="dropdown-select">
+                                <option value="default">Please select class</option>
+                                <option value="cs21a6">CS21A6</option>
+                                <option value="cs21a5">CS21A5</option>
+                                <option value="cs21a4">CS21A4</option>
+                            </select>
+                        </div>
+                    </p>       
+                </div>
+            </div>
+            <div class="field-container margin-btm">
+                <div class="field-label">
+                    <label for="dob">Date Of Birth :</label>
+                </div>
+                <div class="field-value">
+                   <input type="date" class="date-field" name="dob" id="dob" required>
+                </div>
+            </div>
+            <div class="field-container margin-btm">
+                <div class="field-label">
+                    <label for="gender">Select Gender :</label>
+                </div>
+                <div class="field-value">
+                    <p class="regular">
+                        <div class="dropdown-div">
+                            <select name="gender" class="dropdown-select" id="gender" required>
+                                <option value="default">Please select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                    </p>
+                </div>
+            </div>
+            <div class="field-container margin-btm">
+                <div class="field-label">
+                    <label for="transport">Select Transportation :</label>
+                </div>
+                <div class="field-value">
+                    <p class="regular">
+                        <div class="dropdown-div">
+                            <select name="transport" class="dropdown-select" id="transport" required>
+                                <option value="default">Please select transport</option>
+                                <option value="bus">B</option>
+                                <option value="hostel">H</option>
+                                <option value="private">P</option>
+                            </select>
+                        </div>
+                    </p>    
+                </div>
+            </div>
+            <div class="field-container margin-btm">
+                <div class="field-label">
+                    <label for="phone-no">Phone Number :</label>
+                </div>
+                <div class="field-value">
+                    <input type="number" class="number-field" name="phone-no" id="phone-no" placeholder="Enter Ph-no." required>
+                </div>
+            </div>
+            <div class="field-container margin-btm">
+                <div class="field-label">
+                    <label for="mentor">Select Mentor :</label>
+                </div>
+                <div class="field-value">
+                    <p class="regular">
+                        <div class="dropdown-div">
+                            <select name="mentor" class="dropdown-select" id="mentor" required>
+                                <option value="default">Please select mentor</option>
+                                <option value="bala">Mr.K.Balachander</option>
+                                <option value="gayu">Ms.Gayatri</option>
+                            </select>
+                        </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="buttons-container margin-btm">
+            <button type="submit" name="save_and_exit">Save&Exit</button>
+            <button type="submit" name="save_and_next">Save&Next</button>  
+        </div>
+    </form>
 </div>
 {% endblock main-content %}
 

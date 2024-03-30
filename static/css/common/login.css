@@ -113,9 +113,6 @@ label {
   .mb-20 {
     margin-bottom: 20px;
    }
-   .mb-10 {
-    margin-bottom: 10px;
-   }
    
    .mb-25 {
        margin-bottom: 25px;
@@ -124,18 +121,6 @@ label {
    .mb {
        margin-bottom: 5px;
    }
-
-   .forgot-password {
-    display: flex;
-    justify-content: end;
-    align-items: end;
-    text-decoration: underline;
-   }
-
-   .forgot-password p {
-    color: #5A4BDA;
-   }
-
 
    /* CSS for Error Alert */
 .error {

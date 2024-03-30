@@ -4,31 +4,29 @@ from datetime import date
 from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 import os
-from django.contrib.auth.models import AbstractUser
 
 class Department(models.Model):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=10, unique=True)
-    class Meta:
-        ordering = ['code']
     def __str__(self):
         return self.code
+    class Meta:
+        ordering = ['code']
 
-class Staff(models.Model):  
+class Staff(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=20)
-    register_number = models.CharField(max_length=20, unique=True)
     def __str__(self):
-        return self.user.username
+        return self.name
     class Meta:
-        ordering = ['user__username']
+        ordering = ['user__first_name']
     
 class Course(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     section = models.CharField(max_length=10)
     year_of_join = models.PositiveIntegerField()
     year_of_exit = models.PositiveIntegerField()
-    course_id = models.CharField(max_length=10, unique=True, blank=True)
+    course_id = models.CharField(max_length=10, unique=True, editable=False)
     def __str__(self):
         return self.course_id
     def save(self, *args, **kwargs):
@@ -41,10 +39,10 @@ class Class(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     semester = models.PositiveIntegerField()
     year = models.PositiveIntegerField()
-    start_date = models.DateField()
-    end_date = models.DateField()  
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)  
     coordinator = models.ForeignKey(Staff, on_delete=models.CASCADE)
-    class_id = models.CharField(max_length=10, unique=True, blank=True)
+    class_id = models.CharField(max_length=10, unique=True, editable=False)
     def __str__(self):
         return self.class_id
     def save(self, *args, **kwargs):
@@ -59,7 +57,6 @@ class Student(models.Model):
     class_attending = models.ForeignKey(Class, on_delete=models.CASCADE)
     date_of_birth = models.DateField()
     gender = models.CharField(max_length=20)
-    transportation =  models.CharField(max_length=20)
     phone = models.CharField(max_length=20)
     mentor = models.ForeignKey(Staff, on_delete=models.CASCADE)
     def __str__(self):
@@ -73,23 +70,14 @@ class Student(models.Model):
 
 class Subject(models.Model):
     name = models.CharField(max_length=100)
-    code = models.CharField(max_length=100)
-    credit = models.PositiveIntegerField()
+    code = models.CharField(max_length=100, blank=True, null=True, unique=True)
+    credit = models.PositiveIntegerField(blank=True, null=True)
     class_related = models.ForeignKey(Class, on_delete=models.CASCADE)
-    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE, blank=True, null=True)
     def __str__(self):
         return f"{self.name}-{self.staff}"
     class Meta:
-        unique_together = ['code', 'class_related']
         ordering = ['code']
-
-class Break(models.Model):
-    name = models.CharField(max_length=100)
-    class_related = models.ForeignKey(Class, on_delete=models.CASCADE)
-    def __str__(self):
-        return f"{self.name}-{self.class_related.class_id}"
-    class Meta:
-        ordering = ['class_related']
 
 class Exam(models.Model):
     name = models.CharField(max_length=100)
@@ -105,12 +93,12 @@ class Exam(models.Model):
         ordering = ['exam_id']
     
 class Result(models.Model):
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
-    class_related = models.ForeignKey(Class, on_delete=models.CASCADE)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, null=True)
+    class_related = models.ForeignKey(Class, on_delete=models.CASCADE, null=True)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    marks = models.PositiveIntegerField(null=True,blank=True)
-    grade = models.CharField(max_length=10, null=True,blank=True)
-    grade_points = models.PositiveIntegerField(null=True,blank=True)
+    marks = models.PositiveIntegerField(null=True, blank=True)
+    grade = models.CharField(max_length=10, null=True, blank=True)
+    grade_points = models.PositiveIntegerField(null=True, blank=True)
     def __str__(self):
         return f"{self.exam.name}-{self.exam.subject.code}-{self.student}"
     class Meta:
@@ -151,7 +139,7 @@ class TimeTable(models.Model):
 
 class Note(models.Model):
     title = models.CharField(max_length=200)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True)
     file = models.FileField(upload_to="uploads/%Y/%m/%d/")
     created_on = models.DateTimeField(auto_now_add=True)
 
@@ -161,22 +149,8 @@ class Note(models.Model):
         unique_together = ['subject', 'file']
         ordering = ['subject']
 
-# class CustomUser(AbstractUser):
-#     email = models.EmailField(unique=True)
-#     groups = models.ManyToManyField(
-#         'auth.Group',
-#         related_name='custom_user_groups',
-#         blank=True,
-#         verbose_name='groups'
-#     )
-#     user_permissions = models.ManyToManyField(
-#         'auth.Permission',
-#         related_name='custom_user_permissions',
-#         blank=True,
-#         verbose_name='user permissions'
-#     )
-
 @receiver(pre_delete, sender=Note)
 def delete_note_file(sender, instance, **kwargs):
     if instance.file and os.path.isfile(instance.file.path):
         os.remove(instance.file.path)
+

@@ -10,65 +10,51 @@
 
 {% block user-name %}{{staff.name}}{% endblock user-name %}{{staff.name}}
 
-{% block class_dropdown %}
- <div class="class-dropdown-menu">
-    <div id="class-dropdown-menu-content" class="class-dropdown-menu-content">
-        {% for class in classes %}
-            {% if class.class_id !=  class_id %}
-                <a href="{% url "add-notes-form" class_id=class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
-            {% endif %}
-        {% endfor %}
-    </div>
-</div>
-{% endblock class_dropdown %}
-
-{% block main_content %}
+{% block main-content %}
 {{ user|set_user }}
 <div class="main-content">
-    <div class="form-container">
-        <form action = " {% url "add-holiday-form" class_id %} " class="form" method = "post">
-            {% csrf_token %}
-            <div class="header">
-                <h1 class="semi-bold">Add Holidays</h1>
+    <form action = " {% url "add-holiday-form" class_id %} " class="form" method = "post">
+        {% csrf_token %}
+        <div class="header">
+            <h1 class="semi-bold">Add Holidays</h1>
+        </div>
+        <div class="field-main-container">
+            <div class="field-container hidden">
+                <div class="field-label">
+                    <label for="" class="">Date :</label>
+                </div>
+                <div class="field-value">
+                    <input type="text" name="class-related" value="{{class_id}}">
+                </div>
             </div>
-            <div class="field-main-container">
-                <div class="field-container hidden">
-                    <div class="field-label">
-                        <label for="" class="">Date :</label>
-                    </div>
-                    <div class="field-value">
-                        <input type="text" name="class-related" value="{{class_id}}">
-                    </div>
+            <div class="field-container">
+                <div class="field-label">
+                    <label for="" class="date-field medium">Date :</label>
                 </div>
-                <div class="field-container">
-                    <div class="field-label">
-                        <label for="" class="date-field medium">Date :</label>
-                    </div>
-                    <div class="field-value">
-                        <input type="date" name="date" class="date-field">
-                    </div>
+                <div class="field-value">
+                    <input type="date" name="date" class="date-field">
                 </div>
-                <div class="field-container">
-                    <div class="field-label">
-                        <label for="" class="medium">Description : </label>
-                    </div>
-                    <div class="field-value">
-                        <input placeholder="Type here..." class="text-field" name = "description" type="text" />
-                    </div>
+            </div>
+            <div class="field-container">
+                <div class="field-label">
+                    <label for="" class="medium">Description : </label>
                 </div>
-            </div> 
-            <div class="buttons-container">
-                <div class="save-and-exit-button">
-                    <button type = "submit" name = "save-and-exit">Save & Exit</button>
+                <div class="field-value">
+                    <input placeholder="Type here..." class="text-field" name = "description" type="text" />
                 </div>
-                <div class="next-button">
-                    <button type = "submit" name = "next">Next</button>
-                </div>
-            </div> 
-        </form>
-    </div>
+            </div>
+        </div> 
+        <div class="buttons-container">
+            <div class="save-and-exit-button">
+                <button type = "submit" name = "save-and-exit">Save & Exit</button>
+            </div>
+            <div class="next-button">
+                <button type = "submit" name = "next">Next</button>
+            </div>
+        </div> 
+    </form>
 </div>
-{% endblock main_content %}
+{% endblock main-content %}
 
 {% block js %}
 <script>
