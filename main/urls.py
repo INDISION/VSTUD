@@ -25,4 +25,9 @@ urlpatterns = [
     path("staff/add-marks-model-form", views.add_marks_model_form , name="add-marks-model-form"),
     path("staff/add-marks-semester-form", views.add_marks_semester_form , name="add-marks-semester-form"),
     path("staff/add-student-form", views.add_student_form , name="add-student-form"),
+    path("admin/attendance/<str:class_id>", views.admin_attendance, name="admin-attendance"),
+    path("admin/notes/<str:class_id>", views.admin_notes, name="admin-notes"),
+    path("admin/timetable/<str:class_id>", views.admin_timetable, name="admin-timetable"),
+    path("admin/results/<str:class_id>", views.admin_results, name="admin-results"),
+    path("admin/exams/<str:class_id>", views.admin_exams, name="admin-exams"),
 ]

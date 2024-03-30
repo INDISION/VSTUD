@@ -760,3 +760,131 @@ def mail_form(request, return_email=True):
         if return_email:
             return email
     return render(request, "common/mail-form.html")
+
+#admin page
+
+@login_required
+def admin_attendance(request, class_id):
+    user = request.user
+    if is_staff(user):
+        staff = models.Staff.objects.get(user=user)
+        subjects = models.Subject.objects.filter(staff=staff)
+        class_attending_list = []
+        for subject in subjects:
+            class_attending = subject.class_related
+            if class_attending not in class_attending_list:
+                class_attending_list.append(class_attending)
+        _attendance = models.Attendance.objects.filter(class_related__class_id=class_id)
+        context = {
+            "user":user,
+            "staff":staff,
+            "classes":class_attending_list,
+            "class_id":class_id,
+            "attendance":_attendance,
+            "date": datetime.today().date
+        }
+        return render(request, "staff/admin/attendance.html", context)
+    else:
+        return redirect("login")
+    
+@login_required
+def admin_notes(request, class_id):
+    user = request.user
+    if is_staff(user):
+        staff = models.Staff.objects.get(user=user)
+        subjects = models.Subject.objects.filter(staff=staff)
+        class_attending_list = []
+        for subject in subjects:
+            class_attending = subject.class_related
+            if class_attending not in class_attending_list:
+                class_attending_list.append(class_attending)
+        notes = models.Note.objects.filter(subject__class_related__class_id = class_id, subject_staff=staff)
+        context = {
+            "user":user,
+            "staff":staff,
+            "classes":class_attending_list,
+            "class_id":class_id,
+            "date": datetime.today().date,
+            "notes":notes,
+        }
+        return render(request, "staff/admin/notes.html", context)
+    else:
+        return redirect("login")
+    
+@login_required
+def admin_timetable(request, class_id):
+    user = request.user
+    if is_staff(user):
+        staff = models.Staff.objects.get(user=user)
+        subjects = models.Subject.objects.filter(staff=staff)
+        class_attending_list = []
+        for subject in subjects:
+            class_attending = subject.class_related
+            if class_attending not in class_attending_list:
+                class_attending_list.append(class_attending)
+        periods = models.TimeTable.objects.filter(subject__class_related__class_id = class_id)
+        holidays = models.Holiday.objects.filter(class_related__class_id = class_id)
+        print("----------------", periods)
+        context = {
+            "user":user,
+            "staff":staff,
+            "classes":class_attending_list,
+            "class_id":class_id,
+            "date": datetime.today().date,
+            "periods":periods,
+            "holidays":holidays,
+        }
+        return render(request, "staff/admin/timetable.html", context)
+    else:
+        return redirect("login")
+    
+@login_required
+def admin_results(request, class_id):
+    user = request.user
+    if is_staff(user):
+        staff = models.Staff.objects.get(user=user)
+        subjects = models.Subject.objects.filter(staff=staff)
+        class_attending_list = []
+        for subject in subjects:
+            class_attending = subject.class_related
+            if class_attending not in class_attending_list:
+                class_attending_list.append(class_attending)
+        periods = models.TimeTable.objects.filter(subject__class_related__class_id = class_id)
+        results = models.Result.objects.filter(exam__subject__class_related__class_id=class_id, exam__subject__staff=staff)
+        context = {
+            "user":user,
+            "staff":staff,
+            "classes":class_attending_list,
+            "class_id":class_id,
+            "date": datetime.today().date,
+            "periods":periods,
+            "results":results,
+        }
+        return render(request, "staff/admin/results.html", context)
+    else:
+        return redirect("login")
+    
+def admin_exams(request, class_id):
+    user = request.user
+    if is_staff(user):
+        staff = models.Staff.objects.get(user=user)
+        subjects = models.Subject.objects.filter(staff=staff)
+        class_attending_list = []
+        for subject in subjects:
+            class_attending = subject.class_related
+            if class_attending not in class_attending_list:
+                class_attending_list.append(class_attending)
+        periods = models.TimeTable.objects.filter(subject__class_related__class_id = class_id)
+        exams = models.Exam.objects.filter(subject__class_related__class_id=class_id, subject__staff=staff)
+        context = {
+            "user":user,
+            "staff":staff,
+            "classes":class_attending_list,
+            "class_id":class_id,
+            "date": datetime.today().date,
+            "periods":periods,
+            "exams":exams,
+        }
+        return render(request, "staff/admin/exams.html", context)
+    else:
+        return redirect("login")
