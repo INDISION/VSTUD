@@ -12,7 +12,7 @@
     <div id="class-dropdown-menu-content" class="class-dropdown-menu-content">
         {% for class in classes %}
             {% if class.class_id !=  class_id %}
-            <a href="{% url "staff-attendance" class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
+            <a href="{% url "admin-attendance" class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
             {% endif %}
         {% endfor %}
     </div>
@@ -62,11 +62,7 @@
 
 {% endblock main_content %}
 
-<script>
-    var sidebar_menu = document.getElementById("sidebar-menu");
-    var active_node = sidebar_menu.getElementsByClassName("active")[0];
-    active_node.classList.remove("active");
-    var  attendance = sidebar_menu.getElementById("attendance");
-    attendance.classList.add("active"); 
-</script>
-{% block js %}{% endblock js %}
+
+{% block js %}
+
+{% endblock js %}

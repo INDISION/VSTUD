@@ -91,18 +91,6 @@
     var  timetable = document.getElementById("timetable");
     timetable.classList.add("active"); 
 
-
-    var active_div = document.getElementsByClassName("extra-menu-items")[0].getElementsByClassName('active')[0].classList[1]
-    var add_new = document.getElementsByClassName("action-buttons")[0].getElementsByTagName('a')[0];
-    console.log(add_new)
-    if (active_div === "weekly-timetable" ){
-        console.log(add_new.href)
-        add_new.href="{% url  "add-timetable-form" class_id=class_id  %}";
-    }
-    else if (active_div === "holidays" ) {
-        add_new.href="{% url  "add-timetable-form" class_id=class_id  %}";
-    }
-
     function switchTab(tab) {
         var div = document.getElementById(tab);
         var menu = document.getElementsByClassName(tab)[0];
@@ -116,7 +104,20 @@
         }
         div.classList.remove("hidden")
         menu.classList.add("active")
+        
+        var class_id = "{{class_id}}"
+        var active_div = document.getElementsByClassName("extra-menu-items")[0].getElementsByClassName('active')[0].classList[1]
+        var add_new = document.getElementsByClassName("action-buttons")[0].getElementsByTagName('a')[0];
+        console.log(add_new)
+        if (active_div === "weekly-timetable" ){
+        console.log(add_new.href)
+        add_new.href="{% url  "add-timetable-form" class_id=class_id  %}";
+        }
+        else if (active_div === "holidays" ) {
+        add_new.href="{% url  "add-holiday" class_id=class_id  %}";
+        }
     }
+    
     
 
 </script>

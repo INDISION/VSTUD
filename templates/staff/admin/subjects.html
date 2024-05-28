@@ -12,7 +12,7 @@
     <div id="class-dropdown-menu-content" class="class-dropdown-menu-content">
         {% for class in classes %}
             {% if class.class_id !=  class_id %}
-            <a href="{% url "admin-results" class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
+            <a href="{% url "admin-subjects" class.class_id %}" onclick="selectItem(this)" class="uppercase">{{class.class_id}}</a>
             {% endif %}
         {% endfor %}
     </div>
@@ -28,7 +28,7 @@
 
             </div>
             <div class="action-buttons">
-                <a href="{% url "add-timetable-form" class_id=class_id %}">Add New</a>
+                <a href="{% url "add-subject" class_id=class_id %}">Add New</a>
             </div>
         </div>
         <div class="results" id="results">

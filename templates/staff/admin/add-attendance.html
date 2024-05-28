@@ -102,10 +102,10 @@
 <script src=" {% static "js/forms.js" %} "></script>
 {% block js %}
 <script>
-    var footer_node = document.getElementById("footer");
-    var active_node = footer_node.getElementsByClassName("active")[0];
+    var sidebar_menu = document.getElementById("sidebar-menu");
+    var active_node = sidebar_menu.getElementsByClassName("active")[0];
     active_node.classList.remove("active");
-    var attendance = document.getElementById("attendance");
-    attendance.classList.add("active");
+    var  attendance = sidebar_menu.getElementById("attendance");
+    attendance.classList.add("active"); 
 </script>
 {% endblock js %}

@@ -83,7 +83,7 @@
                 {% for absent_student in absentees %}
                     <tr>
                         <td>{{absent_student.register_number}}</td>
-                        <td>{{absent_student.name}}</td>
+                        <td>{{absent_student.user.first_name}}</td>
                         <td id="{{absent_student.user.username}}-leaves">{{absent_student|calculate_leaves}}</td>
                         <td id="{{absent_student.user.username}}-attendance">{{absent_student|calculate_attendance}}</td>
                     </tr>

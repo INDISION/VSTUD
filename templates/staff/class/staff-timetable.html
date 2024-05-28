@@ -33,6 +33,12 @@
                             <tr id="timings">
                                 <th>Days</th>
                             </tr>
+                            <tr id="monday"></tr>
+                            <tr id="tuesday"></tr>
+                            <tr id="wednesday"></tr>
+                            <tr id="thursday"></tr>
+                            <tr id="friday"></tr>
+                            <tr id="saturday"></tr>
                         </tbody>
                     </table>
                 </div>                    
@@ -89,12 +95,13 @@
         var counter = 0;
         var day = "{{day|safe}}";
         var timetable = document.getElementById("weekly-timetable");
-        var timetable_row = document.createElement("tr");
+        var timetable_row = document.getElementById(day);
+        console.log(timetable_row);
         var timetable_row_data = document.createElement("td");
-        timetable_row.id=day;
+        // timetable_row.id=day;
         timetable_row_data.innerText = day.charAt(0).toUpperCase()+day.slice(1);
         timetable_row.appendChild(timetable_row_data);
-        timetable.append(timetable_row);
+        // timetable.append(timetable_row);
         {% for period in day_timetable %}
             var staff = "{{period.subject.staff}}";
             if(staff!="None") {

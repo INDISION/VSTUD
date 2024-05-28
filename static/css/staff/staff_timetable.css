@@ -50,3 +50,12 @@ table {
 .customise-timetable button:hover{
     background-color: #594bda20;
 }
+.holiday {
+    background-color: rgba(255, 143, 143, 0.2);
+}
+.working {
+    background-color: rgba(143, 143, 255, 0.2);
+}
+.exam {
+    background-color: rgba(0, 215, 140, 0.2);
+}

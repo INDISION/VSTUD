@@ -78,7 +78,8 @@
                 td2.innerText = date;
                 tr.appendChild(td1);
                 tr.appendChild(td2);
-                tr.innerHTML = tr.innerHTML + '<td class="cursor-pointer"><span class="material-symbols-outlined share-icon">share</span></td> <td class="cursor-pointer"><a href="{{note.file.url}}"><span class="material-symbols-outlined download-icon">download</span></a></td>';
+                tr.innerHTML = tr.innerHTML + '<td class="cursor-pointer"><span class="material-symbols-outlined share-icon">share</span></td> <td class="cursor-pointer"><a href="{% url "view-notes" note.id %}"><span class="material-symbols-outlined download-icon">download</span></a></td>';
+                console.log(tr)
                 table.appendChild(tr);
             {% endfor %}
         {% else %}

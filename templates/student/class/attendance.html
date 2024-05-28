@@ -24,7 +24,7 @@
             <span>{{sem_percent}}%</span>
         </div>
     </div>
-    <div class="weekly-analysis">
+    <div class="weekly-analysis" id="weekly-analysis">
         <div class="info-header">
             Weekly Report Based On Attendance Stats
         </div>
@@ -37,14 +37,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for day, report in weekly_report.items %}
-                        {% if report > 0 %}
-                        <tr>
-                            <td>{{day}}</td>
-                            <td>{{report}}</td>
-                        </tr>
-                        {% endif %}
-                    {% endfor %}
+                    <tr id="monday">
+                        <td>Monday</td>
+                        <td class="count">0</td>
+                    </tr>
+                    <tr id="tuesday">
+                        <td>Tuesday</td>
+                        <td class="count">0</td>
+                    </tr>
+                    <tr id="wednesday">
+                        <td>Wednesday</td>
+                        <td class="count">0</td>
+                    </tr>
+                    <tr id="thursday">
+                        <td>Thursday</td>
+                        <td class="count">0</td>
+                    </tr>
+                    <tr id="friday">
+                        <td>Friday</td>
+                        <td class="count">0</td>
+                    </tr>
+                    <tr id="saturday">
+                        <td>Saturday</td>
+                        <td class="count">0</td>
+                    </tr>
                     <tr>
                         <td class="bold">Total</td>
                         <td class="bold">{{leaves}}</td>
@@ -81,4 +97,13 @@
 {% endblock main-content %}
 
 {% block js %}
+<script>
+    var weekly_analysis = document.getElementById("weekly-analysis")
+    {% for day, report in weekly_report.items %}
+        var tr = document.getElementById("{{day}}");
+        var count_td = tr.getElementsByClassName("count")[0];
+        count_td.innerText = "{{report}}";
+        console.log(tr)
+    {% endfor %}
+</script>
 {% endblock js %}

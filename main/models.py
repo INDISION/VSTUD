@@ -50,7 +50,7 @@ class Class(models.Model):
         self.class_id = f"{self.course}{str(self.semester)}"
         super(Class, self).save(*args, **kwargs)
     class Meta:
-        ordering = ['class_id']
+        ordering = ['-class_id']
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -101,14 +101,10 @@ class Exam(models.Model):
     name = models.CharField(max_length=100)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     date = models.DateField()
-    exam_id = models.CharField(max_length=100, unique=True, blank=True)
     def __str__(self):
-        return self.exam_id +"-"+ str(self.subject.name)
-    def save(self, *args, **kwargs):
-        self.exam_id = f"{self.name}-{self.subject.code}"
-        super(Exam, self).save(*args, **kwargs)
+        return  str(self.subject.name) + "-" + str(self.subject.class_related)
     class Meta:
-        ordering = ['exam_id']
+        ordering = ['subject__class_related', 'name']
     
 class Result(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
@@ -153,7 +149,7 @@ class TimeTable(models.Model):
         return f"{self.subject.name}-{self.day}"
     class Meta:
         unique_together = ['subject', 'day','start_time']
-        ordering = ['start_time']
+        ordering = ['day', 'start_time']
 
 class Note(models.Model):
     title = models.CharField(max_length=200)
